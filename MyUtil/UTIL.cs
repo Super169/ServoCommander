@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace ServoCommander
+namespace MyUtil
 {
     public static partial class UTIL
     {
@@ -122,8 +122,7 @@ namespace ServoCommander
             string output = BitConverter.ToString(data);
             return output.Replace("-", separator);
         }
-
-
+        
         private static void tb_PreviewCommand(object sender, TextCompositionEventArgs e)
         {
             e.Handled = new Regex("[^0-9A-Fa-f.]+").IsMatch(e.Text);

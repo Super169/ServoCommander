@@ -32,7 +32,5 @@
         <RadioButton Name="rbFreeInput" Content="執行以下指令 (不用輸入首尾碼 FA AF 及 ED)" HorizontalAlignment="Left" Margin="10,250,0,0" VerticalAlignment="Top"/>
         <TextBox Name="txtCommand" Height="23" Margin="29,270,10,0" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" TextChanged="txtCommand_TextChanged" PreviewTextInput="tb_PreviewCommand" />
         <TextBox Name="txtPreview" Height="23" Margin="29,300,10,0" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" IsReadOnly="true" Background="LightBlue"/>
-        <Button Name="btnExecute" Content="發送執行 (_S)" HorizontalAlignment="Left" Margin="5,0,0,5" Width="140" Click="btnExecute_Click" FontWeight="Bold" Height="26" VerticalAlignment="Bottom"/>
-        <Button Name="btnClearLog" Content="清除記錄 (_C)" Margin="0,0,5,5" Click="btnClearLog_Click" FontWeight="Bold" HorizontalAlignment="Right" Width="140" Height="26" VerticalAlignment="Bottom"/>
     </Grid>
 </local:UcCommand__base>

@@ -39,6 +39,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -59,7 +60,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="CONST.cs" />
-    <Compile Include="MainWindow.Action.cs" />
     <Compile Include="uc\UcCommand_ControlBoard.xaml.cs">
       <DependentUpon>UcCommand_ControlBoard.xaml</DependentUpon>
     </Compile>
@@ -70,8 +70,6 @@
       <DependentUpon>UcCommand_UBTech.xaml</DependentUpon>
     </Compile>
     <Compile Include="uc\UcCommand__base.cs" />
-    <Compile Include="UTIL.cs" />
-    <Compile Include="UTIL_INPUT.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -116,7 +114,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="MainWindow.Serial.cs" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -131,6 +128,20 @@
   <ItemGroup>
     <Resource Include="images\servo.ico" />
     <Resource Include="images\servo_cyan.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\SimpleNet\SimpleNet\SimpleNet.csproj">
+      <Project>{5b59e470-e438-44ab-88cb-70aad07eae3e}</Project>
+      <Name>SimpleNet</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyUtil\MyUtil.csproj">
+      <Project>{4c4a6dad-6613-4168-9c84-f5e918f2908e}</Project>
+      <Name>MyUtil</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SimpleCOM\SimpleCOM.csproj">
+      <Project>{7e1fa47e-342c-4a59-a5cd-ad1d5e86982f}</Project>
+      <Name>SimpleCOM</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

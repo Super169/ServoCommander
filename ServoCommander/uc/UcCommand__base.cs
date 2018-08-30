@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MyUtil;
+using SimpleCOM;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,8 +12,16 @@ using System.Windows.Input;
 
 namespace ServoCommander.uc
 {
-    public class UcCommand__base : UserControl
+    public abstract class UcCommand__base : UserControl
     {
+        protected SerialConnection serial;
+
+        public delegate void DelegateAppendLog(string msg = "", bool async = false);
+        protected DelegateAppendLog appendLog;
+        protected void AppendLog(string msg = "", bool async = false)
+        {
+            appendLog?.Invoke(msg, async);
+        }
 
 
         protected UTIL.DelegateUpdateInfo updateInfo;
@@ -20,9 +30,11 @@ namespace ServoCommander.uc
             updateInfo?.Invoke(msg, iType, async);
         }
 
-        public void InitObject(UTIL.DelegateUpdateInfo fxUpdateInfo)
+        public void InitObject(UTIL.DelegateUpdateInfo fxUpdateInfo, DelegateAppendLog fxAppendLog, SerialConnection serial)
         {
             this.updateInfo = fxUpdateInfo;
+            this.appendLog = fxAppendLog;
+            this.serial = serial;
         }
 
         static protected bool MessageConfirm(String msg)
@@ -79,6 +91,8 @@ namespace ServoCommander.uc
         {
         }
 
+
+        public abstract void ExecuteCommand();
 
 
     }

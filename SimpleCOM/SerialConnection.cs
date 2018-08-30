@@ -4,74 +4,63 @@ using System.IO.Ports;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Forms;
+using System.Windows.Controls;
+using MyUtil;
 
-namespace ServoCommander
+namespace SimpleCOM
 {
-    public partial class MainWindow : Window
+    public class SerialConnection
     {
         private const long DEFAULT_COMMAND_TIMEOUT = 10;    // Default 10ms, according to spec, servo return at 400us, add some overhead for ESP8266 handler
         private const long MAX_WAIT_MS = 1000;             // Default 1s, for any command, it should not wait more than 1s
 
         private SerialPort serialPort = new SerialPort();
-        private List<byte> receiveBuffer = new List<byte>();
-        // maximum wait for a complete command
+        public List<byte> rxBuffer = new List<byte>();
 
-        private void InitializeSerialPort()
+        protected UTIL.DelegateUpdateInfo updateInfo;
+        protected void UpdateInfo(string msg = "", UTIL.InfoType iType = UTIL.InfoType.message, bool async = false)
+        {
+            updateInfo?.Invoke(msg, iType, async);
+        }
+
+        public SerialConnection()
         {
             serialPort.DataReceived += SerialPort_DataReceived;
         }
 
-        private void ClearSerialBuffer()
+        public void InitialObject(UTIL.DelegateUpdateInfo fxUpdateInfo)
         {
-            receiveBuffer.Clear();
+            this.updateInfo = fxUpdateInfo;
         }
 
-        private void FindPorts(string defaultPort)
+        public bool isConnected
         {
-            portsComboBox.ItemsSource = SerialPort.GetPortNames();
-            if (portsComboBox.Items.Count > 0)
+            get
             {
-                if (defaultPort == null)
-                {
-                    portsComboBox.SelectedIndex = 0;
-                }
-                else
-                {
-                    portsComboBox.SelectedIndex = portsComboBox.Items.IndexOf(defaultPort);
-                    if (portsComboBox.SelectedIndex < 0) portsComboBox.SelectedIndex = 0;
-                }
-                portsComboBox.IsEnabled = true;
-            }
-            else
-            {
-                portsComboBox.IsEnabled = false;
+                return serialPort.IsOpen;
             }
         }
 
-        private bool SerialConnect(String portName)
+        public bool Connect(string portName, int baudRate = 115200, Parity parity = Parity.None, int dataBits = 8, StopBits stopBits = StopBits.One)
         {
             bool flag = false;
 
-            UpdateInfo();
-
-            if (serialPort.IsOpen)
+            if (isConnected)
             {
                 UpdateInfo(string.Format("Port {0} already connected - 115200, N, 8, 1", serialPort.PortName), UTIL.InfoType.alert);
                 return true;
             }
 
             serialPort.PortName = portName;
-            serialPort.BaudRate = 115200;
-            serialPort.Parity = Parity.None;
-            serialPort.DataBits = 8;
-            serialPort.StopBits = StopBits.One;
+            serialPort.BaudRate = baudRate;
+            serialPort.Parity = parity;
+            serialPort.DataBits = dataBits;
+            serialPort.StopBits = stopBits;
 
             try
             {
                 serialPort.Open();
-                if (serialPort.IsOpen)
+                if (isConnected)
                 {
                     serialPort.DiscardInBuffer();
                     serialPort.DiscardOutBuffer();
@@ -88,13 +77,13 @@ namespace ServoCommander
             {
                 UpdateInfo("Error: " + ex.Message, UTIL.InfoType.error);
             }
+
             return flag;
         }
 
-        private bool SerialDisconnect()
+        public bool Disconnect()
         {
-
-            if (!serialPort.IsOpen)
+            if (!isConnected)
             {
                 UpdateInfo(string.Format("Port {0} not yet connected", serialPort.PortName), UTIL.InfoType.alert);
                 return true;
@@ -104,7 +93,8 @@ namespace ServoCommander
 
             serialPort.Close();
 
-            if (serialPort.IsOpen)
+            // Still connecting, seems some error here
+            if (isConnected)
             {
                 UpdateInfo(string.Format("Fail to disconnect Port {0}", serialPort.PortName), UTIL.InfoType.error);
                 return false;
@@ -112,6 +102,17 @@ namespace ServoCommander
 
             UpdateInfo(string.Format("Port {0} disconnected", serialPort.PortName));
             return true;
+        }
+
+        // Force close without any message
+        public void Close() {
+            if (isConnected) serialPort.Close();
+        }
+
+
+        public void ClearSerialBuffer()
+        {
+            rxBuffer.Clear();
         }
 
         private void SerialPort_DataReceived(object sender, System.IO.Ports.SerialDataReceivedEventArgs e)
@@ -126,10 +127,48 @@ namespace ServoCommander
             sp.Read(tempBuffer, 0, bytesToRead);
 
             //TODO: May need to lock receiveBuffer first
-            receiveBuffer.AddRange(tempBuffer);
+            rxBuffer.AddRange(tempBuffer);
         }
 
-        private long WaitForSerialData(long minBytes, long maxMs)
+
+        public string LastConnection
+        {
+            get
+            {
+                return (string)UTIL.ReadRegistry(UTIL.KEY.LAST_CONNECTION);
+            }
+        }
+
+        public string[] GetPortNames()
+        {
+            return SerialPort.GetPortNames();
+        }
+
+        public void SetAvailablePorts(ComboBox comboPorts, string defaultPort = null)
+        {
+            if (defaultPort == null) defaultPort = LastConnection;
+            comboPorts.ItemsSource = SerialPort.GetPortNames();
+            if (comboPorts.Items.Count > 0)
+            {
+                defaultPort = defaultPort.Trim();
+                if ((defaultPort == null) || (defaultPort == ""))
+                {
+                    comboPorts.SelectedIndex = 0;
+                }
+                else
+                {
+                    comboPorts.SelectedIndex = comboPorts.Items.IndexOf(defaultPort);
+                    if (comboPorts.SelectedIndex < 0) comboPorts.SelectedIndex = 0;
+                }
+                comboPorts.IsEnabled = true;
+            }
+            else
+            {
+                comboPorts.IsEnabled = false;
+            }
+        }
+
+        public long WaitForSerialData(long minBytes, long maxMs)
         {
             // Wait for at least 1 bytes
             if (minBytes < 1) minBytes = 1;
@@ -141,54 +180,36 @@ namespace ServoCommander
             long endTicks = DateTime.Now.Ticks + maxMs * TimeSpan.TicksPerMillisecond;
             while (DateTime.Now.Ticks < endTicks)
             {
-                if (receiveBuffer.Count >= minBytes) break;
+                if (rxBuffer.Count >= minBytes) break;
                 System.Threading.Thread.Sleep(1);
             }
-            return receiveBuffer.Count;
+            return rxBuffer.Count;
         }
 
+        #region UBTech specific command, should be moved to other library later
 
-        private bool SerialPortWrite(string textData)
+        public bool SendUBTCommand(char ch, long expBytes, long maxMs = DEFAULT_COMMAND_TIMEOUT)
         {
-            bool flag = false;
-
-            if (serialPort == null) return false;
-            if (!serialPort.IsOpen) return false;
-
-            try
-            {
-                serialPort.Write(textData);
-                flag = true;
-            }
-            catch (Exception ex)
-            {
-                UpdateInfo("Error: " + ex.Message, UTIL.InfoType.error);
-            }
-
-            return flag;
+            return SendUBTCommand(ch.ToString(), expBytes, maxMs);
         }
 
-        public bool SendCommand(char ch, long expBytes, long maxMs = DEFAULT_COMMAND_TIMEOUT)
-        {
-            return SendCommand(ch.ToString(), expBytes, maxMs);
-        }
-
-        public bool SendCommand(string command, long expBytes, long maxMs = DEFAULT_COMMAND_TIMEOUT)
+        public bool SendUBTCommand(string command, long expBytes, long maxMs = DEFAULT_COMMAND_TIMEOUT)
         {
             if (!serialPort.IsOpen) return false;
             byte[] data = Encoding.Default.GetBytes(command);
-            return SendCommand(data, data.Length, expBytes, maxMs);
+            return SendUBTCommand(data, data.Length, expBytes, maxMs);
         }
 
-        public bool SendCommand(byte[] command, int count, long expBytes, long maxMs = DEFAULT_COMMAND_TIMEOUT)
+        public bool SendUBTCommand(byte[] command, int count, long expBytes, long maxMs = DEFAULT_COMMAND_TIMEOUT)
         {
             if (!serialPort.IsOpen) return false;
             ClearSerialBuffer();
             serialPort.Write(command, 0, count);
             WaitForSerialData(expBytes, maxMs);
-            return (receiveBuffer.Count == expBytes);
+            return (rxBuffer.Count == expBytes);
         }
 
-    }
+        #endregion
 
+    }
 }

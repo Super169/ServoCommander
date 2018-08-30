@@ -24,5 +24,10 @@ namespace ServoCommander.uc
         {
             InitializeComponent();
         }
+
+        public override void ExecuteCommand()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
