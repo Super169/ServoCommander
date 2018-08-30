@@ -31,10 +31,11 @@ namespace ServoCommander
         {
             InitializeComponent();
             InitializeSerialPort();
-            FindPorts((string)Util.ReadRegistry(Util.KEY.LAST_CONNECTION));
+            FindPorts((string)UTIL.ReadRegistry(UTIL.KEY.LAST_CONNECTION));
             txtMaxId.Text = CONST.MAX_SERVO.ToString();
             sliderAdjValue.Value = 0;
             txtAdjAngle.Text = "0000";
+            SetCommandPanel();
             InitTimer();
             SetStatus();
         }
@@ -79,8 +80,8 @@ namespace ServoCommander
             findPortButton.Visibility = (connected ? Visibility.Hidden : Visibility.Visible);
             btnConnect.Content = (connected ? "斷開" : "連線");
             gridConnection.Background = new SolidColorBrush(connected ? Colors.LightBlue : Colors.LightGray);
-            gridInput.IsEnabled = true;  // allow to test command all the time
-            gridInput.Background = new SolidColorBrush(connected ? Colors.LightGreen : Colors.LightSalmon);
+            gridCommand.IsEnabled = true;  // allow to test command all the time
+            gridCommand.Background = new SolidColorBrush(connected ? Colors.LightGreen : Colors.LightSalmon);
             btnExecute.Content = (connected ? "發送指令 (_S)" : "生成指令 (_S)");
             btnCheckID.IsEnabled = connected;
         }
@@ -103,6 +104,11 @@ namespace ServoCommander
         private void tb_PreviewHexMix(object sender, TextCompositionEventArgs e)
         {
             e.Handled = new Regex("[^0-9A-Fa-f.]+").IsMatch(e.Text);
+        }
+
+        private void tb_PreviewIP(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = new Regex("[^0-9.]").IsMatch(e.Text);
         }
 
         private void tb_PreviewKeyDown_nospace(object sender, System.Windows.Input.KeyEventArgs e)
@@ -129,7 +135,7 @@ namespace ServoCommander
                 {
                     if (i < sData.Length)
                     {
-                        command[2 + i] = Util.GetInputByte(sData[i]);
+                        command[2 + i] = UTIL.GetInputByte(sData[i]);
                     }
                     else
                     {
@@ -140,9 +146,9 @@ namespace ServoCommander
                 {
                     if (command[5] > command[7]) command[7] = command[5];
                 }
-                command[8] = Util.CalCheckSum(command);
+                command[8] = UTIL.CalCheckSum(command);
                 command[9] = 0xED;
-                txtPreview.Text = Util.GetByteString(command);
+                txtPreview.Text = UTIL.GetByteString(command);
 
             }
             catch (Exception)
@@ -183,12 +189,12 @@ namespace ServoCommander
                     int newId = GetIdValue(txtNewId.Text.Trim());
                     if ((newId <= 0) || (newId > CONST.MAX_SERVO))
                     {
-                        UpdateInfo("Invalid New ID", Util.InfoType.error);
+                        UpdateInfo("Invalid New ID", UTIL.InfoType.error);
                         return;
                     }
                     if (id == newId)
                     {
-                        UpdateInfo("New Id cannot be the same as existing Id", Util.InfoType.error);
+                        UpdateInfo("New Id cannot be the same as existing Id", UTIL.InfoType.error);
                         return;
                     }
                     ChangeId(id, newId);
@@ -234,19 +240,19 @@ namespace ServoCommander
             int id = GetIdValue(txtId.Text.Trim());
             if ((id < 0) || (id > CONST.MAX_SERVO) || ((id == 0) && !allowZero))
             {
-                UpdateInfo("Invalid ID", Util.InfoType.error);
+                UpdateInfo("Invalid ID", UTIL.InfoType.error);
                 return -1;
             }
             return id;
         }
 
-        private void SendCmd(byte[] cmd, uint expectCnt)
+        private void SendUBTCmd(byte[] cmd, uint expectCnt)
         {
             bool connected = serialPort.IsOpen;
-            cmd[8] = Util.CalCheckSum(cmd);
+            cmd[8] = UTIL.CalCheckSum(cmd);
             cmd[9] = 0xED;
 
-            AppendLog("\n" + (connected ? ">> " : "") + Util.GetByteString(cmd) + "\n");
+            AppendLog("\n" + (connected ? ">> " : "") + UTIL.GetByteString(cmd) + "\n");
             ClearSerialBuffer();
             if (connected)
             {
@@ -255,11 +261,34 @@ namespace ServoCommander
                 if (receiveBuffer.Count > 0)
                 {
                     byte[] result = receiveBuffer.ToArray();
-                    msg += Util.GetByteString(result);
+                    msg += UTIL.GetByteString(result);
                 }
                 AppendLog(msg);
             }
         }
+
+
+        private void SendHaiLzdCmd(string cmd, uint expectCnt)
+        {
+            bool connected = serialPort.IsOpen;
+
+            AppendLog("\n" + (connected ? ">> " : "") + cmd + "\n");
+            ClearSerialBuffer();
+            if (connected)
+            {
+                cmd += "\r\n";
+                SendCommand(cmd, expectCnt);
+                string msg = "<<";
+                if (receiveBuffer.Count > 0)
+                {
+                    byte[] result = receiveBuffer.ToArray();
+                    msg += Encoding.UTF8.GetString(result);
+                }
+                AppendLog(msg);
+            }
+        }
+
+
 
         private void adjAngle_Changed(object sender, RoutedEventArgs e)
         {
@@ -316,8 +345,8 @@ namespace ServoCommander
             checkId = 1;
             minId = 0;
             gridConnection.IsEnabled = false;
-            gridInput.IsEnabled = false;
-            UpdateInfo("Checking ID, please wait......", Util.InfoType.alert);
+            gridCommand.IsEnabled = false;
+            UpdateInfo("Checking ID, please wait......", UTIL.InfoType.alert);
             checkTimer.Enabled = true;
             checkTimer.Start();
         }
@@ -327,7 +356,7 @@ namespace ServoCommander
             checkTimer.Stop();
 
             byte[] cmd = { 0xFC, 0xCF, (byte)checkId, 1, 0, 0, 0, 0, 0, 0xED };
-            SendCmd(cmd, 10);
+            SendUBTCmd(cmd, 10);
             if (receiveBuffer.Count == 10)
             {
                 AppendLog(String.Format("Servo {0} detected", checkId));
@@ -345,7 +374,7 @@ namespace ServoCommander
             {
                 checkTimer.Enabled = false;
                 gridConnection.IsEnabled = true;
-                gridInput.IsEnabled = true;
+                gridCommand.IsEnabled = true;
             }
             else
             {
@@ -353,6 +382,39 @@ namespace ServoCommander
             }
         }
 
+        private void btnNetConnect_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private CT commandType;
+        uc.UcCommand__base ucCommand = null;
+
+        private void rbCommand_Checked(object sender, RoutedEventArgs e)
+        {
+            SetCommandPanel();
+        }
+
+        private void SetCommandPanel()
+        {
+            if (this.gridCommand == null) return;
+            this.gridCommand.Children.Clear();
+            commandType = getCommandType();
+            switch (commandType)
+            {
+                case CT.UBTech:
+                    ucCommand = new uc.UcCommand_UBTech();
+                    break;
+                case CT.HaiLzd:
+                    ucCommand = new uc.UcCommand_HaiLzd();
+                    break;
+                default:
+                    ucCommand = new uc.UcCommand_ControlBoard();
+                    break;
+            }
+            ucCommand.InitObject(UpdateInfo);
+            this.gridCommand.Children.Add(ucCommand);
+        }
 
     }
 }

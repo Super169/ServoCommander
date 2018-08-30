@@ -12,36 +12,102 @@ namespace ServoCommander
 {
     public partial class MainWindow : Window
     {
-        private void GetVersion(int id)
+        private enum CT
         {
-            byte[] cmd = { 0xFC, 0xCF, (byte)id, 0x01, 0, 0, 0, 0, 0, 0xED };
-            SendCmd(cmd, 10);
-            if (receiveBuffer.Count == 10)
-            {
-                string result = String.Format("版本號為: {0:X2} {1:X2} {2:X2} {3:X2}\n",
-                                              receiveBuffer[4], receiveBuffer[5], receiveBuffer[6], receiveBuffer[7]);
-                AppendLog(result);
-            }
+            ControlBoard, UBTech, HaiLzd
+        }
+
+        private CT getCommandType()
+        {
+            if (rbUBTech.IsChecked == true) return CT.UBTech;
+            if (rbHaiLzd.IsChecked == true) return CT.HaiLzd;
+            return CT.ControlBoard;
 
         }
 
+        /*
+          
+            switch (getCommandType())
+            {
+                case CT.UBTech:
+                    {
+                    }
+                    break;
+                case CT.HaiLzd:
+                    {
+                    }
+                    break;
+                default:
+                    { 
+                    }
+                    break;
+            }
+         
+             
+        */
+
+        private void GetVersion(int id)
+        {
+            switch (getCommandType())
+            {
+                case CT.UBTech:
+                    {
+                        byte[] cmd = { 0xFC, 0xCF, (byte)id, 0x01, 0, 0, 0, 0, 0, 0xED };
+                        SendUBTCmd(cmd, 10);
+                        if (receiveBuffer.Count == 10)
+                        {
+                            string result = String.Format("版本號為: {0:X2} {1:X2} {2:X2} {3:X2}\n",
+                                                          receiveBuffer[4], receiveBuffer[5], receiveBuffer[6], receiveBuffer[7]);
+                            AppendLog(result);
+                        }
+                    }
+                    break;
+                case CT.HaiLzd:
+                    {
+                        String cmd = string.Format("#{0}PVER", id);
+                        SendHaiLzdCmd(cmd, 2);
+                    }
+                    break;
+                default:
+                    { }
+                    break;
+            }
+        }
+
+        
         private void ChangeId(int id, int newId)
         {
             string msg = String.Format("把 舵機編號 {0} 修改為 舵機編號 {1} \n", id, newId);
             if (!MessageConfirm(msg)) return;
-            byte[] cmd = { 0xFA, 0xAF, (byte)id, 0xCD, 0, (byte) newId, 0, 0, 0, 0xED };
-            SendCmd(cmd, 10);
-            if (receiveBuffer.Count == 10)
+            switch (getCommandType())
             {
-                if (receiveBuffer[3] == 0xAA)
-                {
-                    string result = String.Format("舵機編號 {0} 已成功修改為 舵機編號 {1} \n", id, newId);
-                    AppendLog(result);
-                    txtId.Text = newId.ToString();
-                    UpdateInfo(result, Util.InfoType.alert);
-                }
+                case CT.UBTech:
+                    {
+                        byte[] cmd = { 0xFA, 0xAF, (byte)id, 0xCD, 0, (byte)newId, 0, 0, 0, 0xED };
+                        SendUBTCmd(cmd, 10);
+                        if (receiveBuffer.Count == 10)
+                        {
+                            if (receiveBuffer[3] == 0xAA)
+                            {
+                                string result = String.Format("舵機編號 {0} 已成功修改為 舵機編號 {1} \n", id, newId);
+                                AppendLog(result);
+                                txtId.Text = newId.ToString();
+                                UpdateInfo(result, UTIL.InfoType.alert);
+                            }
+                        }
+                    }
+                    break;
+                case CT.HaiLzd:
+                    {
+                        String cmd = string.Format("#{0}PID{1,3:000}", id,newId);
+                        SendHaiLzdCmd(cmd, 2);
+                    }
+                    break;
+                default:
+                    {
+                    }
+                    break;
             }
-
         }
 
         private void GoMove(int id)
@@ -55,11 +121,11 @@ namespace ServoCommander
             }
             try
             {
-                byte angle = Util.GetInputByte(txtMoveAngle.Text);
-                byte time = Util.GetInputByte(txtMoveTime.Text);
+                byte angle = UTIL.GetInputByte(txtMoveAngle.Text);
+                byte time = UTIL.GetInputByte(txtMoveTime.Text);
                 cmd[4] = angle;
                 cmd[5] = cmd[7] = time;
-                SendCmd(cmd, 1);
+                SendUBTCmd(cmd, 1);
                 if (receiveBuffer.Count == 1)
                 {
                     if (receiveBuffer[0] == (0xAA + id))
@@ -81,24 +147,40 @@ namespace ServoCommander
 
         private void GetAngle(int id)
         {
-            byte[] cmd = { 0xFA, 0xAF, (byte)id, 2, 0, 0, 0, 0, 0, 0xED };
-            SendCmd(cmd, 10);
-            if (receiveBuffer.Count == 10)
+            switch (getCommandType())
             {
+                case CT.UBTech:
+                    {
+                        byte[] cmd = { 0xFA, 0xAF, (byte)id, 2, 0, 0, 0, 0, 0, 0xED };
+                        SendUBTCmd(cmd, 10);
+                        if (receiveBuffer.Count == 10)
+                        {
 
-                string result = String.Format("舵機角度:  目前為: {0:X2} {1:X2} ({1}度), 實際為: {2:X2} {3:X2} ({3}度)\n",
-                                              receiveBuffer[4], receiveBuffer[5], receiveBuffer[6], receiveBuffer[7]);
-                string hexAngle = String.Format("{0:X2}", receiveBuffer[7]);
-                txtAdjPreview.Text = hexAngle;
-                AppendLog(result);
+                            string result = String.Format("舵機角度:  目前為: {0:X2} {1:X2} ({1}度), 實際為: {2:X2} {3:X2} ({3}度)\n",
+                                                          receiveBuffer[4], receiveBuffer[5], receiveBuffer[6], receiveBuffer[7]);
+                            string hexAngle = String.Format("{0:X2}", receiveBuffer[7]);
+                            txtAdjPreview.Text = hexAngle;
+                            AppendLog(result);
+                        }
+                    }
+                    break;
+                case CT.HaiLzd:
+                    {
+                        String cmd = string.Format("#{0}PRAD", id);
+                        SendHaiLzdCmd(cmd, 2);
+                    }
+                    break;
+                default:
+                    {
+                    }
+                    break;
             }
-
         }
 
         private void GetAdjAngle(int id)
         {
             byte[] cmd = { 0xFA, 0xAF, (byte)id, 0xD4, 0, 0, 0, 0, 0, 0xED };
-            SendCmd(cmd, 10);
+            SendUBTCmd(cmd, 10);
             if (receiveBuffer.Count == 10)
             {
 
@@ -139,7 +221,7 @@ namespace ServoCommander
             byte adjLow = (byte)(adjValue % 256);
 
             byte[] cmd = { 0xFA, 0xAF, (byte)id, 0xD2, 0, 0, adjHigh, adjLow, 0, 0xED };
-            SendCmd(cmd, 10);
+            SendUBTCmd(cmd, 10);
             if (receiveBuffer.Count == 10)
             {
                 if (receiveBuffer[3] != 0xAA)
@@ -167,7 +249,7 @@ namespace ServoCommander
             byte[] command;
             if (GetCommand(out command))
             {
-                SendCmd(command, 10);  // assume 10 byte returned
+                SendUBTCmd(command, 10);  // assume 10 byte returned
             }
         }
 

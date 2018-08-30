@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ServoCommander"
         mc:Ignorable="d"
-        Title="MainWindow" Height="500" Width="800">
+        Title="MainWindow" Height="600" Width="800">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -19,20 +19,31 @@
             </Grid.ColumnDefinitions>
             <Grid Grid.Column="0">
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="60"/>
                     <RowDefinition Height="30"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <Grid Name="gridConnection" Grid.Row="0"  Background="Aqua">
                     <Label Content="連接埠:" HorizontalAlignment="Left" Margin="10,2,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
-                    <ComboBox x:Name="portsComboBox" HorizontalAlignment="Left" Margin="59,2,0,0" VerticalAlignment="Top" Width="80"/>
+                    <ComboBox x:Name="portsComboBox" HorizontalAlignment="Left" Margin="60,2,0,0" VerticalAlignment="Top" Width="80"/>
                     <Button x:Name="findPortButton" Content="" HorizontalAlignment="Left" Margin="144,2,0,0" VerticalAlignment="Top" Width="25" Click="findPortButton_Click">
                         <Button.Background>
                             <ImageBrush ImageSource="images/refresh.png" />
                         </Button.Background>
                     </Button>
-                    <Button x:Name="btnConnect" Content="連線" HorizontalAlignment="Left" Margin="174,2,0,0" VerticalAlignment="Top" Width="75" Click="btnConnect_Click" FontWeight="Bold"/>
+                    <Button x:Name="btnConnect" Content="串口連線" HorizontalAlignment="Left" Margin="220,2,0,0" VerticalAlignment="Top" Width="70" Click="btnConnect_Click" FontWeight="Bold"/>
+                    <Label Content="IP:" HorizontalAlignment="Left" Margin="10,30,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+                    <TextBox Name ="txtIP" HorizontalAlignment="Left" Height="23" Margin="35,30,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="105" PreviewTextInput="tb_PreviewIP" PreviewKeyDown="tb_PreviewKeyDown_nospace" MaxLength="15" />
+                    <Label Content="Port:" HorizontalAlignment="Left" Margin="140,30,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+                    <TextBox Name ="txtPort" HorizontalAlignment="Left" Height="23" Margin="175,30,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="42" PreviewTextInput="tb_PreviewInteger" PreviewKeyDown="tb_PreviewKeyDown_nospace" MaxLength="5"/>
+                    <Button x:Name="btnNetConnect" Content="網路連線" HorizontalAlignment="Left" Margin="220,30,0,0" VerticalAlignment="Top" Width="70" Click="btnNetConnect_Click" FontWeight="Bold" Height="23"/>
                 </Grid>
-                <Grid Name="gridInput" Grid.Row="1"  Background="LightGreen">
+                <Grid Grid.Row="1">
+                    <RadioButton x:Name="rbControlBoard" GroupName="CmdType" Content="控制板協定" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" IsChecked="True" Checked="rbCommand_Checked"/>
+                    <RadioButton x:Name="rbUBTech" GroupName="CmdType" Content="優必選協定" HorizontalAlignment="Left" Margin="110,10,0,0" VerticalAlignment="Top" Checked="rbCommand_Checked"/>
+                    <RadioButton x:Name="rbHaiLzd" GroupName="CmdType" Content="海靈協定" HorizontalAlignment="Left" Margin="210,10,0,0" VerticalAlignment="Top" Checked="rbCommand_Checked"/>
+                </Grid>
+                <Grid Name="gridCommand" Grid.Row="2"  Background="LightGreen">
                     <Label Content="舵機編號:" HorizontalAlignment="Left" Margin="10,15,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
                     <TextBox Name ="txtId" HorizontalAlignment="Left" Height="23" Margin="70,17,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="35" PreviewTextInput="tb_PreviewInteger" PreviewKeyDown="tb_PreviewKeyDown_nospace" MaxLength="2"/>
                     <Label Content="最大編號:" HorizontalAlignment="Left" Margin="120,15,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
@@ -58,8 +69,8 @@
                     <RadioButton Name="rbFreeInput" Content="執行以下指令 (不用輸入首尾碼 FA AF 及 ED)" HorizontalAlignment="Left" Margin="10,250,0,0" VerticalAlignment="Top"/>
                     <TextBox Name="txtCommand" Height="23" Margin="29,270,10,0" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" TextChanged="txtCommand_TextChanged" PreviewTextInput="tb_PreviewCommand" />
                     <TextBox Name="txtPreview" Height="23" Margin="29,300,10,0" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" IsReadOnly="true" Background="LightBlue"/>
-                    <Button Name="btnExecute" Content="發送執行 (_S)" HorizontalAlignment="Left" Margin="5,350,0,0" VerticalAlignment="Top" Width="140" Click="btnExecute_Click" Height="26" FontWeight="Bold"/>
-                    <Button Name="btnClearLog" Content="清除記錄 (_C)" Margin="0,350,5,0" VerticalAlignment="Top" Click="btnClearLog_Click" FontWeight="Bold" Height="26" HorizontalAlignment="Right" Width="140"/>
+                    <Button Name="btnExecute" Content="發送執行 (_S)" HorizontalAlignment="Left" Margin="5,0,0,5" Width="140" Click="btnExecute_Click" FontWeight="Bold" Height="26" VerticalAlignment="Bottom"/>
+                    <Button Name="btnClearLog" Content="清除記錄 (_C)" Margin="0,0,5,5" Click="btnClearLog_Click" FontWeight="Bold" HorizontalAlignment="Right" Width="140" Height="26" VerticalAlignment="Bottom"/>
                 </Grid>
             </Grid>
             <Grid Grid.Column="1">

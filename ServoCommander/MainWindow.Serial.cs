@@ -58,7 +58,7 @@ namespace ServoCommander
 
             if (serialPort.IsOpen)
             {
-                UpdateInfo(string.Format("Port {0} already connected - 115200, N, 8, 1", serialPort.PortName), Util.InfoType.alert);
+                UpdateInfo(string.Format("Port {0} already connected - 115200, N, 8, 1", serialPort.PortName), UTIL.InfoType.alert);
                 return true;
             }
 
@@ -76,17 +76,17 @@ namespace ServoCommander
                     serialPort.DiscardInBuffer();
                     serialPort.DiscardOutBuffer();
                     UpdateInfo(string.Format("Port {0} connected - 115200, N, 8, 1", serialPort.PortName));
-                    Util.WriteRegistry(Util.KEY.LAST_CONNECTION, portName);
+                    UTIL.WriteRegistry(UTIL.KEY.LAST_CONNECTION, portName);
                     flag = true;
                 }
                 else
                 {
-                    UpdateInfo(string.Format("Fail connecting to Port {0} - 115200, N, 8, 1", serialPort.PortName), Util.InfoType.error);
+                    UpdateInfo(string.Format("Fail connecting to Port {0} - 115200, N, 8, 1", serialPort.PortName), UTIL.InfoType.error);
                 }
             }
             catch (Exception ex)
             {
-                UpdateInfo("Error: " + ex.Message, Util.InfoType.error);
+                UpdateInfo("Error: " + ex.Message, UTIL.InfoType.error);
             }
             return flag;
         }
@@ -96,7 +96,7 @@ namespace ServoCommander
 
             if (!serialPort.IsOpen)
             {
-                UpdateInfo(string.Format("Port {0} not yet connected", serialPort.PortName), Util.InfoType.alert);
+                UpdateInfo(string.Format("Port {0} not yet connected", serialPort.PortName), UTIL.InfoType.alert);
                 return true;
             }
 
@@ -106,7 +106,7 @@ namespace ServoCommander
 
             if (serialPort.IsOpen)
             {
-                UpdateInfo(string.Format("Fail to disconnect Port {0}", serialPort.PortName), Util.InfoType.error);
+                UpdateInfo(string.Format("Fail to disconnect Port {0}", serialPort.PortName), UTIL.InfoType.error);
                 return false;
             }
 
@@ -162,7 +162,7 @@ namespace ServoCommander
             }
             catch (Exception ex)
             {
-                UpdateInfo("Error: " + ex.Message, Util.InfoType.error);
+                UpdateInfo("Error: " + ex.Message, UTIL.InfoType.error);
             }
 
             return flag;

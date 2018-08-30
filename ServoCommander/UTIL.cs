@@ -9,7 +9,7 @@ using System.Windows.Input;
 
 namespace ServoCommander
 {
-    public static class Util
+    public static partial class UTIL
     {
         public static class KEY
         {
@@ -22,6 +22,8 @@ namespace ServoCommander
         {
             message, alert, error
         };
+
+        public delegate void DelegateUpdateInfo(string msg = "", UTIL.InfoType iType = UTIL.InfoType.message, bool async = false);
 
         public static byte UBTCheckSum(byte[] data, int startIdx = 0)
         {
@@ -129,8 +131,14 @@ namespace ServoCommander
 
         private static void tb_PreviewInteger(object sender, TextCompositionEventArgs e)
         {
+            e.Handled = new Regex("[^0-9.]+").IsMatch(e.Text);
+        }
+
+        private static void tb_PreviewIP(object sender, TextCompositionEventArgs e)
+        {
             e.Handled = new Regex("[^0-9]+").IsMatch(e.Text);
         }
+
 
         private static void tb_PreviewHex(object sender, TextCompositionEventArgs e)
         {
@@ -141,8 +149,6 @@ namespace ServoCommander
         {
             e.Handled = new Regex("[^0-9A-F]+[.]?").IsMatch(e.Text);
         }
-
-
 
     }
 }

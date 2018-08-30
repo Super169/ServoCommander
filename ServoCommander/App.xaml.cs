@@ -19,7 +19,7 @@ namespace ServoCommander
         public static DateTime buildDateTime = new DateTime(2000, 1, 1).Add(new TimeSpan(
                                                TimeSpan.TicksPerDay * version.Build + // days since 1 January 2000
                                                TimeSpan.TicksPerSecond * 2 * version.Revision)); // seconds since midnight, (multiply by 2 to get original) 
-        public string winTitle = string.Format("UBTech 舵機指令測試工具 v{0}  [{1:yyyy-MM-dd HH:mm}]  (No Copyright © 2018 Super169)", version, buildDateTime);
+        public string winTitle = string.Format("舵機指令測試工具 v{0}  [{1:yyyy-MM-dd HH:mm}]  (No Copyright © 2018 Super169)", version, buildDateTime);
 
         private void Application_Startup(object sender, StartupEventArgs e)
         {

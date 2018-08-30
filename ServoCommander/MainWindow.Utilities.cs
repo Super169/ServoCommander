@@ -12,7 +12,7 @@ namespace ServoCommander
 {
     public partial class MainWindow : Window
     {
-        private void UpdateInfo(string msg = "", Util.InfoType iType = Util.InfoType.message, bool async = false)
+        private void UpdateInfo(string msg = "", UTIL.InfoType iType = UTIL.InfoType.message, bool async = false)
         {
             if (Dispatcher.FromThread(Thread.CurrentThread) == null)
             {
@@ -34,13 +34,13 @@ namespace ServoCommander
             // Update UI is allowed here
             switch (iType)
             {
-                case Util.InfoType.message:
+                case UTIL.InfoType.message:
                     statusBar.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0x00, 0x7A, 0xCC));
                     break;
-                case Util.InfoType.alert:
+                case UTIL.InfoType.alert:
                     statusBar.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0xCA, 0x51, 0x00));
                     break;
-                case Util.InfoType.error:
+                case UTIL.InfoType.error:
                     statusBar.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0xFF, 0x00, 0x00));
                     break;
 
