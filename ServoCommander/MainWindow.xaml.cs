@@ -33,9 +33,9 @@ namespace ServoCommander
             robot.InitObject(UpdateInfo);
             robot.SetSerialPorts(portsComboBox);
             robot.SetNetConnection(txtIP, txtPort);
-            SetCommandPanel();
+            SetDefaultCommandType();
             SetStatus();
-            
+
         }
 
         public void OnWindowClosing(object sender, CancelEventArgs e)
@@ -75,7 +75,8 @@ namespace ServoCommander
                 {
                     int port = int.Parse(txtPort.Text);
                     robot.Connect(txtIP.Text, port);
-                } catch
+                }
+                catch
                 {
 
                 }
@@ -91,14 +92,15 @@ namespace ServoCommander
             findPortButton.Visibility = (connected ? Visibility.Hidden : Visibility.Visible);
             txtIP.IsEnabled = !connected;
             txtPort.IsEnabled = !connected;
-            
+
             if (connected)
             {
                 btnConnect.Content = "斷開串口";
                 btnNetConnect.Content = "斷開網路";
                 btnConnect.IsEnabled = (robot.currMode == RobotConnection.connMode.Serial);
                 btnNetConnect.IsEnabled = (robot.currMode == RobotConnection.connMode.Network);
-            } else
+            }
+            else
             {
                 btnConnect.Content = "串口連接";
                 btnConnect.IsEnabled = true;
@@ -111,7 +113,7 @@ namespace ServoCommander
             gridCommand.Background = new SolidColorBrush(connected ? Colors.LightGreen : Colors.LightSalmon);
             btnExecute.Content = (connected ? "發送指令 (_S)" : "生成指令 (_S)");
         }
-    
+
 
         private enum CT
         {
@@ -129,6 +131,27 @@ namespace ServoCommander
 
         }
 
+        private const string LAST_COMMAND_TYPE = "Last Command Type";
+
+        private void SetDefaultCommandType()
+        {
+            string lastType = (string)UTIL.ReadRegistry(LAST_COMMAND_TYPE);
+            switch (lastType)
+            {
+                case "UBTech":
+                    rbUBTech.IsChecked = true;
+                    break;
+                case "HaiLzd":
+                    rbHaiLzd.IsChecked = true;
+                    break;
+                default:
+                    rbControlBoard.IsChecked = true;
+                    break;
+            }
+            SetCommandPanel();
+        }
+
+
         private void rbCommand_Checked(object sender, RoutedEventArgs e)
         {
             SetCommandPanel();
@@ -142,12 +165,15 @@ namespace ServoCommander
             switch (commandType)
             {
                 case CT.UBTech:
+                    UTIL.WriteRegistry(LAST_COMMAND_TYPE, "UBTech");
                     ucCommand = new uc.UcCommand_UBTech();
                     break;
                 case CT.HaiLzd:
+                    UTIL.WriteRegistry(LAST_COMMAND_TYPE, "HaiLzd");
                     ucCommand = new uc.UcCommand_HaiLzd();
                     break;
                 default:
+                    UTIL.WriteRegistry(LAST_COMMAND_TYPE, "ControlBoard");
                     ucCommand = new uc.UcCommand_ControlBoard();
                     break;
             }

@@ -97,7 +97,7 @@ namespace ServoCommander.uc
 
         public override void ExecuteCommand()
         {
-            // UpdateMaxId();
+            if (!AllowExecution()) return;
 
             if (rbFreeInput.IsChecked == true)
             {

@@ -19,7 +19,6 @@ namespace ServoCommander.uc
             InitTimer();
         }
 
-
         protected RobotConnection robot;
 
         public delegate void DelegateAppendLog(string msg = "", bool async = false);
@@ -103,6 +102,15 @@ namespace ServoCommander.uc
         protected int checkId;
         protected int minId;
         protected int servoCnt;
+        protected bool inProgress = false;
+
+        protected bool AllowExecution()
+        {
+            if (!inProgress) return true;
+            UpdateInfo("Servo detection in progress, please wait.", UTIL.InfoType.alert);
+            return false;
+                
+        }
 
         protected void InitTimer()
         {
@@ -123,6 +131,7 @@ namespace ServoCommander.uc
             servoCnt = 0;
             OnCheckServoStart();
             UpdateInfo("Checking ID, please wait......", UTIL.InfoType.alert);
+            inProgress = true;
             checkTimer.Enabled = true;
             checkTimer.Start();
         }
@@ -164,6 +173,7 @@ namespace ServoCommander.uc
             if (checkId > CONST.MAX_SERVO)
             {
                 checkTimer.Enabled = false;
+                inProgress = false;
                 UpdateInfo(String.Format("{0} servo detected.", servoCnt));
                 OnCheckServoCompleted();
             }

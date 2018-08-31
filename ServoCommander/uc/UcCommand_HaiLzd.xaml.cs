@@ -48,6 +48,7 @@ namespace ServoCommander.uc
 
         public override void ExecuteCommand()
         {
+            if (!AllowExecution()) return;
 
             if (rbFreeInput.IsChecked == true)
             {
@@ -158,6 +159,9 @@ namespace ServoCommander.uc
         // @{id}P{newId:000}\r\n
         private void ChangeId(int id, int newId)
         {
+            string msg = String.Format("把 舵機編號 {0} 修改為 舵機編號 {1} \n", id, newId);
+            if (!MessageConfirm(msg)) return;
+
             string cmd = String.Format("#{0}PID{1,3:000}", id, newId);
             SendCommand(cmd, 7);
             // #???PVx.xx\r\n
