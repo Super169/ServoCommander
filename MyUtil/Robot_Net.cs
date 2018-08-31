@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace MyUtil
 {
@@ -15,7 +16,7 @@ namespace MyUtil
         {
             client.OnDataReceived += NetClient_OnDataReceived;
             // For network connection, especially WiFi, maximum 5s is still reasonable
-            DEFAULT_COMMAND_TIMEOUT = 5000;
+            DEFAULT_COMMAND_TIMEOUT = 1000;
             MAX_WAIT_MS = 5000;
         }
 
@@ -78,7 +79,20 @@ namespace MyUtil
                 connTarget = string.Format("{0}:{1}", parm.address, parm.port);
                 client.Connect(parm.address, parm.port);
             }
-            if (!client.Connected) connTarget = "{" + connTarget + "} - failed";
+            if (client.Connected) {
+                if (parm.address == null)
+                {
+                    UTIL.WriteRegistry(UTIL.KEY.LAST_CONNECTION_IP, parm.hostName);
+                } else
+                {
+                    UTIL.WriteRegistry(UTIL.KEY.LAST_CONNECTION_IP, parm.address.ToString());
+                }
+                UTIL.WriteRegistry(UTIL.KEY.LAST_CONNECTION_PORT, parm.port.ToString());
+            }
+            else
+            {
+                connTarget = "{" + connTarget + "} - failed";
+            }
             return client.Connected;
         }
 
@@ -134,6 +148,13 @@ namespace MyUtil
             AddRxData(tempBuffer.ToArray());
             // return rxBuffer.Count;
             return Available;
+        }
+
+        public void SetNetConnection(TextBox txtIP, TextBox txtPort)
+        {
+            txtIP.Text = (string)UTIL.ReadRegistry(UTIL.KEY.LAST_CONNECTION_IP);
+            txtPort.Text = (string)UTIL.ReadRegistry(UTIL.KEY.LAST_CONNECTION_PORT);
+            if (txtPort.Text == "") txtPort.Text = "6169";
         }
     }
 }

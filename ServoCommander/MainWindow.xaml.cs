@@ -32,6 +32,7 @@ namespace ServoCommander
             InitializeComponent();
             robot.InitObject(UpdateInfo);
             robot.SetSerialPorts(portsComboBox);
+            robot.SetNetConnection(txtIP, txtPort);
             SetCommandPanel();
             SetStatus();
             

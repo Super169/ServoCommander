@@ -87,7 +87,7 @@ namespace MyUtil
                     serialPort.DiscardInBuffer();
                     serialPort.DiscardOutBuffer();
                     UpdateInfo(string.Format("Port {0} connected - 115200, N, 8, 1", serialPort.PortName));
-                    UTIL.WriteRegistry(UTIL.KEY.LAST_CONNECTION, parm.portName);
+                    UTIL.WriteRegistry(UTIL.KEY.LAST_CONNECTION_SERIAL, parm.portName);
                     flag = true;
                 }
                 else
@@ -143,7 +143,7 @@ namespace MyUtil
         {
             get
             {
-                return (string)UTIL.ReadRegistry(UTIL.KEY.LAST_CONNECTION);
+                return (string)UTIL.ReadRegistry(UTIL.KEY.LAST_CONNECTION_SERIAL);
             }
         }
 
@@ -158,13 +158,13 @@ namespace MyUtil
             comboPorts.ItemsSource = SerialPort.GetPortNames();
             if (comboPorts.Items.Count > 0)
             {
-                defaultPort = defaultPort.Trim();
-                if ((defaultPort == null) || (defaultPort == ""))
+                if ((defaultPort == null) || (defaultPort.Trim() == ""))
                 {
                     comboPorts.SelectedIndex = 0;
                 }
                 else
                 {
+                    defaultPort = defaultPort.Trim();
                     comboPorts.SelectedIndex = comboPorts.Items.IndexOf(defaultPort);
                     if (comboPorts.SelectedIndex < 0) comboPorts.SelectedIndex = 0;
                 }

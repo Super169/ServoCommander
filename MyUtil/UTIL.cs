@@ -14,7 +14,9 @@ namespace MyUtil
         public static class KEY
         {
             public const string APP_PATH = "Software\\Super169\\ServoCommander";
-            public const string LAST_CONNECTION = "Last Connection";
+            public const string LAST_CONNECTION_SERIAL = "Last Serial Port";
+            public const string LAST_CONNECTION_IP = "Last Network IP";
+            public const string LAST_CONNECTION_PORT = "Last Network Port";
             public const string SERVO_VERSION = "Servo Version";
         }
 

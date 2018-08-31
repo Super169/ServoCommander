@@ -155,5 +155,10 @@ namespace MyUtil
         {
             serial.SetSerialPorts(comboPorts, defaultPort);
         }
+
+        public void SetNetConnection(TextBox txtIP, TextBox txtPort)
+        {
+            netClient.SetNetConnection(txtIP, txtPort);
+        }
     }
 }

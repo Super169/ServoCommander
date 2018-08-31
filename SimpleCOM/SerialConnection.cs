@@ -65,7 +65,7 @@ namespace SimpleCOM
                     serialPort.DiscardInBuffer();
                     serialPort.DiscardOutBuffer();
                     UpdateInfo(string.Format("Port {0} connected - 115200, N, 8, 1", serialPort.PortName));
-                    UTIL.WriteRegistry(UTIL.KEY.LAST_CONNECTION, portName);
+                    UTIL.WriteRegistry(UTIL.KEY.LAST_CONNECTION_SERIAL, portName);
                     flag = true;
                 }
                 else
@@ -135,7 +135,7 @@ namespace SimpleCOM
         {
             get
             {
-                return (string)UTIL.ReadRegistry(UTIL.KEY.LAST_CONNECTION);
+                return (string)UTIL.ReadRegistry(UTIL.KEY.LAST_CONNECTION_SERIAL);
             }
         }
 

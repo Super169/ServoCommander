@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,6 +14,12 @@ namespace ServoCommander.uc
 {
     public abstract class UcCommand__base : UserControl
     {
+        public UcCommand__base()
+        {
+            InitTimer();
+        }
+
+
         protected RobotConnection robot;
 
         public delegate void DelegateAppendLog(string msg = "", bool async = false);
@@ -92,7 +99,79 @@ namespace ServoCommander.uc
 
         public abstract void ExecuteCommand();
 
+        private System.Windows.Forms.Timer checkTimer = new System.Windows.Forms.Timer();
+        protected int checkId;
+        protected int minId;
+        protected int servoCnt;
 
+        protected void InitTimer()
+        {
+            checkTimer.Interval = 10;
+            checkTimer.Tick += new EventHandler(checkTimer_TickHandler);
+            checkTimer.Enabled = false;
+            checkTimer.Stop();
+        }
+
+        protected void StartCheckServo(string sMaxId)
+        {
+            if (int.TryParse(sMaxId.Trim(), out int maxId))
+            {
+                CONST.MAX_SERVO = maxId;
+            }
+            checkId = 1;
+            minId = 0;
+            servoCnt = 0;
+            OnCheckServoStart();
+            UpdateInfo("Checking ID, please wait......", UTIL.InfoType.alert);
+            checkTimer.Enabled = true;
+            checkTimer.Start();
+        }
+
+        protected virtual void OnCheckServoStart()
+        {
+            return;
+        }
+
+        protected virtual bool DetectServo(int id)
+        {
+            return false;
+        }
+
+        protected virtual void UpdateMinId(int id)
+        {
+            return;
+        }
+
+        protected virtual void OnCheckServoCompleted()
+        {
+            return;
+        }
+
+        private void checkTimer_TickHandler(object sender, EventArgs e)
+        {
+            checkTimer.Stop();
+            if (DetectServo(checkId))
+            {
+                AppendLog(String.Format("Servo {0} detected", checkId));
+                servoCnt++;
+                if (minId == 0)
+                {
+                    minId = checkId;
+                    UpdateMinId(minId);
+                }
+            }
+            checkId++;
+            if (checkId > CONST.MAX_SERVO)
+            {
+                checkTimer.Enabled = false;
+                UpdateInfo(String.Format("{0} servo detected.", servoCnt));
+                OnCheckServoCompleted();
+            }
+            else
+            {
+                checkTimer.Start();
+            }
+        }
     }
 
 

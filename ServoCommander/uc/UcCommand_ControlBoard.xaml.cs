@@ -98,8 +98,8 @@ namespace ServoCommander.uc
         private void CheckCommandMode()
         {
             byte[] cmd = { 0xA9, 0x9A, 0x02, 0x0A, 0x0C, 0xED };
-            SendCBCommand(cmd, 11);
-            if (robot.Available == 11)
+            SendCBCommand(cmd, 12);
+            if (robot.Available == 12)
             {
                 byte[] result = robot.ReadAll();
                 String msg = "";
@@ -108,6 +108,7 @@ namespace ServoCommander.uc
                 if (result[6] != 0) msg += " BT";
                 if (result[7] != 0) msg += " CB";
                 if (result[8] != 0) msg += " SV";
+                if (result[9] != 0) msg += " HaiLzd";
                 if (msg == "")
                 {
                     msg = "控制板並不支援任何指令";

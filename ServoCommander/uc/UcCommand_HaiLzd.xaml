@@ -7,5 +7,22 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
+        <Label Content="舵機編號:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+        <TextBox Name ="txtId" HorizontalAlignment="Left" Height="23" Margin="70,12,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="35" PreviewTextInput="tb_PreviewInteger" PreviewKeyDown="tb_PreviewKeyDown_nospace" MaxLength="2"/>
+        <Label Content="最大編號:" HorizontalAlignment="Left" Margin="120,10,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+        <TextBox Name ="txtMaxId" HorizontalAlignment="Left" Height="23" Margin="180,12,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="35" PreviewTextInput="tb_PreviewInteger" PreviewKeyDown="tb_PreviewKeyDown_nospace" MaxLength="2"/>
+        <Button Name="btnCheckID" Content="檢查 (_Z)" HorizontalAlignment="Left" Margin="222,10,0,0" VerticalAlignment="Top" Width="68" Click="btnCheckID_Click" Height="26" FontWeight="Bold"/>
+        <RadioButton GroupName="servoCommand" Name="rbCheckVersion" Content="檢查舵機版本" HorizontalAlignment="Left" Margin="10,50,0,0" VerticalAlignment="Top" IsChecked="True"/>
+        <RadioButton GroupName="servoCommand" Name="rbChangeId" Content="更改舵機編號為" HorizontalAlignment="Left" Margin="10,75,0,0" VerticalAlignment="Top" />
+        <TextBox Name ="txtNewId" HorizontalAlignment="Left" Height="23" Margin="120,70,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="35" PreviewTextInput="tb_PreviewInteger" PreviewKeyDown="tb_PreviewKeyDown_nospace" MaxLength="2"/>
+        <RadioButton GroupName="servoCommand" Name="rbGetAngle" Content="讀取舵機位置" HorizontalAlignment="Left" Margin="10,100,0,0" VerticalAlignment="Top"/>
+        <RadioButton GroupName="servoCommand" Name="rbMove" Content="移動舵機:" HorizontalAlignment="Left" Margin="10,125,0,0" VerticalAlignment="Top"/>
+        <Label Content="PWM: " HorizontalAlignment="Left" Margin="90,120,0,0" VerticalAlignment="Top"  />
+        <TextBox Name="txtMovePWM" HorizontalAlignment="Left" Height="23" Margin="130,122,0,0" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="40" PreviewTextInput="tb_PreviewHexMix" PreviewKeyDown="tb_PreviewKeyDown_nospace" CharacterCasing="Upper" MaxLength="4"/>
+        <Label Content="移動時間: " HorizontalAlignment="Left" Margin="183,120,0,0" VerticalAlignment="Top"/>
+        <TextBox Name="txtMoveTime" HorizontalAlignment="Left" Height="23" Margin="240,122,0,0" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="50" PreviewTextInput="tb_PreviewHexMix" PreviewKeyDown="tb_PreviewKeyDown_nospace" CharacterCasing="Upper" MaxLength="4"/>
+        <RadioButton GroupName="servoCommand" Name="rbFreeInput" Content="指令 " HorizontalAlignment="Left" Margin="10,150,0,0" VerticalAlignment="Top"/>
+        <TextBox Name="txtCommand" Height="23" Margin="61,145,10,0" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" PreviewKeyDown="tb_PreviewKeyDown_nospace" />
+
     </Grid>
 </local:UcCommand__base>

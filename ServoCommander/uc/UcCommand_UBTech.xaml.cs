@@ -23,7 +23,8 @@ namespace ServoCommander.uc
     /// </summary>
     public partial class UcCommand_UBTech : UcCommand__base
     {
-        Timer checkTimer = new Timer();
+        // Timer checkTimer = new Timer();
+
 
         public UcCommand_UBTech()
         {
@@ -31,25 +32,28 @@ namespace ServoCommander.uc
             txtMaxId.Text = CONST.MAX_SERVO.ToString();
             sliderAdjValue.Value = 0;
             txtAdjAngle.Text = "0000";
+
         }
+
+        #region Check Servo
 
         private void btnCheckID_Click(object sender, RoutedEventArgs e)
         {
-            UpdateMaxId();
-            //gridConnection.IsEnabled = false;
-            // gridCommand.IsEnabled = false;
-            UpdateInfo("Checking ID, please wait......", UTIL.InfoType.alert);
-            checkTimer.Enabled = true;
-            checkTimer.Start();
+            StartCheckServo(txtMaxId.Text);
+        }
+        protected override bool DetectServo(int id)
+        {
+            return GetVersion(id);
         }
 
-        private void UpdateMaxId()
+        protected override void UpdateMinId(int id)
         {
-            if (int.TryParse(txtMaxId.Text.Trim(), out int maxId))
-            {
-                CONST.MAX_SERVO = maxId;
-            }
+            System.Windows.Application.Current.Dispatcher.BeginInvoke(
+                System.Windows.Threading.DispatcherPriority.Normal,
+                (Action)(() => txtId.Text = minId.ToString()));
         }
+
+        #endregion Check Servo
 
         private void adjAngle_Changed(object sender, RoutedEventArgs e)
         {
@@ -93,7 +97,7 @@ namespace ServoCommander.uc
 
         public override void ExecuteCommand()
         {
-            UpdateMaxId();
+            // UpdateMaxId();
 
             if (rbFreeInput.IsChecked == true)
             {
@@ -169,7 +173,7 @@ namespace ServoCommander.uc
             return id;
         }
 
-        private void SendUBTCommand(byte[] cmd, uint expectCnt)
+        private void SendCommand(byte[] cmd, uint expectCnt)
         {
             bool connected = robot.isConnected;
             cmd[8] = UTIL.CalUBTCheckSum(cmd);
@@ -231,20 +235,21 @@ namespace ServoCommander.uc
             return true;
         }
 
-
         // FC CF {id} 01 00 00 00 00 {sum} ED
-        private void GetVersion(int id)
+        private bool GetVersion(int id)
         {
             // byte[] cmd = { 0xFC, 0xCF, (byte)id, 0x01, 0, 0, 0, 0, 0, 0xED };
             byte[] cmd = { 0xFC, 0xCF, (byte)id, 0x01, 0, 0, 0, 0, 0, 0xED };
-            SendUBTCommand(cmd, 10);
+            SendCommand(cmd, 10);
             if (robot.Available == 10)
             {
                 byte[] buffer = robot.ReadAll();
                 string result = String.Format("版本號為: {0:X2} {1:X2} {2:X2} {3:X2}\n",
                                               buffer[4], buffer[5], buffer[6], buffer[7]);
                 AppendLog(result);
+                return true;
             }
+            return false;
         }
 
         // FA AF {id} CD 00 {newId} 00 00 {sum} ED
@@ -254,7 +259,7 @@ namespace ServoCommander.uc
             if (!MessageConfirm(msg)) return;
 
             byte[] cmd = { 0xFA, 0xAF, (byte)id, 0xCD, 0, (byte)newId, 0, 0, 0, 0xED };
-            SendUBTCommand(cmd, 10);
+            SendCommand(cmd, 10);
             if (robot.Available == 10)
             {
                 byte[] buffer = robot.ReadAll();
@@ -271,7 +276,7 @@ namespace ServoCommander.uc
         private void GetAngle(int id)
         {
             byte[] cmd = { 0xFA, 0xAF, (byte)id, 2, 0, 0, 0, 0, 0, 0xED };
-            SendUBTCommand(cmd, 10);
+            SendCommand(cmd, 10);
             if (robot.Available == 10)
             {
                 byte[] buffer = robot.ReadAll();
@@ -299,8 +304,8 @@ namespace ServoCommander.uc
                 byte time = UTIL.GetInputByte(txtMoveTime.Text);
                 cmd[4] = angle;
                 cmd[5] = cmd[7] = time;
-                SendUBTCommand(cmd, 1);
-                if (robot.Available ==1)
+                SendCommand(cmd, 1);
+                if (robot.Available == 1)
                 {
                     byte[] buffer = robot.ReadAll();
                     if (buffer[0] == (0xAA + id))
@@ -324,8 +329,8 @@ namespace ServoCommander.uc
         private void GetAdjAngle(int id)
         {
             byte[] cmd = { 0xFA, 0xAF, (byte)id, 0xD4, 0, 0, 0, 0, 0, 0xED };
-            SendUBTCommand(cmd, 10);
-            if (robot.Available ==10)
+            SendCommand(cmd, 10);
+            if (robot.Available == 10)
             {
                 byte[] buffer = robot.ReadAll();
                 int adjValue = buffer[6] * 256 + buffer[7];
@@ -365,8 +370,8 @@ namespace ServoCommander.uc
             byte adjLow = (byte)(adjValue % 256);
 
             byte[] cmd = { 0xFA, 0xAF, (byte)id, 0xD2, 0, 0, adjHigh, adjLow, 0, 0xED };
-            SendUBTCommand(cmd, 10);
-            if (robot.Available ==10)
+            SendCommand(cmd, 10);
+            if (robot.Available == 10)
             {
                 byte[] buffer = robot.ReadAll();
                 if (buffer[3] != 0xAA)
@@ -393,7 +398,7 @@ namespace ServoCommander.uc
             byte[] command;
             if (GetCommand(out command))
             {
-                SendUBTCommand(command, 10);  // assume 10 byte returned
+                SendCommand(command, 10);  // assume 10 byte returned
             }
         }
 
