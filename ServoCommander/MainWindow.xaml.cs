@@ -1,5 +1,4 @@
 ﻿using MyUtil;
-using SimpleCOM;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -26,50 +25,86 @@ namespace ServoCommander
     public partial class MainWindow : Window
     {
 
-        private SerialConnection serial = new SerialConnection();
+        private RobotConnection robot = new RobotConnection();
 
         public MainWindow()
         {
             InitializeComponent();
-            serial.InitialObject(UpdateInfo);
-            serial.SetAvailablePorts(portsComboBox, serial.LastConnection);
+            robot.InitObject(UpdateInfo);
+            robot.SetSerialPorts(portsComboBox);
             SetCommandPanel();
-            // InitTimer();
             SetStatus();
             
         }
 
         public void OnWindowClosing(object sender, CancelEventArgs e)
         {
-            if (serial.isConnected) serial.Close();
+            if (robot.isConnected) robot.Close();
         }
 
         private void findPortButton_Click(object sender, RoutedEventArgs e)
         {
-            serial.SetAvailablePorts(portsComboBox, (string)portsComboBox.SelectedValue);
+            robot.SetSerialPorts(portsComboBox, (string)portsComboBox.SelectedValue);
         }
 
         private void btnConnect_Click(object sender, RoutedEventArgs e)
         {
             UpdateInfo();
-            if (serial.isConnected)
+            if (robot.isConnected)
             {
-                serial.Disconnect();
+                robot.Disconnect();
             }
             else
             {
-                serial.Connect((string)portsComboBox.SelectedValue);
+                robot.Connect((string)portsComboBox.SelectedValue);
+            }
+            SetStatus();
+        }
+
+        private void btnNetConnect_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateInfo();
+            if (robot.isConnected)
+            {
+                robot.Disconnect();
+            }
+            else
+            {
+                try
+                {
+                    int port = int.Parse(txtPort.Text);
+                    robot.Connect(txtIP.Text, port);
+                } catch
+                {
+
+                }
             }
             SetStatus();
         }
 
         private void SetStatus()
         {
-            bool connected = serial.isConnected;
+            bool connected = robot.isConnected;
             portsComboBox.IsEnabled = !connected;
             findPortButton.IsEnabled = !connected;
             findPortButton.Visibility = (connected ? Visibility.Hidden : Visibility.Visible);
-            btnConnect.Content = (connected ? "斷開" : "連線");
+            txtIP.IsEnabled = !connected;
+            txtPort.IsEnabled = !connected;
+            
+            if (connected)
+            {
+                btnConnect.Content = "斷開串口";
+                btnNetConnect.Content = "斷開網路";
+                btnConnect.IsEnabled = (robot.currMode == RobotConnection.connMode.Serial);
+                btnNetConnect.IsEnabled = (robot.currMode == RobotConnection.connMode.Network);
+            } else
+            {
+                btnConnect.Content = "串口連接";
+                btnConnect.IsEnabled = true;
+                btnNetConnect.Content = "網路連接";
+                btnNetConnect.IsEnabled = true;
+            }
+
             gridConnection.Background = new SolidColorBrush(connected ? Colors.LightBlue : Colors.LightGray);
             gridCommand.IsEnabled = true;  // allow to test command all the time
             gridCommand.Background = new SolidColorBrush(connected ? Colors.LightGreen : Colors.LightSalmon);
@@ -115,7 +150,7 @@ namespace ServoCommander
                     ucCommand = new uc.UcCommand_ControlBoard();
                     break;
             }
-            ucCommand.InitObject(UpdateInfo, AppendLog, serial);
+            ucCommand.InitObject(UpdateInfo, AppendLog, robot);
             this.gridCommand.Children.Add(ucCommand);
         }
 
@@ -149,10 +184,7 @@ namespace ServoCommander
             UTIL.INPUT.PreviewKeyDown_nospace(ref e);
         }
 
-        private void btnNetConnect_Click(object sender, RoutedEventArgs e)
-        {
 
-        }
 
         private void btnExecute_Click(object sender, RoutedEventArgs e)
         {

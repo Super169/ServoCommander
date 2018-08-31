@@ -1,5 +1,4 @@
 ﻿using MyUtil;
-using SimpleCOM;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +13,7 @@ namespace ServoCommander.uc
 {
     public abstract class UcCommand__base : UserControl
     {
-        protected SerialConnection serial;
+        protected RobotConnection robot;
 
         public delegate void DelegateAppendLog(string msg = "", bool async = false);
         protected DelegateAppendLog appendLog;
@@ -30,11 +29,11 @@ namespace ServoCommander.uc
             updateInfo?.Invoke(msg, iType, async);
         }
 
-        public void InitObject(UTIL.DelegateUpdateInfo fxUpdateInfo, DelegateAppendLog fxAppendLog, SerialConnection serial)
+        public void InitObject(UTIL.DelegateUpdateInfo fxUpdateInfo, DelegateAppendLog fxAppendLog, RobotConnection robot)
         {
             this.updateInfo = fxUpdateInfo;
             this.appendLog = fxAppendLog;
-            this.serial = serial;
+            this.robot = robot;
         }
 
         static protected bool MessageConfirm(String msg)
@@ -90,7 +89,6 @@ namespace ServoCommander.uc
         protected void txtCommand_TextChanged(object sender, TextChangedEventArgs e)
         {
         }
-
 
         public abstract void ExecuteCommand();
 

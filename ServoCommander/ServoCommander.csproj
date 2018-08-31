@@ -130,17 +130,9 @@
     <Resource Include="images\servo_cyan.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\SimpleNet\SimpleNet\SimpleNet.csproj">
-      <Project>{5b59e470-e438-44ab-88cb-70aad07eae3e}</Project>
-      <Name>SimpleNet</Name>
-    </ProjectReference>
     <ProjectReference Include="..\MyUtil\MyUtil.csproj">
       <Project>{4c4a6dad-6613-4168-9c84-f5e918f2908e}</Project>
       <Name>MyUtil</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SimpleCOM\SimpleCOM.csproj">
-      <Project>{7e1fa47e-342c-4a59-a5cd-ad1d5e86982f}</Project>
-      <Name>SimpleCOM</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -95,10 +95,27 @@ namespace MyUtil
             return value;
         }
 
-        public static byte CalCheckSum(byte[] data)
+        public static byte CalUBTCheckSum(byte[] data)
         {
             int sum = 0;
             for (int i = 2; i < 8; i++)
+            {
+                sum += data[i];
+            }
+            sum %= 256;
+            return (byte)sum;
+        }
+
+        public static byte CalCBCheckSum(byte[] data)
+        {
+            // A9 9A {len} {cmd} {sum} ED - minimum 6 bytes
+            if (data.Length < 6) return 0;
+            int dataLen = data.Length - 4;
+            if (data[2] != dataLen) return 0;
+
+            int sum = 0;
+            int endPos = dataLen + 2;
+            for (int i = 2; i < endPos; i++)
             {
                 sum += data[i];
             }

@@ -64,7 +64,6 @@ namespace ServoCommander.uc
                 {
                     sliderAdjValue.Value = adjValue;
                 }
-
             }
             catch (Exception)
             {
@@ -172,19 +171,19 @@ namespace ServoCommander.uc
 
         private void SendUBTCommand(byte[] cmd, uint expectCnt)
         {
-            bool connected = serial.isConnected;
-            cmd[8] = UTIL.CalCheckSum(cmd);
+            bool connected = robot.isConnected;
+            cmd[8] = UTIL.CalUBTCheckSum(cmd);
             cmd[9] = 0xED;
 
             AppendLog("\n" + (connected ? ">> " : "") + UTIL.GetByteString(cmd) + "\n");
-            serial.ClearSerialBuffer();
+            robot.ClearRxBuffer();
             if (connected)
             {
-                serial.SendUBTCommand(cmd, 10, expectCnt);
-                string msg = "<<";
-                if (serial.rxBuffer.Count > 0)
+                robot.SendCommand(cmd, 10, expectCnt);
+                string msg = "<< ";
+                if (robot.Available > 0)
                 {
-                    byte[] result = serial.rxBuffer.ToArray();
+                    byte[] result = robot.PeekAll();
                     msg += UTIL.GetByteString(result);
                 }
                 AppendLog(msg);
@@ -219,7 +218,7 @@ namespace ServoCommander.uc
                 {
                     if (command[5] > command[7]) command[7] = command[5];
                 }
-                command[8] = UTIL.CalCheckSum(command);
+                command[8] = UTIL.CalUBTCheckSum(command);
                 command[9] = 0xED;
                 txtPreview.Text = UTIL.GetByteString(command);
 
@@ -239,10 +238,11 @@ namespace ServoCommander.uc
             // byte[] cmd = { 0xFC, 0xCF, (byte)id, 0x01, 0, 0, 0, 0, 0, 0xED };
             byte[] cmd = { 0xFC, 0xCF, (byte)id, 0x01, 0, 0, 0, 0, 0, 0xED };
             SendUBTCommand(cmd, 10);
-            if (serial.rxBuffer.Count == 10)
+            if (robot.Available == 10)
             {
+                byte[] buffer = robot.ReadAll();
                 string result = String.Format("版本號為: {0:X2} {1:X2} {2:X2} {3:X2}\n",
-                                              serial.rxBuffer[4], serial.rxBuffer[5], serial.rxBuffer[6], serial.rxBuffer[7]);
+                                              buffer[4], buffer[5], buffer[6], buffer[7]);
                 AppendLog(result);
             }
         }
@@ -255,9 +255,10 @@ namespace ServoCommander.uc
 
             byte[] cmd = { 0xFA, 0xAF, (byte)id, 0xCD, 0, (byte)newId, 0, 0, 0, 0xED };
             SendUBTCommand(cmd, 10);
-            if (serial.rxBuffer.Count == 10)
+            if (robot.Available == 10)
             {
-                if (serial.rxBuffer[3] == 0xAA)
+                byte[] buffer = robot.ReadAll();
+                if (buffer[3] == 0xAA)
                 {
                     string result = String.Format("舵機編號 {0} 已成功修改為 舵機編號 {1} \n", id, newId);
                     AppendLog(result);
@@ -266,16 +267,17 @@ namespace ServoCommander.uc
                 }
             }
         }
+
         private void GetAngle(int id)
         {
             byte[] cmd = { 0xFA, 0xAF, (byte)id, 2, 0, 0, 0, 0, 0, 0xED };
             SendUBTCommand(cmd, 10);
-            if (serial.rxBuffer.Count == 10)
+            if (robot.Available == 10)
             {
-
+                byte[] buffer = robot.ReadAll();
                 string result = String.Format("舵機角度:  目前為: {0:X2} {1:X2} ({1}度), 實際為: {2:X2} {3:X2} ({3}度)\n",
-                                              serial.rxBuffer[4], serial.rxBuffer[5], serial.rxBuffer[6], serial.rxBuffer[7]);
-                string hexAngle = String.Format("{0:X2}", serial.rxBuffer[7]);
+                                              buffer[4], buffer[5], buffer[6], buffer[7]);
+                string hexAngle = String.Format("{0:X2}", buffer[7]);
                 txtAdjPreview.Text = hexAngle;
                 AppendLog(result);
             }
@@ -298,9 +300,10 @@ namespace ServoCommander.uc
                 cmd[4] = angle;
                 cmd[5] = cmd[7] = time;
                 SendUBTCommand(cmd, 1);
-                if (serial.rxBuffer.Count == 1)
+                if (robot.Available ==1)
                 {
-                    if (serial.rxBuffer[0] == (0xAA + id))
+                    byte[] buffer = robot.ReadAll();
+                    if (buffer[0] == (0xAA + id))
                     {
                         txtAdjPreview.Text = String.Format("{0:X2}", angle);
                         AppendLog(String.Format("舵機 {0} 成功移動到 {1} 度位置", id, angle));
@@ -322,10 +325,10 @@ namespace ServoCommander.uc
         {
             byte[] cmd = { 0xFA, 0xAF, (byte)id, 0xD4, 0, 0, 0, 0, 0, 0xED };
             SendUBTCommand(cmd, 10);
-            if (serial.rxBuffer.Count == 10)
+            if (robot.Available ==10)
             {
-
-                int adjValue = serial.rxBuffer[6] * 256 + serial.rxBuffer[7];
+                byte[] buffer = robot.ReadAll();
+                int adjValue = buffer[6] * 256 + buffer[7];
                 string adjMsg = "";
                 if (adjValue == 0)
                 {
@@ -347,7 +350,7 @@ namespace ServoCommander.uc
                     adjMsg = "偏移量異常";
                 }
                 string result = String.Format("偏移校正:  {2:X2} {3:X2} 即 {4} \n",
-                                              serial.rxBuffer[4], serial.rxBuffer[5], serial.rxBuffer[6], serial.rxBuffer[7], adjMsg);
+                                              buffer[4], buffer[5], buffer[6], buffer[7], adjMsg);
                 AppendLog(result);
             }
 
@@ -363,9 +366,10 @@ namespace ServoCommander.uc
 
             byte[] cmd = { 0xFA, 0xAF, (byte)id, 0xD2, 0, 0, adjHigh, adjLow, 0, 0xED };
             SendUBTCommand(cmd, 10);
-            if (serial.rxBuffer.Count == 10)
+            if (robot.Available ==10)
             {
-                if (serial.rxBuffer[3] != 0xAA)
+                byte[] buffer = robot.ReadAll();
+                if (buffer[3] != 0xAA)
                 {
                     AppendLog("偏移量設置失敗");
                 }
