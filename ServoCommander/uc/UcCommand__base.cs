@@ -58,6 +58,11 @@ namespace ServoCommander.uc
             UTIL.INPUT.PreviewInteger(ref e);
         }
 
+        protected void tb_PreviewIntegerWithNeg(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = new Regex("[^0-9-]+").IsMatch(e.Text);
+        }
+
         protected void tb_PreviewHex(object sender, TextCompositionEventArgs e)
         {
             UTIL.INPUT.PreviewHex(ref e);

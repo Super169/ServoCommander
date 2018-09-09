@@ -63,6 +63,7 @@
     <Compile Include="uc\UcCommand_ControlBoard.xaml.cs">
       <DependentUpon>UcCommand_ControlBoard.xaml</DependentUpon>
     </Compile>
+    <Compile Include="uc\UcCommand_HaiLzd.cmd.cs" />
     <Compile Include="uc\UcCommand_HaiLzd.xaml.cs">
       <DependentUpon>UcCommand_HaiLzd.xaml</DependentUpon>
     </Compile>

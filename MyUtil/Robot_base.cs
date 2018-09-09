@@ -34,7 +34,7 @@ namespace MyUtil
 
     public abstract class Robot_base
     {
-        protected long DEFAULT_COMMAND_TIMEOUT = 10;    // Default 10ms, according to spec, servo return at 400us, add some overhead for ESP8266 handler
+        protected long DEFAULT_COMMAND_TIMEOUT = 1000;    // Default 10ms, according to spec, servo return at 400us, add some overhead for ESP8266 handler
         protected long MAX_WAIT_MS = 1000;             // Default 1s, for any command, it should not wait more than 1s
 
         public long DefaultCommandTimeout {
