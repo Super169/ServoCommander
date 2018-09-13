@@ -35,6 +35,25 @@ namespace ServoCommander.uc
             if (connected)
             {
                 robot.SendCommand(data, data.Length, expectCnt);
+                if (robot.cmdEndTicks != 0)
+                {
+                    String sTime = ": " + robot.cmdStartTicks.ToString() + " -> " + robot.cmdEndTicks.ToString();
+                    float fDiff = (float) (robot.cmdEndTicks - robot.cmdStartTicks);
+                    float fMs =  fDiff / TimeSpan.TicksPerMillisecond;
+                    sTime += " : " + fMs.ToString("0.000") + "ms";
+                    AppendLog(sTime);
+                } else
+                {
+                    if (expectCnt > 0)
+                    {
+                        long endTicks = DateTime.Now.Ticks;
+                        String sTime = ": TIMEOUT : " + robot.cmdStartTicks.ToString() + " -> " + endTicks.ToString();
+                        float fDiff = (float)(endTicks - robot.cmdStartTicks);
+                        float fMs = fDiff / TimeSpan.TicksPerMillisecond;
+                        sTime += " : " + fMs.ToString("0.000") + "ms";
+                        AppendLog(sTime);
+                    }
+                }
                 string msg = "<< ";
                 if (robot.Available > 0)
                 {

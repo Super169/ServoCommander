@@ -113,8 +113,9 @@ namespace MyUtil
         }
 
         // async mode not work, use buffer mode
-        public override long WaitForData(long minBytes, long maxMs)
+        public override long WaitForData(long minBytes, long maxMs, out long cmdEndTicks)
         {
+            cmdEndTicks = 0;
             // Wait for at least 1 bytes
             if (minBytes < 1) minBytes = 1;
             // at least wait for 1 ms, but not more than 10s
@@ -140,6 +141,7 @@ namespace MyUtil
                         (tempBuffer.ElementAt(8) == 0xED))
                     {
                         tempBuffer.Insert(0, (byte) (head == 0xAF ? 0xFA : 0xFC));
+                        cmdEndTicks = DateTime.Now.Ticks;
                         break;
                     }
                 }

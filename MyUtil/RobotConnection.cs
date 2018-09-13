@@ -11,6 +11,7 @@ namespace MyUtil
 {
     public class RobotConnection
     {
+        public long cmdStartTicks, cmdEndTicks;
         protected UTIL.DelegateUpdateInfo updateInfo;
         protected void UpdateInfo(string msg = "", UTIL.InfoType iType = UTIL.InfoType.message, bool async = false)
         {
@@ -146,8 +147,10 @@ namespace MyUtil
             if (maxMs == -1) maxMs = robot.DefaultCommandTimeout;
             if (robot == null) return false;
             robot.ClearRxBuffer();
+            cmdEndTicks = 0;
+            cmdStartTicks = DateTime.Now.Ticks;
             robot.Send(command, 0, count);
-            if (expBytes > 0) robot.WaitForData(expBytes, maxMs);
+            if (expBytes > 0) robot.WaitForData(expBytes, maxMs, out cmdEndTicks);
             return (robot.Available == expBytes);
         }
 

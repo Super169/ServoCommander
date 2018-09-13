@@ -16,7 +16,7 @@ namespace MyUtil
         public Robot_Serial()
         {
             serialPort.DataReceived += SerialPort_DataReceived;
-            DEFAULT_COMMAND_TIMEOUT = 200;
+            DEFAULT_COMMAND_TIMEOUT = 1000;
             MAX_WAIT_MS = 1000;
         }
 

@@ -143,8 +143,9 @@ namespace MyUtil
 
         public abstract void Send(byte[] data, int offset, int count);
 
-        public virtual long WaitForData(long minBytes, long maxMs)
+        public virtual long WaitForData(long minBytes, long maxMs, out long cmdEndTicks)
         {
+            cmdEndTicks = 0;
             // Wait for at least 1 bytes
             if (minBytes < 1) minBytes = 1;
             // at least wait for 1 ms, but not more than 10s
@@ -155,7 +156,11 @@ namespace MyUtil
             long endTicks = DateTime.Now.Ticks + maxMs * TimeSpan.TicksPerMillisecond;
             while (DateTime.Now.Ticks < endTicks)
             {
-                if (rxBuffer.Count >= minBytes) break;
+                if (rxBuffer.Count >= minBytes)
+                {
+                    cmdEndTicks = DateTime.Now.Ticks;
+                    break;
+                }
                 System.Threading.Thread.Sleep(1);
             }
             return rxBuffer.Count;
