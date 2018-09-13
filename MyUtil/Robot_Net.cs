@@ -132,7 +132,11 @@ namespace MyUtil
                     byte[] data = client.ReadAll();
                     tempBuffer.AddRange(data);
                 }
-                if (tempBuffer.Count >= minBytes) break;
+                if (tempBuffer.Count >= minBytes)
+                {
+                    cmdEndTicks = DateTime.Now.Ticks;
+                    break;
+                }
                 // Special handling for UBT return with missing 1st byte
                 if (tempBuffer.Count == 9)
                 {
