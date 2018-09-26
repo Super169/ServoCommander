@@ -26,6 +26,42 @@ namespace ServoCommander.uc
             InitializeComponent();
         }
 
+        
+        public override void InitObject(UTIL.DelegateUpdateInfo fxUpdateInfo, DelegateAppendLog fxAppendLog, RobotConnection robot)
+        {
+            base.InitObject(fxUpdateInfo, fxAppendLog, robot);
+            SetVersion();
+        }
+
+        public override void ConnectionChanged()
+        {
+            SetVersion();
+        }
+
+        private void SetVersion()
+        {
+            if (robot.isConnected)
+            {
+                string version = GetVersion();
+                if (version == "")
+                {
+                    lblVersion.Content = "找不到控制卡, 又或控制卡版本太舊";
+                    lblVersion.Foreground = new SolidColorBrush(Colors.Red);
+                }
+                else
+                {
+                    lblVersion.Content = version;
+                    lblVersion.Foreground = new SolidColorBrush(Colors.Blue);
+                }
+            }
+            else
+            {
+                lblVersion.Content = "請先連接控制卡";
+                lblVersion.Foreground = new SolidColorBrush(Colors.LightGray);
+            }
+
+        }
+
         public override void ExecuteCommand()
         {
             if (rbServoMode.IsChecked == true)
@@ -39,7 +75,7 @@ namespace ServoCommander.uc
 
         private bool SendCBCommand(byte[] cmd, int expectCnt)
         {
-
+            if (robot == null) return false;
             bool connected = robot.isConnected;
             if (cmd.Length < 6) return false;
             cmd[0] = 0xA9;
@@ -122,6 +158,24 @@ namespace ServoCommander.uc
             robot.ClearRxBuffer();
         }
 
+
+        private string GetVersion()
+        {
+            byte[] cmd = { 0xA9, 0x9A, 0x02, 0xFF, 0x01, 0xED };
+            SendCBCommand(cmd, 10);
+            String version = "";
+            if (robot.Available == 10)
+            {
+                byte[] result = robot.ReadAll();
+                version = string.Format("{0}.{1}.{2}", result[4], result[5], result[6]);
+                if (result[7] > 0) version += string.Format("  [Fix {0}]", result[7]);
+            }
+            else
+            {
+                version = "";
+            }
+            return version;
+        }
 
     }
 }

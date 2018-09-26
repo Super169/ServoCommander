@@ -112,8 +112,8 @@ namespace ServoCommander
             gridCommand.IsEnabled = true;  // allow to test command all the time
             gridCommand.Background = new SolidColorBrush(connected ? Colors.LightGreen : Colors.LightSalmon);
             btnExecute.Content = (connected ? "發送指令 (_S)" : "生成指令 (_S)");
+            ucCommand.ConnectionChanged();
         }
-
 
         private enum CT
         {

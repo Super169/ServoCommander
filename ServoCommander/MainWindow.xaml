@@ -20,6 +20,7 @@
             <Grid Grid.Column="0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="60"/>
+                    <RowDefinition Height="0"/>
                     <RowDefinition Height="30"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="35"/>
@@ -39,14 +40,14 @@
                     <TextBox Name ="txtPort" HorizontalAlignment="Left" Height="20" Margin="175,34,0,0" TextWrapping="Wrap" Text="6169" VerticalAlignment="Top" Width="42" PreviewTextInput="tb_PreviewInteger" PreviewKeyDown="tb_PreviewKeyDown_nospace" MaxLength="5"/>
                     <Button x:Name="btnNetConnect" Content="網路連線" HorizontalAlignment="Left" Margin="220,30,0,0" VerticalAlignment="Top" Width="70" Click="btnNetConnect_Click" FontWeight="Bold" Height="23"/>
                 </Grid>
-                <Grid Grid.Row="1">
+                <Grid Grid.Row="2">
                     <RadioButton x:Name="rbControlBoard" GroupName="CmdType" Content="控制板協定" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Checked="rbCommand_Checked"/>
                     <RadioButton x:Name="rbUBTech" GroupName="CmdType" Content="優必選協定" HorizontalAlignment="Left" Margin="110,10,0,0" VerticalAlignment="Top" Checked="rbCommand_Checked" IsChecked="True" />
                     <RadioButton x:Name="rbHaiLzd" GroupName="CmdType" Content="海靈協定" HorizontalAlignment="Left" Margin="210,10,0,0" VerticalAlignment="Top" Checked="rbCommand_Checked"/>
                 </Grid>
-                <Grid Name="gridCommand" Grid.Row="2"  Background="LightGreen">
+                <Grid Name="gridCommand" Grid.Row="3"  Background="LightGreen">
                 </Grid>
-                <Grid Grid.Row="3">
+                <Grid Grid.Row="4">
                     <Button Name="btnExecute" Content="發送執行 (_S)" HorizontalAlignment="Left" Margin="5,0,0,5" Width="140" Click="btnExecute_Click" FontWeight="Bold" Height="26" VerticalAlignment="Bottom"/>
                     <Button Name="btnClearLog" Content="清除記錄 (_C)" Margin="0,0,5,5" Click="btnClearLog_Click" FontWeight="Bold" HorizontalAlignment="Right" Width="140" Height="26" VerticalAlignment="Bottom"/>
                 </Grid>

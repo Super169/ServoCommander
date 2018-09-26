@@ -35,11 +35,17 @@ namespace ServoCommander.uc
             updateInfo?.Invoke(msg, iType, async);
         }
 
-        public void InitObject(UTIL.DelegateUpdateInfo fxUpdateInfo, DelegateAppendLog fxAppendLog, RobotConnection robot)
+        public virtual void  InitObject(UTIL.DelegateUpdateInfo fxUpdateInfo, DelegateAppendLog fxAppendLog, RobotConnection robot)
         {
             this.updateInfo = fxUpdateInfo;
             this.appendLog = fxAppendLog;
             this.robot = robot;
+        }
+
+
+        public virtual void ConnectionChanged()
+        {
+            return;
         }
 
         static protected bool MessageConfirm(String msg)
