@@ -5,11 +5,7 @@ VisualStudioVersion = 15.0.27703.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServoCommander", "ServoCommander\ServoCommander.csproj", "{C458573E-92FA-41BA-8E4D-897650BD9CD6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleNet", "..\SimpleNet\SimpleNet\SimpleNet.csproj", "{5B59E470-E438-44AB-88CB-70AAD07EAE3E}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleCOM", "SimpleCOM\SimpleCOM.csproj", "{7E1FA47E-342C-4A59-A5CD-AD1D5E86982F}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyUtil", "MyUtil\MyUtil.csproj", "{4C4A6DAD-6613-4168-9C84-F5E918F2908E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyUtil", "..\MyUtil\MyUtil\MyUtil.csproj", "{4C4A6DAD-6613-4168-9C84-F5E918F2908E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,14 +17,6 @@ Global
 		{C458573E-92FA-41BA-8E4D-897650BD9CD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C458573E-92FA-41BA-8E4D-897650BD9CD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C458573E-92FA-41BA-8E4D-897650BD9CD6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5B59E470-E438-44AB-88CB-70AAD07EAE3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5B59E470-E438-44AB-88CB-70AAD07EAE3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5B59E470-E438-44AB-88CB-70AAD07EAE3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5B59E470-E438-44AB-88CB-70AAD07EAE3E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7E1FA47E-342C-4A59-A5CD-AD1D5E86982F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7E1FA47E-342C-4A59-A5CD-AD1D5E86982F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7E1FA47E-342C-4A59-A5CD-AD1D5E86982F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7E1FA47E-342C-4A59-A5CD-AD1D5E86982F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4C4A6DAD-6613-4168-9C84-F5E918F2908E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4C4A6DAD-6613-4168-9C84-F5E918F2908E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C4A6DAD-6613-4168-9C84-F5E918F2908E}.Release|Any CPU.ActiveCfg = Release|Any CPU

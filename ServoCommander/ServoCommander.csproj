@@ -131,7 +131,7 @@
     <Resource Include="images\servo_cyan.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MyUtil\MyUtil.csproj">
+    <ProjectReference Include="..\..\MyUtil\MyUtil\MyUtil.csproj">
       <Project>{4c4a6dad-6613-4168-9c84-f5e918f2908e}</Project>
       <Name>MyUtil</Name>
     </ProjectReference>
