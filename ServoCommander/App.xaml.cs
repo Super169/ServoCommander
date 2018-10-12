@@ -23,6 +23,7 @@ namespace ServoCommander
 
         private void Application_Startup(object sender, StartupEventArgs e)
         {
+            MyUtil.UTIL.KEY.AppName = "ServoCommander";
             MainWindow = new MainWindow();
             MainWindow.Title = winTitle;
             MainWindow.Closing += MainWindow_Closing;
