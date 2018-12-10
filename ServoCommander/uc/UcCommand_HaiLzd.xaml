@@ -8,12 +8,13 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <StackPanel>
-            <Grid Height="40">
-                <Label Content="舵機編號:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
-                <TextBox Name ="txtId" HorizontalAlignment="Left" Height="23" Margin="70,12,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="35" PreviewTextInput="tb_PreviewInteger" PreviewKeyDown="tb_PreviewKeyDown_nospace" MaxLength="2"/>
-                <Label Content="最大編號:" HorizontalAlignment="Left" Margin="120,10,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
-                <TextBox Name ="txtMaxId" HorizontalAlignment="Left" Height="23" Margin="180,12,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="35" PreviewTextInput="tb_PreviewInteger" PreviewKeyDown="tb_PreviewKeyDown_nospace" MaxLength="2"/>
-                <Button Name="btnCheckID" Content="檢查 (_Z)" HorizontalAlignment="Left" Margin="222,10,0,0" VerticalAlignment="Top" Width="68" Click="btnCheckID_Click" Height="26" FontWeight="Bold"/>
+            <Grid Height="10" />
+            <Grid Height="30">
+                <Label Content="舵機編號:" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+                <TextBox Name ="txtId" HorizontalAlignment="Left" Height="23" Margin="70,2,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="35" PreviewTextInput="tb_PreviewInteger" PreviewKeyDown="tb_PreviewKeyDown_nospace" MaxLength="2"/>
+                <Label Content="最大編號:" HorizontalAlignment="Left" Margin="120,0,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+                <TextBox Name ="txtMaxId" HorizontalAlignment="Left" Height="23" Margin="180,2,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="35" PreviewTextInput="tb_PreviewInteger" PreviewKeyDown="tb_PreviewKeyDown_nospace" MaxLength="2"/>
+                <Button Name="btnCheckID" Content="檢查 (_Z)" HorizontalAlignment="Left" Margin="222,0,0,0" VerticalAlignment="Top" Width="68" Click="btnCheckID_Click" Height="26" FontWeight="Bold"/>
             </Grid>
             <Grid Height="25">
                 <RadioButton GroupName="servoCommand" Name="rbCheckVersion" Content="檢查舵機版本" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" IsChecked="True"/>

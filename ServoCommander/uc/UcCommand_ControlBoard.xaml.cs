@@ -70,6 +70,12 @@ namespace ServoCommander.uc
             } else if (rbCommandMode.IsChecked == true)
             {
                 CheckCommandMode();
+            } else if (rbEnterUSBTTL.IsChecked == true)
+            {
+                EnterUSBTTL();
+            } else if (rbExitUSBTTL.IsChecked == true)
+            {
+                ExitUSBTTL();
             }
         }
 
@@ -175,6 +181,43 @@ namespace ServoCommander.uc
                 version = "";
             }
             return version;
+        }
+
+        private void EnterUSBTTL()
+        {
+            byte[] cmd = { 0xA9, 0x9A, 0x04, 0x07, 0x00, 0x00, 0x0B, 0xED };
+            SendCBCommand(cmd, 7);
+            if (robot.isConnected)
+            {
+                string action = "進入 USB-TTL 模式";
+                if (robot.Available == 7)
+                {
+                    byte[] result = robot.ReadAll();
+                    if (result[4] == 0)
+                    {
+                        AppendLog("成功" + action);
+                    }
+                    else
+                    {
+                        AppendLog(action + "失敗");
+                    }
+                }
+                else
+                {
+                    AppendLog("已發出" + action + "指令, 但回傳不正常, 可能已在 USB-TTL 模式, 又或控制板有問題.");
+                }
+            }
+        }
+
+        private void ExitUSBTTL()
+        {
+            byte[] cmd = { 0xA9, 0x9A, 0x01, 0x06, 0x09 };
+            robot.ClearRxBuffer();
+            if (robot.isConnected)
+            {
+                robot.SendCommand(cmd, cmd.Length, 0);
+                AppendLog("已發出離開 USB-TTL 模式的指令");
+            }
         }
 
     }
