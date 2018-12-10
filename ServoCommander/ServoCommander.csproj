@@ -67,6 +67,7 @@
     <Compile Include="uc\UcCommand_HaiLzd.xaml.cs">
       <DependentUpon>UcCommand_HaiLzd.xaml</DependentUpon>
     </Compile>
+    <Compile Include="uc\UcCommand_UBTech.Command.cs" />
     <Compile Include="uc\UcCommand_UBTech.xaml.cs">
       <DependentUpon>UcCommand_UBTech.xaml</DependentUpon>
     </Compile>

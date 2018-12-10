@@ -74,8 +74,7 @@ namespace ServoCommander.uc
             if (sId == "") return -1;
             int id;
             if (!int.TryParse(sId, out id)) return -1;
-            if ((id < 1) || (id > CONST.MAX_SERVO)) return -1;
-            if (id < 0) return -1;
+            if ((id < 0) || (id > CONST.MAX_SERVO)) return -1;
             return id;
         }
 
@@ -94,14 +93,15 @@ namespace ServoCommander.uc
             if (id == 0)
             {
                 oldAngle = angle;
-            } else if (robot.Available == 1)
+            }
+            else if (robot.Available == 1)
             {
                 byte[] buffer = robot.ReadAll();
                 if (buffer[0] == (0xAA + id))
                 {
                     oldAngle = angle;
                 }
-            } 
+            }
             int TimeMs = time + 100;    // add extra 100ms, seeem still not work, sometimes command cannot be executed for fast change.
             servoEndTicks = DateTime.Now.Ticks + TimeMs * TimeSpan.TicksPerMillisecond;
         }
@@ -176,7 +176,7 @@ namespace ServoCommander.uc
             }
             else
             {
-                int id = GetId(true);
+                int id = GetId(false);
                 if (id < 0) return;
 
                 if (rbCheckVersion.IsChecked == true)
@@ -214,6 +214,10 @@ namespace ServoCommander.uc
                 {
                     SetAdjAngle(id);
                 }
+                else if (rbAutoAdjAngle.IsChecked == true)
+                {
+                    AutoAdjAngle(id);
+                }
             }
 
         }
@@ -242,27 +246,6 @@ namespace ServoCommander.uc
                 return -1;
             }
             return id;
-        }
-
-        private void SendCommand(byte[] cmd, uint expectCnt)
-        {
-            bool connected = robot.isConnected;
-            cmd[8] = UTIL.CalUBTCheckSum(cmd);
-            cmd[9] = 0xED;
-
-            AppendLog("\n" + (connected ? ">> " : "") + UTIL.GetByteString(cmd) + "\n");
-            robot.ClearRxBuffer();
-            if (connected)
-            {
-                robot.SendCommand(cmd, 10, expectCnt);
-                string msg = "<< ";
-                if (robot.Available > 0)
-                {
-                    byte[] result = robot.PeekAll();
-                    msg += UTIL.GetByteString(result);
-                }
-                AppendLog(msg);
-            }
         }
 
         private bool GetCommand(out byte[] command)
@@ -346,19 +329,17 @@ namespace ServoCommander.uc
 
         private void GetAngle(int id)
         {
-            byte[] cmd = { 0xFA, 0xAF, (byte)id, 2, 0, 0, 0, 0, 0, 0xED };
-            SendCommand(cmd, 10);
-            if (robot.Available == 10)
-            {
-                byte[] buffer = robot.ReadAll();
-                string result = String.Format("舵機角度:  目前為: {0:X2} {1:X2} ({1}度), 實際為: {2:X2} {3:X2} ({3}度)\n",
-                                              buffer[4], buffer[5], buffer[6], buffer[7]);
-                string hexAngle = String.Format("{0:X2}", buffer[7]);
-                txtAdjPreview.Text = hexAngle;
-                AppendLog(result);
-            }
+            byte angle;
+            byte[] buffer;
+            if (!UBTGetAngle(id, out angle, out buffer)) return;
+            string result = String.Format("舵機角度:  目前為: {0:X2} {1:X2} ({1}度), 實際為: {2:X2} {3:X2} ({3}度)\n",
+                                          buffer[4], buffer[5], buffer[6], buffer[7]);
+            // string hexAngle = String.Format("{0:X2}", buffer[7]);
+            //txtAdjPreview.Text = buffer[7].ToString();
+            //txtAutoAdjAngle.Text = buffer[7].ToString();
+            SetCurrAngle(buffer[7]);
+            AppendLog(result);
         }
-
 
         private void GoMove(int id)
         {
@@ -371,8 +352,9 @@ namespace ServoCommander.uc
             }
             try
             {
-                byte angle = UTIL.GetInputByte(txtMoveAngle.Text);
-                byte time = UTIL.GetInputByte(txtMoveTime.Text);
+                byte angle = (byte)UTIL.GetInputInteger(txtMoveAngle.Text);
+                int iTime = UTIL.GetInputInteger(txtMoveTime.Text);
+                byte time = (byte)(iTime / 20);
                 cmd[4] = angle;
                 cmd[5] = cmd[7] = time;
                 SendCommand(cmd, 1);
@@ -381,7 +363,9 @@ namespace ServoCommander.uc
                     byte[] buffer = robot.ReadAll();
                     if (buffer[0] == (0xAA + id))
                     {
-                        txtAdjPreview.Text = String.Format("{0:X2}", angle);
+                        //txtAdjPreview.Text = angle.ToString();
+                        //txtAutoAdjAngle.Text = angle.ToString();
+                        SetCurrAngle(angle);
                         AppendLog(String.Format("舵機 {0} 成功移動到 {1} 度位置", id, angle));
                     }
                     else
@@ -399,59 +383,40 @@ namespace ServoCommander.uc
 
         private void GetAdjAngle(int id)
         {
-            byte[] cmd = { 0xFA, 0xAF, (byte)id, 0xD4, 0, 0, 0, 0, 0, 0xED };
-            SendCommand(cmd, 10);
-            if (robot.Available == 10)
+            UInt16 adjValue;
+            byte[] buffer;
+            if (!UBTGetAdjAngle(id, out adjValue, out buffer)) return;
+            string adjMsg = "";
+            if (adjValue == 0)
             {
-                byte[] buffer = robot.ReadAll();
-                int adjValue = buffer[6] * 256 + buffer[7];
-                string adjMsg = "";
-                if (adjValue == 0)
-                {
-                    adjMsg = "沒有偏移";
-                    sliderAdjValue.Value = 0;
-                }
-                else if ((adjValue >= 0x0000) && (adjValue <= 0x0130))
-                {
-                    adjMsg = "正向 " + adjValue.ToString();
-                    sliderAdjValue.Value = adjValue;
-                }
-                else if ((adjValue >= 0xFED0) && (adjValue <= 0xFFFF))
-                {
-                    adjMsg = "反向 " + (65536 - adjValue).ToString();
-                    sliderAdjValue.Value = (adjValue - 65536);
-                }
-                else
-                {
-                    adjMsg = "偏移量異常";
-                }
-                string result = String.Format("偏移校正:  {2:X2} {3:X2} 即 {4} \n",
-                                              buffer[4], buffer[5], buffer[6], buffer[7], adjMsg);
-                AppendLog(result);
+                adjMsg = "沒有偏移";
+                sliderAdjValue.Value = 0;
             }
-
+            else if ((adjValue >= 0x0000) && (adjValue <= 0x0130))
+            {
+                adjMsg = "正向 " + adjValue.ToString();
+                sliderAdjValue.Value = adjValue;
+            }
+            else if ((adjValue >= 0xFED0) && (adjValue <= 0xFFFF))
+            {
+                adjMsg = "反向 " + (65536 - adjValue).ToString();
+                sliderAdjValue.Value = (adjValue - 65536);
+            }
+            else
+            {
+                adjMsg = "偏移量異常";
+            }
+            string result = String.Format("偏移校正:  {2:X2} {3:X2} 即 {4} \n",
+                                          buffer[4], buffer[5], buffer[6], buffer[7], adjMsg);
+            AppendLog(result);
         }
 
         private void SetAdjAngle(int id)
         {
             int adjValue = (int)sliderAdjValue.Value;
-            if (adjValue < 0) adjValue += 65536;
-
-            byte adjHigh = (byte)(adjValue / 256);
-            byte adjLow = (byte)(adjValue % 256);
-
-            byte[] cmd = { 0xFA, 0xAF, (byte)id, 0xD2, 0, 0, adjHigh, adjLow, 0, 0xED };
-            SendCommand(cmd, 10);
-            if (robot.Available == 10)
+            if (!UBTSetAdjAngle(id, adjValue))
             {
-                byte[] buffer = robot.ReadAll();
-                if (buffer[3] != 0xAA)
-                {
-                    AppendLog("偏移量設置失敗");
-                }
-            }
-            else
-            {
+                AppendLog("偏移量設置失敗");
                 return;
             }
             AppendLog("偏移量設置成功");
@@ -460,8 +425,77 @@ namespace ServoCommander.uc
 
             System.Threading.Thread.Sleep(500);
             txtMoveAngle.Text = txtAdjPreview.Text;
-            txtMoveTime.Text = "28";
+            txtMoveTime.Text = "1000";
             GoMove(id);
+        }
+
+        private void AutoAdjAngle(int id)
+        {
+            if ((txtAutoAdjAngle.Text == null) || (txtAutoAdjAngle.Text.Trim() == ""))
+            {
+                AppendLog("\n請先輸入要設定的角度");
+                return;
+            }
+            try
+            {
+                int iFixAngle = (byte)UTIL.GetInputInteger(txtAutoAdjAngle.Text);
+                if (iFixAngle > CONST.UBT.MAX_ANGLE)
+                {
+                    AppendLog(String.Format("輸入角度 {0} 過大了, 可設定角度為 0 - {1} 度", iFixAngle, CONST.UBT.MAX_ANGLE));
+                    return;
+                }
+
+                // Get Crrent Adj Angle
+                byte[] buffer;
+                UInt16 adj;
+                if (!UBTGetAdjAngle(id, out adj, out buffer))
+                {
+                    AppendLog("讀取當前偏移量失敗");
+                    return;
+                }
+
+                int adjValue = 0;
+                if ((adj >= 0x0000) && (adj <= 0x0130))
+                {
+                    adjValue = adj;
+                }
+                else if ((adj >= 0xFED0) && (adj <= 0xFFFF))
+                {
+                    adjValue = (adj - 65536);
+                }
+                else
+                {
+                    AppendLog(string.Format("Invalid adjustment {0:X4}", adj));
+                    return;
+                }
+
+                byte currAngle;
+                if (!UBTGetAngle(id, out currAngle, out buffer))
+                {
+                    AppendLog("讀取當前角度失敗");
+                    return;
+                }
+
+                int delta = cboAutoAdjDelta.SelectedIndex;
+                // adjValue = 3 * angle
+                int actualValue = currAngle * 3 + adjValue;
+                int actualAngle = actualValue / 3;
+                int actualDelta = actualValue % 3;
+                int newValue = iFixAngle * 3 + delta;
+                int newAdjValue = actualValue - newValue;
+                if (!UBTSetAdjAngle(id, newAdjValue))
+                {
+                    AppendLog("設置偏移量失敗");
+                    return;
+                }
+                AppendLog(string.Format("舵機 {0} 當前機械角度為: {1}度[{2}], 現設定為: {3}度[{4}]", id, actualAngle, actualDelta, iFixAngle, delta));
+                System.Threading.Thread.Sleep(100);
+                GetAdjAngle(id);
+            }
+            catch (Exception ex)
+            {
+                AppendLog("\nERR: " + ex.Message);
+            }
         }
 
         private void ExecuteFreeInput()
@@ -491,6 +525,13 @@ namespace ServoCommander.uc
         {
             Slider sAngle = (Slider)sender;
             UpdateInfo(String.Format("Slider mouse Up at {0}", Math.Round(sAngle.Value)));
+        }
+
+        private void SetCurrAngle(byte angle)
+        {
+            txtAdjPreview.Text = angle.ToString();
+            txtAutoAdjAngle.Text = angle.ToString();
+            sliderAngle.Value = angle;
         }
 
     }

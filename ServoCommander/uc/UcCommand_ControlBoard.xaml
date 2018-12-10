@@ -19,7 +19,7 @@
             <Grid Height="25">
                 <RadioButton GroupName="CBCommand" x:Name="rbCommandMode" Content="檢查支援指令類別" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center"/>
             </Grid>
-            <Grid Height="25">
+            <Grid x:Name="gridUSBTTL" Height="25">
                 <RadioButton GroupName="CBCommand" x:Name="rbEnterUSBTTL" Content="進入USB-TTL 模式" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center"/>
                 <RadioButton GroupName="CBCommand" x:Name="rbExitUSBTTL" Content="離開 USB-TTL 模式" HorizontalAlignment="Left" Margin="160,0,0,0" VerticalAlignment="Center"/>
             </Grid>

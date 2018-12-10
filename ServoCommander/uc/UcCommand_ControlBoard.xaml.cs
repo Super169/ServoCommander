@@ -185,6 +185,11 @@ namespace ServoCommander.uc
 
         private void EnterUSBTTL()
         {
+            if (robot.currMode == RobotConnection.connMode.Network)
+            {
+                if (!MessageConfirm("請注意:\n啟動 USB-TTL 模式後\n網絡連線將無法發出指令, 必須用串口連線去解除.\n請確定是否進入 USB-TTL 模式?")) return;
+            }
+
             byte[] cmd = { 0xA9, 0x9A, 0x04, 0x07, 0x00, 0x00, 0x0B, 0xED };
             SendCBCommand(cmd, 7);
             if (robot.isConnected)
@@ -211,7 +216,14 @@ namespace ServoCommander.uc
 
         private void ExitUSBTTL()
         {
+
+            if (robot.currMode == RobotConnection.connMode.Network)
+            {
+                if (!MessageConfirm("請注意:\n離開 USB-TTL 模式指令, 只在串口連線才有效.\n請確定是否發出離開 USB-TTL 模式指令?")) return;
+            }
+           
             byte[] cmd = { 0xA9, 0x9A, 0x01, 0x06, 0x09 };
+            AppendLog("\n" + (robot.isConnected ? ">> " : "") + UTIL.GetByteString(cmd) + "\n");
             robot.ClearRxBuffer();
             if (robot.isConnected)
             {
