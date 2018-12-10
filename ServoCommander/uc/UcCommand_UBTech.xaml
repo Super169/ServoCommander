@@ -11,7 +11,7 @@
             <Grid Height="10" />
             <Grid Height="30">
                 <Label Content="舵機編號:" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
-                <TextBox Name ="txtId" HorizontalAlignment="Left" Height="23" Margin="70,2,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="35" PreviewTextInput="tb_PreviewInteger" PreviewKeyDown="tb_PreviewKeyDown_nospace" MaxLength="2"/>
+                <TextBox Name ="txtId" HorizontalAlignment="Left" Height="23" Margin="70,2,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="35" PreviewTextInput="tb_PreviewInteger" PreviewKeyDown="tb_PreviewKeyDown_nospace" MaxLength="2" />
                 <Label Content="最大編號:" HorizontalAlignment="Left" Margin="120,0,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
                 <TextBox Name ="txtMaxId" HorizontalAlignment="Left" Height="23" Margin="180,2,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="35" PreviewTextInput="tb_PreviewInteger" PreviewKeyDown="tb_PreviewKeyDown_nospace" MaxLength="2"/>
                 <Button Name="btnCheckID" Content="檢查 (_Z)" HorizontalAlignment="Left" Margin="222,0,0,0" VerticalAlignment="Top" Width="68" Click="btnCheckID_Click" Height="26" FontWeight="Bold"/>
@@ -33,6 +33,10 @@
                 <Label Content="移動時間: " HorizontalAlignment="Left" Margin="183,-5,0,0" VerticalAlignment="Top"/>
                 <TextBox Name="txtMoveTime" HorizontalAlignment="Left" Height="23" Margin="240,-3,0,0" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="50" PreviewTextInput="tb_PreviewHexMix" PreviewKeyDown="tb_PreviewKeyDown_nospace" CharacterCasing="Upper" MaxLength="4"/>
             </Grid>
+            <Grid Height="30">
+                <Slider Name="sliderAngle" HorizontalAlignment="Left" Margin="29,0,0,0" VerticalAlignment="Top" Width="240" Minimum="0" Maximum="240" ValueChanged="sliderAngle_ValueChanged" MouseUp="sliderAngle_MouseUp"/>
+                <Label x:Name="lblAngle" Content="0" HorizontalAlignment="Left" Margin="265,2,0,0" VerticalAlignment="Top" Width="33" />
+            </Grid>
             <Grid Height="25">
                 <RadioButton GroupName="servoCommand" Name="rbGetAdjAngle" Content="讀取舵機角度偏移校正" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top"/>
             </Grid>
@@ -40,7 +44,7 @@
                 <RadioButton GroupName="servoCommand" Name="rbSetAdjAngle" Content="設定舵機角度偏移量:" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" Foreground="#FF780505" FontWeight="Bold"/>
                 <TextBox Name="txtAdjAngle" HorizontalAlignment="Left" Height="23" Margin="147,-3,0,0" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="40" PreviewTextInput="tb_PreviewHex" PreviewKeyDown="tb_PreviewKeyDown_nospace" CharacterCasing="Upper" MaxLength="4" LostFocus="adjAngle_Changed"/>
                 <TextBox Name="txtAdjMsg" HorizontalAlignment="Left" Height="23" Margin="197,-3,0,0" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="93" IsReadOnly="True" Background="LightBlue"/>
-                <Slider Name="sliderAdjValue" HorizontalAlignment="Left" Margin="29,25,0,0" VerticalAlignment="Top" Width="261" Minimum="-304" Maximum="304" ValueChanged="Slider_ValueChanged" />
+                <Slider Name="sliderAdjValue" HorizontalAlignment="Left" Margin="29,25,0,0" VerticalAlignment="Top" Width="261" Minimum="-304" Maximum="304" ValueChanged="sliderAdjValue_ValueChanged" />
                 <Label Content="成功設定後, 把舵機移動到" HorizontalAlignment="Left" Margin="28,50,0,0" VerticalAlignment="Top"/>
                 <TextBox Name="txtAdjPreview" HorizontalAlignment="Left" Height="23" Margin="177,52,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="34" PreviewTextInput="tb_PreviewHexMix" PreviewKeyDown="tb_PreviewKeyDown_nospace" CharacterCasing="Upper" MaxLength="4"/>
                 <Label Content="進行對位." HorizontalAlignment="Left" Margin="218,50,0,0" VerticalAlignment="Top"/>

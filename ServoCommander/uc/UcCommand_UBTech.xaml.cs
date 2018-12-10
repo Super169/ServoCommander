@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using MyUtil;
 
 namespace ServoCommander.uc
@@ -24,7 +25,11 @@ namespace ServoCommander.uc
     public partial class UcCommand_UBTech : UcCommand__base
     {
         // Timer checkTimer = new Timer();
-
+        DispatcherTimer sliderTimer = new DispatcherTimer();
+        DispatcherTimer servoTimer = new DispatcherTimer();
+        private long servoEndTicks = 0;
+        private byte oldAngle = 0;
+        private bool checkSliderUpdate = true;
 
         public UcCommand_UBTech()
         {
@@ -32,7 +37,73 @@ namespace ServoCommander.uc
             txtMaxId.Text = CONST.MAX_SERVO.ToString();
             sliderAdjValue.Value = 0;
             txtAdjAngle.Text = "0000";
+            InitLocalTimer();
 
+        }
+
+        private void InitLocalTimer()
+        {
+            sliderTimer.Tick += new EventHandler(sliderTimer_Tick);
+            // prevent frequent update, hold for 5ms before udpate servo
+            sliderTimer.Interval = TimeSpan.FromMilliseconds(5);
+            sliderTimer.Stop();
+
+            // If last move not completed, check every 10ms
+            servoTimer.Tick += new EventHandler(servoTimer_Tick);
+            servoTimer.Interval = TimeSpan.FromMilliseconds(5);
+            servoTimer.Stop();
+        }
+
+        private void servoTimer_Tick(object sender, EventArgs e)
+        {
+            servoTimer.Stop();
+            if (DateTime.Now.Ticks >= servoEndTicks)
+            {
+                sliderTimer.Stop();
+                sliderTimer.Start();
+            }
+            else
+            {
+                servoTimer.Start();
+            }
+        }
+
+        private int GetIdBackground()
+        {
+            string sId = txtId.Text.Trim();
+            if (sId == "") return -1;
+            int id;
+            if (!int.TryParse(sId, out id)) return -1;
+            if ((id < 1) || (id > CONST.MAX_SERVO)) return -1;
+            if (id < 0) return -1;
+            return id;
+        }
+
+        private void sliderTimer_Tick(object sender, EventArgs e)
+        {
+            sliderTimer.Stop();
+            int id = GetIdBackground();
+            if (id < 0) return;
+            double dblAngle = Math.Round(sliderAngle.Value);
+            byte angle = (byte)dblAngle;
+            double diff = (byte)Math.Abs(angle - oldAngle);
+            UInt16 time = (UInt16)(Math.Round(1000.0 * diff / CONST.UBT.MAX_ANGLE));  // use the speed of 1s for full move
+            byte timeUBT = (byte)(time / 50);
+            byte[] cmd = { 0xFA, 0xAF, (byte)id, 1, angle, timeUBT, 0, timeUBT, 0, 0xED };
+            SendCommand(cmd, 1);
+            if (id == 0)
+            {
+                oldAngle = angle;
+            } else if (robot.Available == 1)
+            {
+                byte[] buffer = robot.ReadAll();
+                if (buffer[0] == (0xAA + id))
+                {
+                    oldAngle = angle;
+                }
+            } 
+            int TimeMs = time + 100;    // add extra 100ms, seeem still not work, sometimes command cannot be executed for fast change.
+            servoEndTicks = DateTime.Now.Ticks + TimeMs * TimeSpan.TicksPerMillisecond;
         }
 
         #region Check Servo
@@ -75,7 +146,7 @@ namespace ServoCommander.uc
             }
         }
 
-        private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private void sliderAdjValue_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             int n = (int)((Slider)sender).Value;
 
@@ -400,6 +471,26 @@ namespace ServoCommander.uc
             {
                 SendCommand(command, 10);  // assume 10 byte returned
             }
+        }
+
+        private void sliderAngle_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            Slider sAngle = (Slider)sender;
+            lblAngle.Content = Math.Round(sAngle.Value);
+            int id = GetIdBackground();
+            if (id < 0) return;
+            if (checkSliderUpdate)
+            {
+                // Don't call slider timer directly as servo may still working
+                servoTimer.Stop();
+                servoTimer.Start();
+            }
+        }
+
+        private void sliderAngle_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            Slider sAngle = (Slider)sender;
+            UpdateInfo(String.Format("Slider mouse Up at {0}", Math.Round(sAngle.Value)));
         }
 
     }
