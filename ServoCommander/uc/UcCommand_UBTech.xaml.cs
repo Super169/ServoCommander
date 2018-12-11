@@ -30,6 +30,7 @@ namespace ServoCommander.uc
         private long servoEndTicks = 0;
         private byte oldAngle = 0;
         private bool checkSliderUpdate = true;
+        bool stopSLiderAction = false;
 
         public UcCommand_UBTech()
         {
@@ -509,6 +510,7 @@ namespace ServoCommander.uc
 
         private void sliderAngle_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
+            if (stopSLiderAction) return;
             Slider sAngle = (Slider)sender;
             lblAngle.Content = Math.Round(sAngle.Value);
             int id = GetIdBackground();
@@ -529,9 +531,12 @@ namespace ServoCommander.uc
 
         private void SetCurrAngle(byte angle)
         {
+            stopSLiderAction = true;
+            sliderAngle.Value = angle;
+            lblAngle.Content = angle.ToString();
             txtAdjPreview.Text = angle.ToString();
             txtAutoAdjAngle.Text = angle.ToString();
-            sliderAngle.Value = angle;
+            stopSLiderAction = false;
         }
 
     }
