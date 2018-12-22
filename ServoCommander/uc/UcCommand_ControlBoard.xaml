@@ -10,18 +10,18 @@
         <StackPanel>
             <Grid Height="10" />
             <Grid Height="30">
-                <Label Content="固件版本號: " HorizontalAlignment="Left" Margin="10,2,0,0" VerticalAlignment="Top"/>
-                <Label x:Name="lblVersion" Content="尚未連上控制板" HorizontalAlignment="Left" Margin="90,0,0,0" VerticalAlignment="Top" FontSize="14" FontWeight="Bold" Height="28" Foreground="LightGray"/>
+                <Label Content="{DynamicResource ResourceKey=lblVersionHead}" HorizontalAlignment="Left" Margin="10,2,0,0" VerticalAlignment="Top"/>
+                <Label x:Name="lblVersion" Content="{DynamicResource ResourceKey=lblVersion}" HorizontalAlignment="Left" Margin="90,0,0,0" VerticalAlignment="Top" FontSize="14" FontWeight="Bold" Height="28" Foreground="LightGray"/>
             </Grid>
             <Grid Height="25">
-                <RadioButton GroupName="CBCommand"  x:Name="rbServoMode" Content="檢查舵機模式" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                <RadioButton GroupName="CBCommand"  x:Name="rbServoMode" Content="{DynamicResource ResourceKey=rbServoMode}" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center"/>
             </Grid>
             <Grid Height="25">
-                <RadioButton GroupName="CBCommand" x:Name="rbCommandMode" Content="檢查支援指令類別" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                <RadioButton GroupName="CBCommand" x:Name="rbCommandMode" Content="{DynamicResource ResourceKey=rbCommandMode}" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center"/>
             </Grid>
             <Grid x:Name="gridUSBTTL" Height="25">
-                <RadioButton GroupName="CBCommand" x:Name="rbEnterUSBTTL" Content="進入USB-TTL 模式" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                <RadioButton GroupName="CBCommand" x:Name="rbExitUSBTTL" Content="離開 USB-TTL 模式" HorizontalAlignment="Left" Margin="160,0,0,0" VerticalAlignment="Center"/>
+                <RadioButton GroupName="CBCommand" x:Name="rbEnterUSBTTL" Content="{DynamicResource ResourceKey=rbEnterUSBTTL}" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                <RadioButton GroupName="CBCommand" x:Name="rbExitUSBTTL" Content="{DynamicResource ResourceKey=rbExitUSBTTL}" HorizontalAlignment="Left" Margin="160,0,0,0" VerticalAlignment="Center"/>
             </Grid>
         </StackPanel>
     </Grid>

@@ -53,7 +53,7 @@ namespace ServoCommander.uc
             buffer = null;
             byte[] cmd = { 0xFA, 0xAF, (byte)id, 0xD4, 0, 0, 0, 0, 0, 0xED };
             SendCommand(cmd, 10);
-            if (robot.Available == 10)
+            if ((id > 0) && (robot.Available == 10))
             {
                 buffer = robot.ReadAll();
                 adjValue = (UInt16) ((buffer[6] << 8) | buffer[7]);
@@ -68,7 +68,7 @@ namespace ServoCommander.uc
             buffer = null;
             byte[] cmd = { 0xFA, 0xAF, (byte)id, 2, 0, 0, 0, 0, 0, 0xED };
             SendCommand(cmd, 10);
-            if (robot.Available == 10)
+            if ((id > 0) && (robot.Available == 10))
             {
                 buffer = robot.ReadAll();
                 angle = buffer[5];
@@ -87,7 +87,7 @@ namespace ServoCommander.uc
 
             byte[] cmd = { 0xFA, 0xAF, (byte)id, 0xD2, 0, 0, adjHigh, adjLow, 0, 0xED };
             SendCommand(cmd, 10);
-            if (robot.Available == 10)
+            if ((id > 0) && (robot.Available == 10))
             {
                 byte[] buffer = robot.ReadAll();
                 if (buffer[3] == 0xAA) return true;

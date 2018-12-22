@@ -1,0 +1,34 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <sys:String x:Key="ResourceDictoinaryName">Loc-zh-HK</sys:String>
+    <sys:String x:Key="WindowTitle">舵機調試工具</sys:String>
+    <sys:String x:Key="menuLanguage">選擇語言</sys:String>
+
+    <sys:String x:Key="rbControlBoard">控制板協定</sys:String>
+    <sys:String x:Key="rbUBTech">優必選協定</sys:String>
+    <sys:String x:Key="rbHaiLzd">海靈協定</sys:String>
+
+    <sys:String x:Key="lblPort">連接埠:</sys:String>
+    
+    <sys:String x:Key="btnConnect">串口連線</sys:String>
+    <sys:String x:Key="btnNetConnect">網路連線</sys:String>
+    <sys:String x:Key="btnConnectOff">斷開串口</sys:String>
+    <sys:String x:Key="btnNetConnectOff">斷開網路</sys:String>
+
+    <sys:String x:Key="btnExecute">發送執行 (_S)</sys:String>
+    <sys:String x:Key="btnShowCommand">生成指令 (_S)</sys:String>
+    <sys:String x:Key="btnClearLog">清除記錄 (_C)</sys:String>
+    
+    <!-- UcCommand_ControlBoard -->
+    <sys:String x:Key="lblVersionHead">固件版本號:</sys:String>
+    <sys:String x:Key="lblVersion">固件版本號:</sys:String>
+
+    <sys:String x:Key="rbServoMode">檢查舵機模式</sys:String>
+    <sys:String x:Key="rbCommandMode">檢查支援指令類別</sys:String>
+    <sys:String x:Key="rbEnterUSBTTL">進入USB-TTL 模式</sys:String>
+    <sys:String x:Key="rbExitUSBTTL">離開 USB-TTL 模式</sys:String>
+
+
+
+</ResourceDictionary>

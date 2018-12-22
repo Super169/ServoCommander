@@ -5,66 +5,75 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ServoCommander"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="800">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="30"/>
-        </Grid.RowDefinitions>
+        Title="MainWindow" Height="700" Width="800">
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Name="menuItemLanguages" Header="{DynamicResource ResourceKey=menuLanguage}">
+                <MenuItem Header="繁體中文" Tag="zh-HK"  Click="MenuItem_Click"/>
+                <MenuItem Header="简体中文" Tag="zh-CN"  Click="MenuItem_Click"/>
+            </MenuItem>
+        </Menu>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="30"/>
+            </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="300"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <Grid Grid.Column="0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="60"/>
-                    <RowDefinition Height="0"/>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="35"/>
-                </Grid.RowDefinitions>
-                <Grid Name="gridConnection" Grid.Row="0"  Background="Aqua">
-                    <Label Content="連接埠:" HorizontalAlignment="Left" Margin="10,2,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
-                    <ComboBox x:Name="portsComboBox" HorizontalAlignment="Left" Margin="60,2,0,0" VerticalAlignment="Top" Width="80"/>
-                    <Button x:Name="findPortButton" Content="" HorizontalAlignment="Left" Margin="144,2,0,0" VerticalAlignment="Top" Width="25" Click="findPortButton_Click">
-                        <Button.Background>
-                            <ImageBrush ImageSource="images/refresh.png" />
-                        </Button.Background>
-                    </Button>
-                    <Button x:Name="btnConnect" Content="串口連線" HorizontalAlignment="Left" Margin="220,2,0,0" VerticalAlignment="Top" Width="70" Click="btnConnect_Click" FontWeight="Bold"/>
-                    <Label Content="IP:" HorizontalAlignment="Left" Margin="10,30,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
-                    <TextBox Name ="txtIP" HorizontalAlignment="Left" Height="20" Margin="35,34,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="105" PreviewTextInput="tb_PreviewIP" PreviewKeyDown="tb_PreviewKeyDown_nospace" MaxLength="15" />
-                    <Label Content="Port:" HorizontalAlignment="Left" Margin="140,30,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
-                    <TextBox Name ="txtPort" HorizontalAlignment="Left" Height="20" Margin="175,34,0,0" TextWrapping="Wrap" Text="6169" VerticalAlignment="Top" Width="42" PreviewTextInput="tb_PreviewInteger" PreviewKeyDown="tb_PreviewKeyDown_nospace" MaxLength="5"/>
-                    <Button x:Name="btnNetConnect" Content="網路連線" HorizontalAlignment="Left" Margin="220,30,0,0" VerticalAlignment="Top" Width="70" Click="btnNetConnect_Click" FontWeight="Bold" Height="23"/>
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="300"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="60"/>
+                        <RowDefinition Height="0"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="35"/>
+                    </Grid.RowDefinitions>
+                    <Grid Name="gridConnection" Grid.Row="0"  Background="Aqua">
+                        <Label Content="{DynamicResource ResourceKey=lblPort}" HorizontalAlignment="Left" Margin="10,2,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+                        <ComboBox x:Name="portsComboBox" HorizontalAlignment="Left" Margin="60,2,0,0" VerticalAlignment="Top" Width="80"/>
+                        <Button x:Name="findPortButton" Content="" HorizontalAlignment="Left" Margin="144,2,0,0" VerticalAlignment="Top" Width="25" Click="findPortButton_Click">
+                            <Button.Background>
+                                <ImageBrush ImageSource="images/refresh.png" />
+                            </Button.Background>
+                        </Button>
+                        <Button x:Name="btnConnect" Content="{DynamicResource ResourceKey=btnConnect}" HorizontalAlignment="Left" Margin="220,2,0,0" VerticalAlignment="Top" Width="70" Click="btnConnect_Click" FontWeight="Bold"/>
+                        <Label Content="IP:" HorizontalAlignment="Left" Margin="10,30,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+                        <TextBox Name ="txtIP" HorizontalAlignment="Left" Height="20" Margin="35,34,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="105" PreviewTextInput="tb_PreviewIP" PreviewKeyDown="tb_PreviewKeyDown_nospace" MaxLength="15" />
+                        <Label Content="Port:" HorizontalAlignment="Left" Margin="140,30,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+                        <TextBox Name ="txtPort" HorizontalAlignment="Left" Height="20" Margin="175,34,0,0" TextWrapping="Wrap" Text="6169" VerticalAlignment="Top" Width="42" PreviewTextInput="tb_PreviewInteger" PreviewKeyDown="tb_PreviewKeyDown_nospace" MaxLength="5"/>
+                        <Button x:Name="btnNetConnect" Content="{DynamicResource ResourceKey=btnNetConnect}" HorizontalAlignment="Left" Margin="220,30,0,0" VerticalAlignment="Top" Width="70" Click="btnNetConnect_Click" FontWeight="Bold" Height="23"/>
+                    </Grid>
+                    <Grid Grid.Row="2">
+                        <RadioButton x:Name="rbControlBoard" GroupName="CmdType" Content="{DynamicResource ResourceKey=rbControlBoard}" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Checked="rbCommand_Checked"/>
+                        <RadioButton x:Name="rbUBTech" GroupName="CmdType" Content="{DynamicResource ResourceKey=rbUBTech}" HorizontalAlignment="Left" Margin="110,10,0,0" VerticalAlignment="Top" Checked="rbCommand_Checked" IsChecked="True" />
+                        <RadioButton x:Name="rbHaiLzd" GroupName="CmdType" Content="{DynamicResource ResourceKey=rbHaiLzd}" HorizontalAlignment="Left" Margin="210,10,0,0" VerticalAlignment="Top" Checked="rbCommand_Checked"/>
+                    </Grid>
+                    <Grid Name="gridCommand" Grid.Row="3"  Background="LightGreen">
+                    </Grid>
+                    <Grid Grid.Row="4">
+                        <Button Name="btnExecute" Content="{DynamicResource ResourceKey=btnExecute}" HorizontalAlignment="Left" Margin="5,0,0,5" Width="140" Click="btnExecute_Click" FontWeight="Bold" Height="26" VerticalAlignment="Bottom"/>
+                        <Button Name="btnClearLog" Content="{DynamicResource ResourceKey=btnClearLog}" Margin="0,0,5,5" Click="btnClearLog_Click" FontWeight="Bold" HorizontalAlignment="Right" Width="140" Height="26" VerticalAlignment="Bottom"/>
+                    </Grid>
                 </Grid>
-                <Grid Grid.Row="2">
-                    <RadioButton x:Name="rbControlBoard" GroupName="CmdType" Content="控制板協定" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Checked="rbCommand_Checked"/>
-                    <RadioButton x:Name="rbUBTech" GroupName="CmdType" Content="優必選協定" HorizontalAlignment="Left" Margin="110,10,0,0" VerticalAlignment="Top" Checked="rbCommand_Checked" IsChecked="True" />
-                    <RadioButton x:Name="rbHaiLzd" GroupName="CmdType" Content="海靈協定" HorizontalAlignment="Left" Margin="210,10,0,0" VerticalAlignment="Top" Checked="rbCommand_Checked"/>
-                </Grid>
-                <Grid Name="gridCommand" Grid.Row="3"  Background="LightGreen">
-                </Grid>
-                <Grid Grid.Row="4">
-                    <Button Name="btnExecute" Content="發送執行 (_S)" HorizontalAlignment="Left" Margin="5,0,0,5" Width="140" Click="btnExecute_Click" FontWeight="Bold" Height="26" VerticalAlignment="Bottom"/>
-                    <Button Name="btnClearLog" Content="清除記錄 (_C)" Margin="0,0,5,5" Click="btnClearLog_Click" FontWeight="Bold" HorizontalAlignment="Right" Width="140" Height="26" VerticalAlignment="Bottom"/>
-                </Grid>
-            </Grid>
-            <Grid Grid.Column="1">
-                <TextBox Name="txtLog" Margin="0,0,0,0" 
+                <Grid Grid.Column="1">
+                    <TextBox Name="txtLog" Margin="0,0,0,0" 
                          TextWrapping="Wrap" AcceptsReturn="True" IsReadOnly="True"
                          VerticalScrollBarVisibility="Auto" 
                          Text="" />
+                </Grid>
+            </Grid>
+            <Grid Grid.Row="2" Margin="2,2,2,2">
+                <StatusBar x:Name="statusBar" Background="#FF007ACC" Padding="2">
+                    <StatusBarItem HorizontalAlignment="Left">
+                        <TextBlock x:Name="statusInfoTextBlock" Foreground="White" />
+                    </StatusBarItem>
+                </StatusBar>
             </Grid>
         </Grid>
-        <Grid Grid.Row="2" Margin="2,2,2,2">
-            <StatusBar x:Name="statusBar" Background="#FF007ACC" Padding="2">
-                <StatusBarItem HorizontalAlignment="Left">
-                    <TextBlock x:Name="statusInfoTextBlock" Foreground="White" />
-                </StatusBarItem>
-            </StatusBar>
-        </Grid>
-    </Grid>
+    </DockPanel>
+
 </Window>

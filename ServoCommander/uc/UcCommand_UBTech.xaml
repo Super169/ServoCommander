@@ -18,6 +18,8 @@
             </Grid>
             <Grid Height="25">
                 <RadioButton GroupName="servoCommand" Name="rbCheckVersion" Content="檢查舵機版本" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" IsChecked="True"/>
+                <CheckBox x:Name="cbxSupportBroadcast" Content="支援廣播指令" HorizontalAlignment="Left" Margin="198,0,0,0" VerticalAlignment="Top" Foreground="Red" FontWeight="Bold"/>
+
             </Grid>
             <Grid Height="25">
                 <RadioButton GroupName="servoCommand" Name="rbChangeId" Content="更改舵機編號為" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" />
@@ -38,9 +40,19 @@
                 <Label x:Name="lblAngle" Content="0" HorizontalAlignment="Left" Margin="265,2,0,0" VerticalAlignment="Top" Width="33" />
             </Grid>
             <Grid Height="25">
+                <RadioButton GroupName="servoCommand" Name="rbRotate" Content="連續轉動:" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top"/>
+                <Label Content="方向: " HorizontalAlignment="Left" Margin="87,-5,0,0" VerticalAlignment="Top"  />
+                <ComboBox x:Name="cboRotateDirection" HorizontalAlignment="Left" Margin="122,-3,0,0" VerticalAlignment="Top" Width="63" Height="23">
+                    <ComboBoxItem IsSelected="True">順時針</ComboBoxItem>
+                    <ComboBoxItem>逆時針</ComboBoxItem>
+                </ComboBox>
+                <Label Content="轉動速度: " HorizontalAlignment="Left" Margin="183,-5,0,0" VerticalAlignment="Top"/>
+                <TextBox Name="txtRotateSpeed" HorizontalAlignment="Left" Height="23" Margin="240,-3,0,0" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="50" PreviewTextInput="tb_PreviewInteger" PreviewKeyDown="tb_PreviewKeyDown_nospace" CharacterCasing="Upper" MaxLength="4"/>
+            </Grid>
+            <Grid Height="25">
                 <RadioButton GroupName="servoCommand" Name="rbGetAdjAngle" Content="讀取舵機角度偏移校正" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top"/>
             </Grid>
-            <Grid Height="90" Visibility="Visible">
+            <Grid Height="80" Visibility="Visible">
                 <RadioButton GroupName="servoCommand" Name="rbSetAdjAngle" Content="設定舵機角度偏移量:" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" Foreground="#FF780505" FontWeight="Bold"/>
                 <TextBox Name="txtAdjAngle" HorizontalAlignment="Left" Height="23" Margin="147,-3,0,0" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="40" PreviewTextInput="tb_PreviewHex" PreviewKeyDown="tb_PreviewKeyDown_nospace" CharacterCasing="Upper" MaxLength="4" LostFocus="adjAngle_Changed"/>
                 <TextBox Name="txtAdjMsg" HorizontalAlignment="Left" Height="23" Margin="197,-3,0,0" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="93" IsReadOnly="True" Background="LightBlue"/>
@@ -62,8 +74,8 @@
             </Grid>
             <Grid Height="80">
                 <RadioButton GroupName="servoCommand" Name="rbFreeInput" Content="執行以下指令 (不用輸入首尾碼 FA AF 及 ED)" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top"/>
-                <TextBox Name="txtCommand" Height="23" Margin="29,25,10,0" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" TextChanged="txtCommand_TextChanged" PreviewTextInput="tb_PreviewCommand" />
-                <TextBox Name="txtPreview" Height="23" Margin="29,55,10,0" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" IsReadOnly="true" Background="LightBlue"/>
+                <TextBox Name="txtCommand" Height="23" Margin="29,20,10,0" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" TextChanged="txtCommand_TextChanged" PreviewTextInput="tb_PreviewCommand" />
+                <TextBox Name="txtPreview" Height="23" Margin="29,50,10,0" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" IsReadOnly="true" Background="LightBlue"/>
             </Grid>
             <Grid Height="25">
             </Grid>

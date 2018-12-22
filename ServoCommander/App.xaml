@@ -4,6 +4,10 @@
              xmlns:local="clr-namespace:ServoCommander"
              Startup="Application_Startup" Exit="Application_Exit">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="i18N/ServoCommander.zh-CN.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>         
     </Application.Resources>
 </Application>

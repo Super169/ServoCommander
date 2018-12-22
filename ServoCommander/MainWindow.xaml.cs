@@ -30,6 +30,14 @@ namespace ServoCommander
         public MainWindow()
         {
             InitializeComponent();
+
+            LocUtil.SetDefaultLanguage(this);
+
+            foreach (System.Windows.Controls.MenuItem item in menuItemLanguages.Items)
+            {
+                if (item.Tag.ToString().Equals(LocUtil.GetCurrentCultureName(this))) item.IsChecked = true;
+            }
+
             robot.InitObject(UpdateInfo);
             robot.SetSerialPorts(portsComboBox);
             robot.SetNetConnection(txtIP, txtPort);
@@ -95,24 +103,20 @@ namespace ServoCommander
 
             if (connected)
             {
-                btnConnect.Content = "斷開串口";
-                btnNetConnect.Content = "斷開網路";
                 btnConnect.IsEnabled = (robot.currMode == RobotConnection.connMode.Serial);
                 btnNetConnect.IsEnabled = (robot.currMode == RobotConnection.connMode.Network);
             }
             else
             {
-                btnConnect.Content = "串口連接";
                 btnConnect.IsEnabled = true;
-                btnNetConnect.Content = "網路連接";
                 btnNetConnect.IsEnabled = true;
             }
 
             gridConnection.Background = new SolidColorBrush(connected ? Colors.LightBlue : Colors.LightGray);
             gridCommand.IsEnabled = true;  // allow to test command all the time
             gridCommand.Background = new SolidColorBrush(connected ? Colors.LightGreen : Colors.LightSalmon);
-            btnExecute.Content = (connected ? "發送指令 (_S)" : "生成指令 (_S)");
             ucCommand.ConnectionChanged();
+            SetButtonLabel();
         }
 
         private enum CT
@@ -223,6 +227,27 @@ namespace ServoCommander
         private void btnClearLog_Click(object sender, RoutedEventArgs e)
         {
             txtLog.Text = "";
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (System.Windows.Controls.MenuItem item in menuItemLanguages.Items)
+            {
+                item.IsChecked = false;
+            }
+
+            System.Windows.Controls.MenuItem mi = sender as System.Windows.Controls.MenuItem;
+            mi.IsChecked = true;
+            LocUtil.SwitchLanguage(this, mi.Tag.ToString());
+            SetButtonLabel();
+        }
+
+        private void SetButtonLabel()
+        {
+            bool connected = robot.isConnected;
+            btnConnect.Content = (string)FindResource(connected ? "btnConnectOff" : "btnConnect");
+            btnNetConnect.Content = (string)FindResource(connected ? "btnNetConnectOff" : "btnNetConnect");
+            btnExecute.Content = (string) FindResource(connected ? "btnExecute" : "btnShowCommand");
         }
     }
 }

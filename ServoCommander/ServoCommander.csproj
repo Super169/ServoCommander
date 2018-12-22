@@ -60,6 +60,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="CONST.cs" />
+    <Compile Include="LocUtil.cs" />
     <Compile Include="uc\UcCommand_ControlBoard.xaml.cs">
       <DependentUpon>UcCommand_ControlBoard.xaml</DependentUpon>
     </Compile>
@@ -72,6 +73,16 @@
       <DependentUpon>UcCommand_UBTech.xaml</DependentUpon>
     </Compile>
     <Compile Include="uc\UcCommand__base.cs" />
+    <Content Include="i18N\ServoCommander.zh-CN.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="i18N\ServoCommander.zh-HK.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
