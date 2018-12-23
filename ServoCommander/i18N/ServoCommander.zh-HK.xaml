@@ -2,15 +2,25 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
     <sys:String x:Key="ResourceDictoinaryName">Loc-zh-HK</sys:String>
-    <sys:String x:Key="WindowTitle">舵機調試工具</sys:String>
-    <sys:String x:Key="menuLanguage">選擇語言</sys:String>
 
-    <sys:String x:Key="rbControlBoard">控制板協定</sys:String>
-    <sys:String x:Key="rbUBTech">優必選協定</sys:String>
-    <sys:String x:Key="rbHaiLzd">海靈協定</sys:String>
+    <!-- 
+        Syntax to use in xaml:  Content="{DynamicResource ResourceKey=<id>}"
+   
+        Syntax to use in program: variable = (string)FindResource("<id>");
+    
+    -->
+
+    <sys:String x:Key="WindowTitle">舵機調試工具</sys:String>
+    <sys:String x:Key="miSettings">設定</sys:String>
+    <sys:String x:Key="miLanguage">語言</sys:String>
+
+    <sys:String x:Key="miFunctionMenu">轉換版面</sys:String>
+    <sys:String x:Key="miControlBoard">控制板協定</sys:String>
+    <sys:String x:Key="miUBTech">優必選/總線電機協定</sys:String>
+    <sys:String x:Key="miHaiLzd">海靈協定</sys:String>
 
     <sys:String x:Key="lblPort">連接埠:</sys:String>
-    
+
     <sys:String x:Key="btnConnect">串口連線</sys:String>
     <sys:String x:Key="btnNetConnect">網路連線</sys:String>
     <sys:String x:Key="btnConnectOff">斷開串口</sys:String>
@@ -19,7 +29,7 @@
     <sys:String x:Key="btnExecute">發送執行 (_S)</sys:String>
     <sys:String x:Key="btnShowCommand">生成指令 (_S)</sys:String>
     <sys:String x:Key="btnClearLog">清除記錄 (_C)</sys:String>
-    
+
     <!-- UcCommand_ControlBoard -->
     <sys:String x:Key="lblVersionHead">固件版本號:</sys:String>
     <sys:String x:Key="lblVersion">固件版本號:</sys:String>
@@ -28,6 +38,59 @@
     <sys:String x:Key="rbCommandMode">檢查支援指令類別</sys:String>
     <sys:String x:Key="rbEnterUSBTTL">進入USB-TTL 模式</sys:String>
     <sys:String x:Key="rbExitUSBTTL">離開 USB-TTL 模式</sys:String>
+
+    <!-- UBT -->
+    <sys:String x:Key="ubt.lblServoId">舵機編號:</sys:String>
+    <sys:String x:Key="ubt.lblMaxId">最大編號:</sys:String>
+    <sys:String x:Key="ubt.btnCheckId">檢查 (_Z)</sys:String>
+
+    <sys:String x:Key="ubt.rbCheckVersion">檢查舵機版本</sys:String>
+    <sys:String x:Key="ubt.cbxSupportBroadcast">支援廣播指令</sys:String>
+    <sys:String x:Key="ubt.rbChangeId">更改舵機編號為</sys:String>
+    <sys:String x:Key="ubt.rbGetAngle">讀取舵機角度</sys:String>
+    
+    <sys:String x:Key="ubt.rbMove">移動舵機:</sys:String>
+    <sys:String x:Key="ubt.lblMoveAngle">目標角度:</sys:String>
+    <sys:String x:Key="ubt.lblMoveTime">移動時間:</sys:String>
+
+    <sys:String x:Key="ubt.rbRotate">連續轉動:</sys:String>
+    <sys:String x:Key="ubt.lblMoveDirection">方向:</sys:String>
+    <sys:String x:Key="ubt.cboItemClockwise">順時針</sys:String>
+    <sys:String x:Key="ubt.cboItemCounterclockwise">逆時針</sys:String>
+    <sys:String x:Key="ubt.lblRotateSpeed">轉動速度:</sys:String>
+
+    <sys:String x:Key="ubt.rbGetAdjAngle">讀取舵機角度偏移校正</sys:String>
+    <sys:String x:Key="ubt.rbSetAdjAngle">設定舵機角度偏移量:</sys:String>
+    <sys:String x:Key="ubt.lblSuccessMove">成功設定後, 把舵機移動到</sys:String>
+    <sys:String x:Key="ubt.lblSuccessMoveEnd">度進行對位.</sys:String>
+    
+    <sys:String x:Key="ubt.rbAutoAdjAngle">設定當前位置為</sys:String>
+    <sys:String x:Key="ubt.lblAutoAdjDelta">度, 微調量:</sys:String>
+
+    <sys:String x:Key="ubt.rbFreeInput">執行以下指令 (不用輸入首尾碼 FA AF 及 ED)</sys:String>
+
+    <!-- HaiLzd -->
+    <sys:String x:Key="hailzd.lblServoId">舵機編號:</sys:String>
+    <sys:String x:Key="hailzd.lblMaxId">最大編號:</sys:String>
+    <sys:String x:Key="hailzd.btnCheckId">檢查 (_Z)</sys:String>
+
+    <sys:String x:Key="hailzd.rbCheckVersion">檢查舵機版本</sys:String>
+
+
+    <sys:String x:Key="hailzd.rbChangeId">更改舵機編號為</sys:String>
+    <sys:String x:Key="hailzd.rbUnlock">舵機解鎖 (釋放扭力)</sys:String>
+    <sys:String x:Key="hailzd.rbLock">鎖緊舵機 (恢復扭力)</sys:String>
+    <sys:String x:Key="hailzd.rbGetAngle">讀取舵機模式及位置</sys:String>
+    <sys:String x:Key="hailzd.rbSetAdj">直接設定舵機修正</sys:String>
+    <sys:String x:Key="hailzd.rbMovePWM">移動舵機:</sys:String>
+    <sys:String x:Key="hailzd.lblMovePosition">位置值:</sys:String>
+    <sys:String x:Key="hailzd.lblMoveTime">移動時間:</sys:String>
+    <sys:String x:Key="hailzd.rbSetPWM">設定當前位置值為</sys:String>
+    <sys:String x:Key="hailzd.rbMoveAngle">移動舵機:</sys:String>
+    <sys:String x:Key="hailzd.lblMoveAngleAngle">角度:</sys:String>
+    <sys:String x:Key="hailzd.lblMoveAnglgeTime">移動時間:</sys:String>
+    <sys:String x:Key="hailzd.rbSetAngle">設定當前角度為</sys:String>
+    <sys:String x:Key="hailzd.rbFreeInput">指令</sys:String>
 
 
 

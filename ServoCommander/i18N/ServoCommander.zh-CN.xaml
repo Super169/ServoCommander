@@ -3,11 +3,13 @@
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
     <sys:String x:Key="ResourceDictoinaryName">Loc-zh-CN</sys:String>
     <sys:String x:Key="WindowTitle">舵机调试工具</sys:String>
-    <sys:String x:Key="menuLanguage">选择语言</sys:String>
+    <sys:String x:Key="miSettings">设定</sys:String>
+    <sys:String x:Key="miLanguage">语言</sys:String>
 
-    <sys:String x:Key="rbControlBoard">控制板协定</sys:String>
-    <sys:String x:Key="rbUBTech">优必选协定</sys:String>
-    <sys:String x:Key="rbHaiLzd">海灵协定</sys:String>
+    <sys:String x:Key="miFunctionMenu">转换版面</sys:String>
+    <sys:String x:Key="miControlBoard">控制板协定</sys:String>
+    <sys:String x:Key="miUBTech">优必选/总线电机协定</sys:String>
+    <sys:String x:Key="miHaiLzd">海灵协定</sys:String>
 
     <sys:String x:Key="lblPort">连接埠:</sys:String>
 
@@ -28,5 +30,57 @@
     <sys:String x:Key="rbCommandMode">检查支援指令类别</sys:String>
     <sys:String x:Key="rbEnterUSBTTL">进入USB-TTL 模式</sys:String>
     <sys:String x:Key="rbExitUSBTTL">离开 USB-TTL 模式</sys:String>
-    
+
+    <!-- UBT -->
+    <sys:String x:Key="ubt.lblServoId">舵机编号:</sys:String>
+    <sys:String x:Key="ubt.lblMaxId">最大编号:</sys:String>
+    <sys:String x:Key="ubt.btnCheckId">检查 (_Z)</sys:String>
+
+    <sys:String x:Key="ubt.rbCheckVersion">检查舵机版本</sys:String>
+    <sys:String x:Key="ubt.cbxSupportBroadcast">支援广播指令</sys:String>
+    <sys:String x:Key="ubt.rbChangeId">更改舵机编号为</sys:String>
+    <sys:String x:Key="ubt.rbGetAngle">读取舵机角度</sys:String>
+    <sys:String x:Key="ubt.rbMove">移动舵机:</sys:String>
+    <sys:String x:Key="ubt.lblMoveAngle">目标角度:</sys:String>
+    <sys:String x:Key="ubt.lblMoveTime">移动时间:</sys:String>
+    <sys:String x:Key="ubt.rbRotate">连续转动:</sys:String>
+    <sys:String x:Key="ubt.lblMoveDirection">方向:</sys:String>
+    <sys:String x:Key="ubt.cboItemClockwise">顺时针</sys:String>
+    <sys:String x:Key="ubt.cboItemCounterclockwise">逆时针</sys:String>
+
+
+    <sys:String x:Key="ubt.lblRotateSpeed">转动速度:</sys:String>
+    <sys:String x:Key="ubt.rbGetAdjAngle">读取舵机角度偏移校正</sys:String>
+    <sys:String x:Key="ubt.rbSetAdjAngle">设定舵机角度偏移量:</sys:String>
+    <sys:String x:Key="ubt.lblSuccessMove">成功设定後, 把舵机移动到</sys:String>
+    <sys:String x:Key="ubt.lblSuccessMoveEnd">度进行对位.</sys:String>
+    <sys:String x:Key="ubt.rbAutoAdjAngle">设定当前位置为</sys:String>
+    <sys:String x:Key="ubt.lblAutoAdjDelta">度, 微调量:</sys:String>
+
+    <sys:String x:Key="ubt.rbFreeInput">执行以下指令 (不用输入首尾码 FA AF 及 ED)</sys:String>
+
+    <!-- HaiLzd -->
+    <sys:String x:Key="hailzd.lblServoId">舵机编号:</sys:String>
+    <sys:String x:Key="hailzd.lblMaxId">最大编号:</sys:String>
+    <sys:String x:Key="hailzd.btnCheckId">检查 (_Z)</sys:String>
+
+    <sys:String x:Key="hailzd.rbCheckVersion">检查舵机版本</sys:String>
+
+
+    <sys:String x:Key="hailzd.rbChangeId">更改舵机编号为</sys:String>
+    <sys:String x:Key="hailzd.rbUnlock">舵机解锁 (释放扭力)</sys:String>
+    <sys:String x:Key="hailzd.rbLock">锁紧舵机 (恢复扭力)</sys:String>
+    <sys:String x:Key="hailzd.rbGetAngle">读取舵机模式及位置</sys:String>
+    <sys:String x:Key="hailzd.rbSetAdj">直接设定舵机修正</sys:String>
+    <sys:String x:Key="hailzd.rbMovePWM">移动舵机:</sys:String>
+    <sys:String x:Key="hailzd.lblMovePosition">位置值:</sys:String>
+    <sys:String x:Key="hailzd.lblMoveTime">移动时间:</sys:String>
+    <sys:String x:Key="hailzd.rbSetPWM">设定当前位置值为</sys:String>
+    <sys:String x:Key="hailzd.rbMoveAngle">移动舵机:</sys:String>
+    <sys:String x:Key="hailzd.lblMoveAngleAngle">角度:</sys:String>
+    <sys:String x:Key="hailzd.lblMoveAnglgeTime">移动时间:</sys:String>
+    <sys:String x:Key="hailzd.rbSetAngle">设定当前角度为</sys:String>
+    <sys:String x:Key="hailzd.rbFreeInput">指令</sys:String>
+
+
 </ResourceDictionary>

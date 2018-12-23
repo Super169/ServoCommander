@@ -5,12 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ServoCommander"
         mc:Ignorable="d"
-        Title="MainWindow" Height="700" Width="800">
+        Title="MainWindow" Height="600" Width="800">
     <DockPanel>
         <Menu DockPanel.Dock="Top">
-            <MenuItem Name="menuItemLanguages" Header="{DynamicResource ResourceKey=menuLanguage}">
-                <MenuItem Header="繁體中文" Tag="zh-HK"  Click="MenuItem_Click"/>
-                <MenuItem Header="简体中文" Tag="zh-CN"  Click="MenuItem_Click"/>
+            <MenuItem Name="miFunctionMenu" Header="{DynamicResource ResourceKey=miFunctionMenu}">
+                <MenuItem Name="miControlBoard" Header="{DynamicResource ResourceKey=miControlBoard}" Click="miFunctionMenu_Click"/>
+                <MenuItem Name="miUBTech" Header="{DynamicResource ResourceKey=miUBTech}" Click="miFunctionMenu_Click"/>
+                <MenuItem Name="miHaiLzd" Header="{DynamicResource ResourceKey=miHaiLzd}" Click="miFunctionMenu_Click"/>
+            </MenuItem>
+
+            <MenuItem Name="miSettings" Header="{DynamicResource ResourceKey=miSettings}">
+                <MenuItem Name="miLanguages" Header="{DynamicResource ResourceKey=miLanguage}">
+                    <MenuItem Header="繁體中文" Tag="zh-HK"  Click="miLanguages_Click"/>
+                    <MenuItem Header="简体中文" Tag="zh-CN"  Click="miLanguages_Click"/>
+                </MenuItem>
             </MenuItem>
         </Menu>
         <Grid>
@@ -28,7 +36,6 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="60"/>
                         <RowDefinition Height="0"/>
-                        <RowDefinition Height="30"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="35"/>
                     </Grid.RowDefinitions>
@@ -47,14 +54,16 @@
                         <TextBox Name ="txtPort" HorizontalAlignment="Left" Height="20" Margin="175,34,0,0" TextWrapping="Wrap" Text="6169" VerticalAlignment="Top" Width="42" PreviewTextInput="tb_PreviewInteger" PreviewKeyDown="tb_PreviewKeyDown_nospace" MaxLength="5"/>
                         <Button x:Name="btnNetConnect" Content="{DynamicResource ResourceKey=btnNetConnect}" HorizontalAlignment="Left" Margin="220,30,0,0" VerticalAlignment="Top" Width="70" Click="btnNetConnect_Click" FontWeight="Bold" Height="23"/>
                     </Grid>
+                    <!-- 
                     <Grid Grid.Row="2">
                         <RadioButton x:Name="rbControlBoard" GroupName="CmdType" Content="{DynamicResource ResourceKey=rbControlBoard}" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Checked="rbCommand_Checked"/>
                         <RadioButton x:Name="rbUBTech" GroupName="CmdType" Content="{DynamicResource ResourceKey=rbUBTech}" HorizontalAlignment="Left" Margin="110,10,0,0" VerticalAlignment="Top" Checked="rbCommand_Checked" IsChecked="True" />
                         <RadioButton x:Name="rbHaiLzd" GroupName="CmdType" Content="{DynamicResource ResourceKey=rbHaiLzd}" HorizontalAlignment="Left" Margin="210,10,0,0" VerticalAlignment="Top" Checked="rbCommand_Checked"/>
                     </Grid>
-                    <Grid Name="gridCommand" Grid.Row="3"  Background="LightGreen">
+                    -->
+                    <Grid Name="gridCommand" Grid.Row="2"  Background="LightGreen">
                     </Grid>
-                    <Grid Grid.Row="4">
+                    <Grid Grid.Row="3">
                         <Button Name="btnExecute" Content="{DynamicResource ResourceKey=btnExecute}" HorizontalAlignment="Left" Margin="5,0,0,5" Width="140" Click="btnExecute_Click" FontWeight="Bold" Height="26" VerticalAlignment="Bottom"/>
                         <Button Name="btnClearLog" Content="{DynamicResource ResourceKey=btnClearLog}" Margin="0,0,5,5" Click="btnClearLog_Click" FontWeight="Bold" HorizontalAlignment="Right" Width="140" Height="26" VerticalAlignment="Bottom"/>
                     </Grid>

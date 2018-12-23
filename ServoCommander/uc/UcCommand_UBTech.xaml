@@ -10,29 +10,29 @@
         <StackPanel>
             <Grid Height="10" />
             <Grid Height="30">
-                <Label Content="舵機編號:" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+                <Label Content="{DynamicResource ResourceKey=ubt.lblServoId}" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
                 <TextBox Name ="txtId" HorizontalAlignment="Left" Height="23" Margin="70,2,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="35" PreviewTextInput="tb_PreviewInteger" PreviewKeyDown="tb_PreviewKeyDown_nospace" MaxLength="2" />
-                <Label Content="最大編號:" HorizontalAlignment="Left" Margin="120,0,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+                <Label Content="{DynamicResource ResourceKey=ubt.lblMaxId}" HorizontalAlignment="Left" Margin="120,0,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
                 <TextBox Name ="txtMaxId" HorizontalAlignment="Left" Height="23" Margin="180,2,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="35" PreviewTextInput="tb_PreviewInteger" PreviewKeyDown="tb_PreviewKeyDown_nospace" MaxLength="2"/>
-                <Button Name="btnCheckID" Content="檢查 (_Z)" HorizontalAlignment="Left" Margin="222,0,0,0" VerticalAlignment="Top" Width="68" Click="btnCheckID_Click" Height="26" FontWeight="Bold"/>
+                <Button Name="btnCheckID" Content="{DynamicResource ResourceKey=ubt.btnCheckId}" HorizontalAlignment="Left" Margin="222,0,0,0" VerticalAlignment="Top" Width="68" Click="btnCheckID_Click" Height="26" FontWeight="Bold"/>
             </Grid>
             <Grid Height="25">
-                <RadioButton GroupName="servoCommand" Name="rbCheckVersion" Content="檢查舵機版本" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" IsChecked="True"/>
-                <CheckBox x:Name="cbxSupportBroadcast" Content="支援廣播指令" HorizontalAlignment="Left" Margin="198,0,0,0" VerticalAlignment="Top" Foreground="Red" FontWeight="Bold"/>
+                <RadioButton GroupName="servoCommand" Name="rbCheckVersion" Content="{DynamicResource ResourceKey=ubt.rbCheckVersion}" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" IsChecked="True"/>
+                <CheckBox x:Name="cbxSupportBroadcast" Content="{DynamicResource ResourceKey=ubt.cbxSupportBroadcast}" HorizontalAlignment="Left" Margin="198,0,0,0" VerticalAlignment="Top" Foreground="Red" FontWeight="Bold"/>
 
             </Grid>
             <Grid Height="25">
-                <RadioButton GroupName="servoCommand" Name="rbChangeId" Content="更改舵機編號為" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" />
+                <RadioButton GroupName="servoCommand" Name="rbChangeId" Content="{DynamicResource ResourceKey=ubt.rbChangeId}" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" />
                 <TextBox Name ="txtNewId" HorizontalAlignment="Left" Height="23" Margin="120,-5,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="35" PreviewTextInput="tb_PreviewInteger" PreviewKeyDown="tb_PreviewKeyDown_nospace" MaxLength="2"/>
             </Grid>
             <Grid Height="25">
-                <RadioButton GroupName="servoCommand" Name="rbGetAngle" Content="讀取舵機角度" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top"/>
+                <RadioButton GroupName="servoCommand" Name="rbGetAngle" Content="{DynamicResource ResourceKey=ubt.rbGetAngle}" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top"/>
             </Grid>
             <Grid Height="25">
-                <RadioButton GroupName="servoCommand" Name="rbMove" Content="移動舵機:" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top"/>
-                <Label Content="目標角度: " HorizontalAlignment="Left" Margin="87,-5,0,0" VerticalAlignment="Top"  />
+                <RadioButton GroupName="servoCommand" Name="rbMove" Content="{DynamicResource ResourceKey=ubt.rbMove}" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top"/>
+                <Label Content="{DynamicResource ResourceKey=ubt.lblMoveAngle}" HorizontalAlignment="Left" Margin="87,-5,0,0" VerticalAlignment="Top"  />
                 <TextBox Name="txtMoveAngle" HorizontalAlignment="Left" Height="23" Margin="145,-3,0,0" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="40" PreviewTextInput="tb_PreviewInteger" PreviewKeyDown="tb_PreviewKeyDown_nospace" CharacterCasing="Upper" MaxLength="3"/>
-                <Label Content="移動時間: " HorizontalAlignment="Left" Margin="183,-5,0,0" VerticalAlignment="Top"/>
+                <Label Content="{DynamicResource ResourceKey=ubt.lblMoveTime}" HorizontalAlignment="Left" Margin="183,-5,0,0" VerticalAlignment="Top"/>
                 <TextBox Name="txtMoveTime" HorizontalAlignment="Left" Height="23" Margin="240,-3,0,0" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="50" PreviewTextInput="tb_PreviewInteger" PreviewKeyDown="tb_PreviewKeyDown_nospace" CharacterCasing="Upper" MaxLength="4"/>
             </Grid>
             <Grid Height="30">
@@ -40,31 +40,31 @@
                 <Label x:Name="lblAngle" Content="0" HorizontalAlignment="Left" Margin="265,2,0,0" VerticalAlignment="Top" Width="33" />
             </Grid>
             <Grid Height="25">
-                <RadioButton GroupName="servoCommand" Name="rbRotate" Content="連續轉動:" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top"/>
-                <Label Content="方向: " HorizontalAlignment="Left" Margin="87,-5,0,0" VerticalAlignment="Top"  />
+                <RadioButton GroupName="servoCommand" Name="rbRotate" Content="{DynamicResource ResourceKey=ubt.rbRotate}" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top"/>
+                <Label Content="{DynamicResource ResourceKey=ubt.lblMoveDirection}" HorizontalAlignment="Left" Margin="87,-5,0,0" VerticalAlignment="Top"  />
                 <ComboBox x:Name="cboRotateDirection" HorizontalAlignment="Left" Margin="122,-3,0,0" VerticalAlignment="Top" Width="63" Height="23">
-                    <ComboBoxItem IsSelected="True">順時針</ComboBoxItem>
-                    <ComboBoxItem>逆時針</ComboBoxItem>
+                    <ComboBoxItem IsSelected="True" Content="{DynamicResource ResourceKey=ubt.cboItemClockwise}" />
+                    <ComboBoxItem Content="{DynamicResource ResourceKey=ubt.cboItemCounterclockwise}" />
                 </ComboBox>
-                <Label Content="轉動速度: " HorizontalAlignment="Left" Margin="183,-5,0,0" VerticalAlignment="Top"/>
+                <Label Content="{DynamicResource ResourceKey=ubt.lblRotateSpeed}" HorizontalAlignment="Left" Margin="183,-5,0,0" VerticalAlignment="Top"/>
                 <TextBox Name="txtRotateSpeed" HorizontalAlignment="Left" Height="23" Margin="240,-3,0,0" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="50" PreviewTextInput="tb_PreviewInteger" PreviewKeyDown="tb_PreviewKeyDown_nospace" CharacterCasing="Upper" MaxLength="4"/>
             </Grid>
             <Grid Height="25">
-                <RadioButton GroupName="servoCommand" Name="rbGetAdjAngle" Content="讀取舵機角度偏移校正" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top"/>
+                <RadioButton GroupName="servoCommand" Name="rbGetAdjAngle" Content="{DynamicResource ResourceKey=ubt.rbGetAdjAngle}" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top"/>
             </Grid>
             <Grid Height="80" Visibility="Visible">
-                <RadioButton GroupName="servoCommand" Name="rbSetAdjAngle" Content="設定舵機角度偏移量:" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" Foreground="#FF780505" FontWeight="Bold"/>
+                <RadioButton GroupName="servoCommand" Name="rbSetAdjAngle" Content="{DynamicResource ResourceKey=ubt.rbSetAdjAngle}" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" Foreground="#FF780505" FontWeight="Bold"/>
                 <TextBox Name="txtAdjAngle" HorizontalAlignment="Left" Height="23" Margin="147,-3,0,0" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="40" PreviewTextInput="tb_PreviewHex" PreviewKeyDown="tb_PreviewKeyDown_nospace" CharacterCasing="Upper" MaxLength="4" LostFocus="adjAngle_Changed"/>
                 <TextBox Name="txtAdjMsg" HorizontalAlignment="Left" Height="23" Margin="197,-3,0,0" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="93" IsReadOnly="True" Background="LightBlue"/>
                 <Slider Name="sliderAdjValue" HorizontalAlignment="Left" Margin="29,30,0,0" VerticalAlignment="Top" Width="261" Minimum="-304" Maximum="304" ValueChanged="sliderAdjValue_ValueChanged" />
-                <Label Content="成功設定後, 把舵機移動到" HorizontalAlignment="Left" Margin="28,50,0,0" VerticalAlignment="Top"/>
+                <Label Content="{DynamicResource ResourceKey=ubt.lblSuccessMove}" HorizontalAlignment="Left" Margin="28,50,0,0" VerticalAlignment="Top"/>
                 <TextBox Name="txtAdjPreview" HorizontalAlignment="Left" Height="23" Margin="177,52,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="34" PreviewTextInput="tb_PreviewInteger" PreviewKeyDown="tb_PreviewKeyDown_nospace" CharacterCasing="Upper" MaxLength="4"/>
-                <Label Content="度進行對位." HorizontalAlignment="Left" Margin="218,50,0,0" VerticalAlignment="Top"/>
+                <Label Content="{DynamicResource ResourceKey=ubt.lblSuccessMoveEnd}" HorizontalAlignment="Left" Margin="218,50,0,0" VerticalAlignment="Top"/>
             </Grid>
             <Grid Height="25">
-                <RadioButton GroupName="servoCommand" Name="rbAutoAdjAngle" Content="設定當前位置為" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top"  Foreground="#FF780505" FontWeight="Bold"/>
+                <RadioButton GroupName="servoCommand" Name="rbAutoAdjAngle" Content="{DynamicResource ResourceKey=ubt.rbAutoAdjAngle}" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top"  Foreground="#FF780505" FontWeight="Bold"/>
                 <TextBox Name="txtAutoAdjAngle" HorizontalAlignment="Left" Height="23" Margin="120,-3,0,0" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="40" PreviewTextInput="tb_PreviewInteger" PreviewKeyDown="tb_PreviewKeyDown_nospace" CharacterCasing="Upper" MaxLength="3"/>
-                <Label Content="度, 微调量:" HorizontalAlignment="Left" Margin="160,-5,0,0" VerticalAlignment="Top"  Foreground="#FF780505" FontWeight="Bold"/>
+                <Label Content="{DynamicResource ResourceKey=ubt.lblAutoAdjDelta}" HorizontalAlignment="Left" Margin="160,-5,0,0" VerticalAlignment="Top"  Foreground="#FF780505" FontWeight="Bold"/>
                 <ComboBox x:Name="cboAutoAdjDelta" HorizontalAlignment="Left" Margin="230,-3,0,0" VerticalAlignment="Top" Width="40" Height="23">
                     <ComboBoxItem IsSelected="True">0</ComboBoxItem>
                     <ComboBoxItem>1</ComboBoxItem>
@@ -73,7 +73,7 @@
 
             </Grid>
             <Grid Height="80">
-                <RadioButton GroupName="servoCommand" Name="rbFreeInput" Content="執行以下指令 (不用輸入首尾碼 FA AF 及 ED)" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top"/>
+                <RadioButton GroupName="servoCommand" Name="rbFreeInput" Content="{DynamicResource ResourceKey=ubt.rbFreeInput}" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top"/>
                 <TextBox Name="txtCommand" Height="23" Margin="29,20,10,0" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" TextChanged="txtCommand_TextChanged" PreviewTextInput="tb_PreviewCommand" />
                 <TextBox Name="txtPreview" Height="23" Margin="29,50,10,0" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" IsReadOnly="true" Background="LightBlue"/>
             </Grid>

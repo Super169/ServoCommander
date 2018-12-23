@@ -337,8 +337,10 @@ namespace ServoCommander.uc
             byte angle;
             byte[] buffer;
             if (!UBTGetAngle(id, out angle, out buffer)) return;
-            string result = String.Format("舵機角度:  目前為: {0:X2} {1:X2} ({1}度), 實際為: {2:X2} {3:X2} ({3}度)\n",
-                                          buffer[4], buffer[5], buffer[6], buffer[7]);
+            int iAngle = (buffer[4] << 8) | buffer[5];
+            int iActual = (buffer[6] << 8) | buffer[7];
+            string result = String.Format("舵機角度:  目前為: {0:X2} {1:X2} ({2}度), 實際為: {3:X2} {4:X2} ({5}度)\n",
+                                          buffer[4], buffer[5], iAngle, buffer[6], buffer[7], iActual);
             // string hexAngle = String.Format("{0:X2}", buffer[7]);
             //txtAdjPreview.Text = buffer[7].ToString();
             //txtAutoAdjAngle.Text = buffer[7].ToString();

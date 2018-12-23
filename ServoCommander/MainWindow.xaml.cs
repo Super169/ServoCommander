@@ -33,7 +33,7 @@ namespace ServoCommander
 
             LocUtil.SetDefaultLanguage(this);
 
-            foreach (System.Windows.Controls.MenuItem item in menuItemLanguages.Items)
+            foreach (System.Windows.Controls.MenuItem item in miLanguages.Items)
             {
                 if (item.Tag.ToString().Equals(LocUtil.GetCurrentCultureName(this))) item.IsChecked = true;
             }
@@ -129,9 +129,14 @@ namespace ServoCommander
 
         private CT getCommandType()
         {
+            if (miUBTech.IsChecked == true) return CT.UBTech;
+            if (miHaiLzd.IsChecked == true) return CT.HaiLzd;
+            return CT.ControlBoard;
+            /*
             if (rbUBTech.IsChecked == true) return CT.UBTech;
             if (rbHaiLzd.IsChecked == true) return CT.HaiLzd;
             return CT.ControlBoard;
+            */
 
         }
 
@@ -143,13 +148,16 @@ namespace ServoCommander
             switch (lastType)
             {
                 case "UBTech":
-                    rbUBTech.IsChecked = true;
+                    miUBTech.IsChecked = true;
+                    // rbUBTech.IsChecked = true;
                     break;
                 case "HaiLzd":
-                    rbHaiLzd.IsChecked = true;
+                    miHaiLzd.IsChecked = true;
+                    // rbHaiLzd.IsChecked = true;
                     break;
                 default:
-                    rbControlBoard.IsChecked = true;
+                    miControlBoard.IsChecked = true;
+                    // rbControlBoard.IsChecked = true;
                     break;
             }
             SetCommandPanel();
@@ -229,9 +237,9 @@ namespace ServoCommander
             txtLog.Text = "";
         }
 
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        private void miLanguages_Click(object sender, RoutedEventArgs e)
         {
-            foreach (System.Windows.Controls.MenuItem item in menuItemLanguages.Items)
+            foreach (System.Windows.Controls.MenuItem item in miLanguages.Items)
             {
                 item.IsChecked = false;
             }
@@ -242,6 +250,19 @@ namespace ServoCommander
             SetButtonLabel();
         }
 
+        private void miFunctionMenu_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (System.Windows.Controls.MenuItem item in miFunctionMenu.Items)
+            {
+                item.IsChecked = false;
+            }
+
+            System.Windows.Controls.MenuItem mi = sender as System.Windows.Controls.MenuItem;
+            mi.IsChecked = true;
+            SetCommandPanel();
+
+        }
+
         private void SetButtonLabel()
         {
             bool connected = robot.isConnected;
@@ -249,5 +270,6 @@ namespace ServoCommander
             btnNetConnect.Content = (string)FindResource(connected ? "btnNetConnectOff" : "btnNetConnect");
             btnExecute.Content = (string) FindResource(connected ? "btnExecute" : "btnShowCommand");
         }
+
     }
 }
