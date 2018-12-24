@@ -36,7 +36,7 @@
                 <TextBox Name="txtMoveTime" HorizontalAlignment="Left" Height="23" Margin="240,-3,0,0" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="50" PreviewTextInput="tb_PreviewInteger" PreviewKeyDown="tb_PreviewKeyDown_nospace" CharacterCasing="Upper" MaxLength="4"/>
             </Grid>
             <Grid Height="30">
-                <Slider Name="sliderAngle" HorizontalAlignment="Left" Margin="29,0,0,0" VerticalAlignment="Top" Width="240" Minimum="0" Maximum="240" ValueChanged="sliderAngle_ValueChanged" MouseUp="sliderAngle_MouseUp"/>
+                <Slider Name="sliderAngle" HorizontalAlignment="Left" Margin="29,0,0,0" VerticalAlignment="Top" Width="240" Minimum="0" Maximum="240" ValueChanged="sliderAngle_ValueChanged" GotMouseCapture="sliderAngle_GotMouseCapture" LostMouseCapture="sliderAngle_LostMouseCapture"/>
                 <Label x:Name="lblAngle" Content="0" HorizontalAlignment="Left" Margin="265,2,0,0" VerticalAlignment="Top" Width="33" />
             </Grid>
             <Grid Height="25">

@@ -30,6 +30,11 @@
     <sys:String x:Key="btnShowCommand">生成指令 (_S)</sys:String>
     <sys:String x:Key="btnClearLog">清除記錄 (_C)</sys:String>
 
+
+    <sys:String x:Key="msgSuccess">成功</sys:String>
+    <sys:String x:Key="msgFail">失敗</sys:String>
+    
+    
     <!-- UcCommand_ControlBoard -->
     <sys:String x:Key="lblVersionHead">固件版本號:</sys:String>
     <sys:String x:Key="lblVersion">固件版本號:</sys:String>
@@ -38,6 +43,24 @@
     <sys:String x:Key="rbCommandMode">檢查支援指令類別</sys:String>
     <sys:String x:Key="rbEnterUSBTTL">進入USB-TTL 模式</sys:String>
     <sys:String x:Key="rbExitUSBTTL">離開 USB-TTL 模式</sys:String>
+
+    <sys:String x:Key="cb.msgControllerNotFound">控制板沒連接或版本太舊</sys:String>
+    <sys:String x:Key="cb.msgPleaseConnectController">請先連接控制卡</sys:String>
+    <sys:String x:Key="cb.msgServoUBTech">優必選</sys:String>
+    <sys:String x:Key="cb.msgServoHaiLzd">海靈</sys:String>
+    <sys:String x:Key="cb.msgServoFeeTech">飛特</sys:String>
+    <sys:String x:Key="cb.msgServoError">(錯誤設定)</sys:String>
+    <sys:String x:Key="cb.msgServoProtocol">- 控制板舵機通訊設定為{0}模式.</sys:String>
+    <sys:String x:Key="cb.msgNoCommandSupported">控制板並不支援任何指令</sys:String>
+    <sys:String x:Key="cb.msgSupportedCommand">控制板支援指令:</sys:String>
+
+    <sys:String x:Key="cb.msgConfirmEnterUSBTTL">請注意:\n啟動 USB-TTL 模式後\n網絡連線將無法發出指令, 必須用串口連線去解除.\n請確定是否進入 USB-TTL 模式?</sys:String>
+    <sys:String x:Key="cb.msgEnterUSBTTL">進入 USB-TTL 模式</sys:String>
+    <sys:String x:Key="cb.msgUSBTTLNoReply">已發出 {0} 指令, 但回傳不正常, 可能已在 USB-TTL 模式, 又或控制板有問題.</sys:String>
+
+    <sys:String x:Key="cb.msgConfirmQuitUSBTTL">請注意:\n離開 USB-TTL 模式指令, 只在串口連線才有效.\n請確定是否發出離開 USB-TTL 模式指令?</sys:String>
+    <sys:String x:Key="cb.msgQuitUSBTTLSent">已發出離開 USB-TTL 模式的指令</sys:String>
+
 
     <!-- UBT -->
     <sys:String x:Key="ubt.lblServoId">舵機編號:</sys:String>

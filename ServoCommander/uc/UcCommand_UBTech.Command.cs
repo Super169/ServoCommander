@@ -25,24 +25,27 @@ namespace ServoCommander.uc
     public partial class UcCommand_UBTech : UcCommand__base
     {
 
-        private void SendCommand(byte[] cmd, uint expectCnt)
+        private void SendCommand(byte[] cmd, uint expectCnt, bool writeLog = true)
         {
             bool connected = robot.isConnected;
             cmd[8] = UTIL.CalUBTCheckSum(cmd);
             cmd[9] = 0xED;
 
-            AppendLog("\n" + (connected ? ">> " : "") + UTIL.GetByteString(cmd) + "\n");
+            if (writeLog) AppendLog("\n" + (connected ? ">> " : "") + UTIL.GetByteString(cmd) + "\n");
             robot.ClearRxBuffer();
             if (connected)
             {
                 robot.SendCommand(cmd, 10, expectCnt);
-                string msg = "<< ";
-                if (robot.Available > 0)
+                if (writeLog)
                 {
-                    byte[] result = robot.PeekAll();
-                    msg += UTIL.GetByteString(result);
+                    string msg = "<< ";
+                    if (robot.Available > 0)
+                    {
+                        byte[] result = robot.PeekAll();
+                        msg += UTIL.GetByteString(result);
+                    }
+                    AppendLog(msg);
                 }
-                AppendLog(msg);
             }
         }
 

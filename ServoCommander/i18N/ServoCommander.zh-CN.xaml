@@ -31,6 +31,22 @@
     <sys:String x:Key="rbEnterUSBTTL">进入USB-TTL 模式</sys:String>
     <sys:String x:Key="rbExitUSBTTL">离开 USB-TTL 模式</sys:String>
 
+    <sys:String x:Key="cb.msgControllerNotFound">控制板没连接或版本太旧</sys:String>
+    <sys:String x:Key="cb.msgPleaseConnectController">请先连接控制卡</sys:String>
+    <sys:String x:Key="cb.msgServoUBTech">优必选</sys:String>
+    <sys:String x:Key="cb.msgServoHaiLzd">海灵</sys:String>
+    <sys:String x:Key="cb.msgServoFeeTech">飞特</sys:String>
+    <sys:String x:Key="cb.msgServoError">(错误设定)</sys:String>
+    <sys:String x:Key="cb.msgServoProtocol">- 控制板舵机通讯设定为{0}模式.</sys:String>
+    <sys:String x:Key="cb.msgNoCommandSupported">控制板并不支援任何指令</sys:String>
+    <sys:String x:Key="cb.msgSupportedCommand">控制板支援指令:</sys:String>
+
+    <sys:String x:Key="cb.msgConfirmEnterUSBTTL">请注意:\n启动 USB-TTL 模式後\n网络连线将无法发出指令, 必须用串口连线去解除.\n请确定是否进入 USB-TTL 模式?</sys:String>
+    <sys:String x:Key="cb.msgEnterUSBTTL">进入 USB-TTL 模式</sys:String>
+    <sys:String x:Key="cb.msgUSBTTLNoReply">已发出 {0} 指令, 但回传不正常, 可能已在 USB-TTL 模式, 又或控制板有问题.</sys:String>
+
+    <sys:String x:Key="cb.msgConfirmQuitUSBTTL">请注意:\n离开 USB-TTL 模式指令, 只在串口连线才有效.\n请确定是否发出离开 USB-TTL 模式指令?</sys:String>
+    <sys:String x:Key="cb.msgQuitUSBTTLSent">已发出离开 USB-TTL 模式的指令</sys:String>    
     <!-- UBT -->
     <sys:String x:Key="ubt.lblServoId">舵机编号:</sys:String>
     <sys:String x:Key="ubt.lblMaxId">最大编号:</sys:String>
@@ -82,5 +98,7 @@
     <sys:String x:Key="hailzd.rbSetAngle">设定当前角度为</sys:String>
     <sys:String x:Key="hailzd.rbFreeInput">指令</sys:String>
 
+    
+    
 
 </ResourceDictionary>

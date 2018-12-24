@@ -45,7 +45,7 @@ namespace ServoCommander.uc
                 string version = GetVersion();
                 if (version == "")
                 {
-                    lblVersion.Content = "找不到控制卡, 又或控制卡版本太舊";
+                    lblVersion.Content = FindResource("cb.msgControllerNotFound");
                     lblVersion.Foreground = new SolidColorBrush(Colors.Red);
                 }
                 else
@@ -56,7 +56,7 @@ namespace ServoCommander.uc
             }
             else
             {
-                lblVersion.Content = "請先連接控制卡";
+                lblVersion.Content = FindResource("cb.msgPleaseConnectController");
                 lblVersion.Foreground = new SolidColorBrush(Colors.LightGray);
             }
 
@@ -119,19 +119,19 @@ namespace ServoCommander.uc
                 switch (result[4])
                 {
                     case 1:
-                        servo = "優必選";
+                        servo = (string) FindResource("cb.msgServoUBTech");
                         break;
                     case 2:
-                        servo = "海靈";
+                        servo = (string) FindResource("cb.msgServoHaiLzd");
                         break;
                     case 3:
-                        servo = "飛特";
+                        servo = (string)FindResource("cb.msgServoFeeTech");
                         break;
                     default:
-                        servo = "(錯誤設定)";
+                        servo = (string)FindResource("cb.msgServoError");
                         break;
                 }
-                AppendLog(String.Format("- 控制板舵機通訊設定為{0}模式.", servo));
+                AppendLog(String.Format((string) FindResource("cb.msgServoProtocol"), servo));
             }
             robot.ClearRxBuffer();
         }
@@ -153,10 +153,10 @@ namespace ServoCommander.uc
                 if (result[9] != 0) msg += " HaiLzd";
                 if (msg == "")
                 {
-                    msg = "控制板並不支援任何指令";
+                    msg = (string) FindResource("cb.msgNoCommandSupported");
                 } else
                 {
-                    msg = "控制板支援指令: " + msg;
+                    msg = (string) FindResource("cb.msgSupportedCommand") + msg;
                 }
 
                 AppendLog(msg);
@@ -187,29 +187,29 @@ namespace ServoCommander.uc
         {
             if (robot.currMode == RobotConnection.connMode.Network)
             {
-                if (!MessageConfirm("請注意:\n啟動 USB-TTL 模式後\n網絡連線將無法發出指令, 必須用串口連線去解除.\n請確定是否進入 USB-TTL 模式?")) return;
+                if (!MessageConfirm((string) FindResource("cb.msgConfirmEnterUSBTTL"))) return;
             }
 
             byte[] cmd = { 0xA9, 0x9A, 0x04, 0x07, 0x00, 0x00, 0x0B, 0xED };
             SendCBCommand(cmd, 7);
             if (robot.isConnected)
             {
-                string action = "進入 USB-TTL 模式";
+                string action = (string) FindResource("cb.msgEnterUSBTTL");
                 if (robot.Available == 7)
                 {
                     byte[] result = robot.ReadAll();
                     if (result[4] == 0)
                     {
-                        AppendLog("成功" + action);
+                        AppendLog((string) FindResource("msgSuccess") + action);
                     }
                     else
                     {
-                        AppendLog(action + "失敗");
+                        AppendLog(action + (string) FindResource("msgFail"));
                     }
                 }
                 else
                 {
-                    AppendLog("已發出" + action + "指令, 但回傳不正常, 可能已在 USB-TTL 模式, 又或控制板有問題.");
+                    AppendLog(string.Format((string) FindResource("cb.msgUSBTTLNoReply"), action));
                 }
             }
         }
@@ -219,7 +219,7 @@ namespace ServoCommander.uc
 
             if (robot.currMode == RobotConnection.connMode.Network)
             {
-                if (!MessageConfirm("請注意:\n離開 USB-TTL 模式指令, 只在串口連線才有效.\n請確定是否發出離開 USB-TTL 模式指令?")) return;
+                if (!MessageConfirm((string)FindResource("cb.msgConfirmQuitUSBTTL"))) return;
             }
            
             byte[] cmd = { 0xA9, 0x9A, 0x01, 0x06, 0x09 };
@@ -228,7 +228,7 @@ namespace ServoCommander.uc
             if (robot.isConnected)
             {
                 robot.SendCommand(cmd, cmd.Length, 0);
-                AppendLog("已發出離開 USB-TTL 模式的指令");
+                AppendLog((string) FindResource("cb.msgQuitUSBTTLSent"));
             }
         }
 

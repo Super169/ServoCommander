@@ -25,12 +25,8 @@ namespace ServoCommander.uc
     public partial class UcCommand_UBTech : UcCommand__base
     {
         // Timer checkTimer = new Timer();
-        DispatcherTimer sliderTimer = new DispatcherTimer();
-        DispatcherTimer servoTimer = new DispatcherTimer();
-        private long servoEndTicks = 0;
-        private byte oldAngle = 0;
-        private bool checkSliderUpdate = true;
-        bool stopSLiderAction = false;
+        DispatcherTimer sliderMoveTimer = new DispatcherTimer();
+        private byte sliderMoveId = 0;
 
         public UcCommand_UBTech()
         {
@@ -44,67 +40,10 @@ namespace ServoCommander.uc
 
         private void InitLocalTimer()
         {
-            sliderTimer.Tick += new EventHandler(sliderTimer_Tick);
-            // prevent frequent update, hold for 5ms before udpate servo
-            sliderTimer.Interval = TimeSpan.FromMilliseconds(5);
-            sliderTimer.Stop();
+            sliderMoveTimer.Tick += new EventHandler(sliderMoveTimer_Tick);
+            sliderMoveTimer.Interval = TimeSpan.FromMilliseconds(20);
+            sliderMoveTimer.Stop();
 
-            // If last move not completed, check every 10ms
-            servoTimer.Tick += new EventHandler(servoTimer_Tick);
-            servoTimer.Interval = TimeSpan.FromMilliseconds(5);
-            servoTimer.Stop();
-        }
-
-        private void servoTimer_Tick(object sender, EventArgs e)
-        {
-            servoTimer.Stop();
-            if (DateTime.Now.Ticks >= servoEndTicks)
-            {
-                sliderTimer.Stop();
-                sliderTimer.Start();
-            }
-            else
-            {
-                servoTimer.Start();
-            }
-        }
-
-        private int GetIdBackground()
-        {
-            string sId = txtId.Text.Trim();
-            if (sId == "") return -1;
-            int id;
-            if (!int.TryParse(sId, out id)) return -1;
-            if ((id < 0) || (id > CONST.MAX_SERVO)) return -1;
-            return id;
-        }
-
-        private void sliderTimer_Tick(object sender, EventArgs e)
-        {
-            sliderTimer.Stop();
-            int id = GetIdBackground();
-            if (id < 0) return;
-            double dblAngle = Math.Round(sliderAngle.Value);
-            byte angle = (byte)dblAngle;
-            double diff = (byte)Math.Abs(angle - oldAngle);
-            UInt16 time = (UInt16)(Math.Round(1000.0 * diff / CONST.UBT.MAX_ANGLE));  // use the speed of 1s for full move
-            byte timeUBT = (byte)(time / 50);
-            byte[] cmd = { 0xFA, 0xAF, (byte)id, 1, angle, timeUBT, 0, timeUBT, 0, 0xED };
-            SendCommand(cmd, 1);
-            if (id == 0)
-            {
-                oldAngle = angle;
-            }
-            else if (robot.Available == 1)
-            {
-                byte[] buffer = robot.ReadAll();
-                if (buffer[0] == (0xAA + id))
-                {
-                    oldAngle = angle;
-                }
-            }
-            int TimeMs = time + 100;    // add extra 100ms, seeem still not work, sometimes command cannot be executed for fast change.
-            servoEndTicks = DateTime.Now.Ticks + TimeMs * TimeSpan.TicksPerMillisecond;
         }
 
         #region Check Servo
@@ -177,7 +116,7 @@ namespace ServoCommander.uc
             }
             else
             {
-                int id = GetId((cbxSupportBroadcast.IsChecked== true));
+                int id = GetId((cbxSupportBroadcast.IsChecked == true));
                 if (id < 0) return;
 
                 if (rbCheckVersion.IsChecked == true)
@@ -406,7 +345,7 @@ namespace ServoCommander.uc
                     return;
                 }
                 cmd[4] = (byte)(iDirection == 0 ? 0xFD : 0xFE);
-                cmd[6] = (byte) (iSpeed >> 8 & 0xFF);
+                cmd[6] = (byte)(iSpeed >> 8 & 0xFF);
                 cmd[7] = (byte)(iSpeed & 0xFF);
                 SendCommand(cmd, 1);
                 if ((id > 0) && (robot.Available == 1))
@@ -414,7 +353,7 @@ namespace ServoCommander.uc
                     byte[] buffer = robot.ReadAll();
                     if (buffer[0] == (0xAA + id))
                     {
-                        AppendLog(String.Format("舵機 {0} 成功{1}轉動", id, (iSpeed == 0 ? "停止": "開始")));
+                        AppendLog(String.Format("舵機 {0} 成功{1}轉動", id, (iSpeed == 0 ? "停止" : "開始")));
                     }
                     else
                     {
@@ -435,32 +374,30 @@ namespace ServoCommander.uc
             byte[] buffer;
             if (!UBTGetAdjAngle(id, out adjValue, out buffer)) return;
             if (id == 0) return;
-            if (robot.Available == 1)
+
+            string adjMsg = "";
+            if (adjValue == 0)
             {
-                string adjMsg = "";
-                if (adjValue == 0)
-                {
-                    adjMsg = "沒有偏移";
-                    sliderAdjValue.Value = 0;
-                }
-                else if ((adjValue >= 0x0000) && (adjValue <= 0x0130))
-                {
-                    adjMsg = "正向 " + adjValue.ToString();
-                    sliderAdjValue.Value = adjValue;
-                }
-                else if ((adjValue >= 0xFED0) && (adjValue <= 0xFFFF))
-                {
-                    adjMsg = "反向 " + (65536 - adjValue).ToString();
-                    sliderAdjValue.Value = (adjValue - 65536);
-                }
-                else
-                {
-                    adjMsg = "偏移量異常";
-                }
-                string result = String.Format("偏移校正:  {2:X2} {3:X2} 即 {4} \n",
-                                              buffer[4], buffer[5], buffer[6], buffer[7], adjMsg);
-                AppendLog(result);
+                adjMsg = "沒有偏移";
+                sliderAdjValue.Value = 0;
             }
+            else if ((adjValue >= 0x0000) && (adjValue <= 0x0130))
+            {
+                adjMsg = "正向 " + adjValue.ToString();
+                sliderAdjValue.Value = adjValue;
+            }
+            else if ((adjValue >= 0xFED0) && (adjValue <= 0xFFFF))
+            {
+                adjMsg = "反向 " + (65536 - adjValue).ToString();
+                sliderAdjValue.Value = (adjValue - 65536);
+            }
+            else
+            {
+                adjMsg = "偏移量異常";
+            }
+            string result = String.Format("偏移校正:  {2:X2} {3:X2} 即 {4} \n",
+                                          buffer[4], buffer[5], buffer[6], buffer[7], adjMsg);
+            AppendLog(result);
         }
 
         private void SetAdjAngle(int id)
@@ -490,7 +427,7 @@ namespace ServoCommander.uc
                 AppendLog("\n自動設定偏移量只能針對個別舵機, 不支援廣播, 請先選擇舵機");
                 return;
             }
-            if (robot.Available != 1)
+            if (!robot.isConnected)
             {
                 AppendLog("\n自動設定偏移量必須要連上舵機才可以進行");
                 return;
@@ -573,35 +510,55 @@ namespace ServoCommander.uc
 
         private void sliderAngle_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if (stopSLiderAction) return;
             Slider sAngle = (Slider)sender;
             lblAngle.Content = Math.Round(sAngle.Value);
-            int id = GetIdBackground();
-            if (id < 0) return;
-            if (checkSliderUpdate)
-            {
-                // Don't call slider timer directly as servo may still working
-                servoTimer.Stop();
-                servoTimer.Start();
-            }
-        }
-
-        private void sliderAngle_MouseUp(object sender, MouseButtonEventArgs e)
-        {
-            Slider sAngle = (Slider)sender;
-            UpdateInfo(String.Format("Slider mouse Up at {0}", Math.Round(sAngle.Value)));
         }
 
         private void SetCurrAngle(byte angle)
         {
-            stopSLiderAction = true;
             sliderAngle.Value = angle;
             lblAngle.Content = angle.ToString();
             txtAdjPreview.Text = angle.ToString();
             txtAutoAdjAngle.Text = angle.ToString();
-            stopSLiderAction = false;
         }
 
+        private int captureMode = 0;
+
+        private void sliderAngle_GotMouseCapture(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            Slider sAngle = (Slider)sender;
+            string sId = txtId.Text.Trim();
+            if (sId == "") return;
+            int id;
+            if (!int.TryParse(sId, out id)) return;
+            if ((id < 0) || (id > CONST.MAX_SERVO)) return;
+            sliderMoveId = (byte) id;
+            UpdateInfo(string.Format("Slider got mouse capture for id {0}", sliderMoveId));
+            captureMode = 2;
+            sliderMoveTimer.Start();
+        }
+
+        private void sliderMoveTimer_Tick(object sender, EventArgs e)
+        {
+            sliderMoveTimer.Stop();
+
+            double dblAngle = Math.Round(sliderAngle.Value);
+            byte angle = (byte)dblAngle;
+            byte timeUBT = 0;
+            byte[] cmd = { 0xFA, 0xAF, (byte) sliderMoveId, 1, angle, timeUBT, 0, timeUBT, 0, 0xED };
+            SendCommand(cmd, 0, false);
+            if (captureMode > 0)
+            {
+                // extra one time after stop
+                if (captureMode == 1) captureMode = 0;
+                sliderMoveTimer.Start();
+            }
+        }
+
+        private void sliderAngle_LostMouseCapture(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            captureMode = 1;
+        }
     }
 }
 
