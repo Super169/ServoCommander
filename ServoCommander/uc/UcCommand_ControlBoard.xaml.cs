@@ -45,7 +45,7 @@ namespace ServoCommander.uc
                 string version = GetVersion();
                 if (version == "")
                 {
-                    lblVersion.Content = FindResource("cb.msgControllerNotFound");
+                    lblVersion.Content = LocUtil.FindResource("cb.msgControllerNotFound");
                     lblVersion.Foreground = new SolidColorBrush(Colors.Red);
                 }
                 else
@@ -56,7 +56,7 @@ namespace ServoCommander.uc
             }
             else
             {
-                lblVersion.Content = FindResource("cb.msgPleaseConnectController");
+                lblVersion.Content = LocUtil.FindResource("cb.msgPleaseConnectController");
                 lblVersion.Foreground = new SolidColorBrush(Colors.LightGray);
             }
 
@@ -119,19 +119,19 @@ namespace ServoCommander.uc
                 switch (result[4])
                 {
                     case 1:
-                        servo = (string) FindResource("cb.msgServoUBTech");
+                        servo = LocUtil.FindResource("cb.msgServoUBTech");
                         break;
                     case 2:
-                        servo = (string) FindResource("cb.msgServoHaiLzd");
+                        servo = LocUtil.FindResource("cb.msgServoHaiLzd");
                         break;
                     case 3:
-                        servo = (string)FindResource("cb.msgServoFeeTech");
+                        servo = LocUtil.FindResource("cb.msgServoFeeTech");
                         break;
                     default:
-                        servo = (string)FindResource("cb.msgServoError");
+                        servo = LocUtil.FindResource("cb.msgServoError");
                         break;
                 }
-                AppendLog(String.Format((string) FindResource("cb.msgServoProtocol"), servo));
+                AppendLog(String.Format(LocUtil.FindResource("cb.msgServoProtocol"), servo));
             }
             robot.ClearRxBuffer();
         }
@@ -153,10 +153,10 @@ namespace ServoCommander.uc
                 if (result[9] != 0) msg += " HaiLzd";
                 if (msg == "")
                 {
-                    msg = (string) FindResource("cb.msgNoCommandSupported");
+                    msg = LocUtil.FindResource("cb.msgNoCommandSupported");
                 } else
                 {
-                    msg = (string) FindResource("cb.msgSupportedCommand") + msg;
+                    msg = LocUtil.FindResource("cb.msgSupportedCommand") + msg;
                 }
 
                 AppendLog(msg);
@@ -187,29 +187,29 @@ namespace ServoCommander.uc
         {
             if (robot.currMode == RobotConnection.connMode.Network)
             {
-                if (!MessageConfirm((string) FindResource("cb.msgConfirmEnterUSBTTL"))) return;
+                if (!MessageConfirm(LocUtil.FindResource("cb.msgConfirmEnterUSBTTL"))) return;
             }
 
             byte[] cmd = { 0xA9, 0x9A, 0x04, 0x07, 0x00, 0x00, 0x0B, 0xED };
             SendCBCommand(cmd, 7);
             if (robot.isConnected)
             {
-                string action = (string) FindResource("cb.msgEnterUSBTTL");
+                string action = LocUtil.FindResource("cb.msgEnterUSBTTL");
                 if (robot.Available == 7)
                 {
                     byte[] result = robot.ReadAll();
                     if (result[4] == 0)
                     {
-                        AppendLog((string) FindResource("msgSuccess") + action);
+                        AppendLog(LocUtil.FindResource("msgSuccess") + action);
                     }
                     else
                     {
-                        AppendLog(action + (string) FindResource("msgFail"));
+                        AppendLog(action + LocUtil.FindResource("msgFail"));
                     }
                 }
                 else
                 {
-                    AppendLog(string.Format((string) FindResource("cb.msgUSBTTLNoReply"), action));
+                    AppendLog(string.Format(LocUtil.FindResource("cb.msgUSBTTLNoReply"), action));
                 }
             }
         }
@@ -219,7 +219,7 @@ namespace ServoCommander.uc
 
             if (robot.currMode == RobotConnection.connMode.Network)
             {
-                if (!MessageConfirm((string)FindResource("cb.msgConfirmQuitUSBTTL"))) return;
+                if (!MessageConfirm(LocUtil.FindResource("cb.msgConfirmQuitUSBTTL"))) return;
             }
            
             byte[] cmd = { 0xA9, 0x9A, 0x01, 0x06, 0x09 };
@@ -228,7 +228,7 @@ namespace ServoCommander.uc
             if (robot.isConnected)
             {
                 robot.SendCommand(cmd, cmd.Length, 0);
-                AppendLog((string) FindResource("cb.msgQuitUSBTTLSent"));
+                AppendLog(LocUtil.FindResource("cb.msgQuitUSBTTLSent"));
             }
         }
 

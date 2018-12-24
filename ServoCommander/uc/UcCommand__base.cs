@@ -50,7 +50,7 @@ namespace ServoCommander.uc
 
         static protected bool MessageConfirm(String msg)
         {
-            MessageBoxResult result = MessageBox.Show(msg, "請確定", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            MessageBoxResult result = MessageBox.Show(msg, LocUtil.FindResource("msgConfirm"), MessageBoxButton.YesNo, MessageBoxImage.Question);
             return (result == MessageBoxResult.Yes);
         }
 
@@ -89,8 +89,8 @@ namespace ServoCommander.uc
             int value;
             bool valid = int.TryParse(tb.Text, out value);
             if ((value >= min) && (value <= max)) return true;
-            string msg = String.Format("{0} 的数值 '{3}' 不正确\n\n请输入 {1} 至 {2} 之间的数值.", fieldName, min, max, tb.Text);
-            MessageBox.Show(msg, "输入错误", MessageBoxButton.OK, MessageBoxImage.Error);
+            string msg = String.Format((string)Application.Current.FindResource("base.msgInvalidInteger"), fieldName, min, max, tb.Text);
+            MessageBox.Show(msg, (string)Application.Current.FindResource("msgInvalidInput"), MessageBoxButton.OK, MessageBoxImage.Error);
             return false;
         }
 
@@ -98,8 +98,8 @@ namespace ServoCommander.uc
         {
             int len = System.Text.Encoding.ASCII.GetByteCount(tb.Text);
             if ((len >= min) && (len <= max)) return true;
-            string msg = String.Format("{0} 的长度为 '{3}' 不正确\n\n请输入长度在 {1} 至 {2} 之间的字串.", fieldName, min, max, tb.Text);
-            MessageBox.Show(msg, "输入错误", MessageBoxButton.OK, MessageBoxImage.Error);
+            string msg = String.Format((string)Application.Current.FindResource("base.msgInvalidString"), fieldName, min, max, tb.Text);
+            MessageBox.Show(msg, (string)Application.Current.FindResource("msgInvalidInput"), MessageBoxButton.OK, MessageBoxImage.Error);
             return false;
         }
 
@@ -118,7 +118,7 @@ namespace ServoCommander.uc
         protected bool AllowExecution()
         {
             if (!inProgress) return true;
-            UpdateInfo("Servo detection in progress, please wait.", UTIL.InfoType.alert);
+            UpdateInfo(LocUtil.FindResource("base.msgWaitServoDetection"), UTIL.InfoType.alert);
             return false;
                 
         }
@@ -141,7 +141,7 @@ namespace ServoCommander.uc
             minId = 0;
             servoCnt = 0;
             OnCheckServoStart();
-            UpdateInfo("Checking ID, please wait......", UTIL.InfoType.alert);
+            UpdateInfo((string)Application.Current.FindResource("base.msgWaitServoDetection"), UTIL.InfoType.alert);
             inProgress = true;
             checkTimer.Enabled = true;
             checkTimer.Start();
@@ -172,7 +172,7 @@ namespace ServoCommander.uc
             checkTimer.Stop();
             if (DetectServo(checkId))
             {
-                AppendLog(String.Format("Servo {0} detected", checkId));
+                AppendLog(String.Format((string)Application.Current.FindResource("base.msgServoDetected"), checkId));
                 servoCnt++;
                 if (minId == 0)
                 {
@@ -185,7 +185,7 @@ namespace ServoCommander.uc
             {
                 checkTimer.Enabled = false;
                 inProgress = false;
-                UpdateInfo(String.Format("{0} servo detected.", servoCnt));
+                UpdateInfo(String.Format((string)Application.Current.FindResource("base.msgServoDetectedCount"), servoCnt));
                 OnCheckServoCompleted();
             }
             else

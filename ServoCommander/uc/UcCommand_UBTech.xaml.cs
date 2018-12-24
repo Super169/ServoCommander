@@ -92,15 +92,15 @@ namespace ServoCommander.uc
 
             if (n == 0)
             {
-                txtAdjMsg.Text = String.Format("沒有偏移");
+                txtAdjMsg.Text = String.Format(LocUtil.FindResource("ubt.msgNoAdjust"));
             }
             else if (n > 0)
             {
-                txtAdjMsg.Text = String.Format("正向偏移 {0}", n);
+                txtAdjMsg.Text = String.Format(LocUtil.FindResource("ubt.msgPosAdjust"), n);
             }
             else
             {
-                txtAdjMsg.Text = String.Format("反向偏移 {0}", -n);
+                txtAdjMsg.Text = String.Format(LocUtil.FindResource("ubt.msgNegAdjust"), -n);
             }
             if (n < 0) n += 65536;
             txtAdjAngle.Text = n.ToString("X4");
@@ -128,12 +128,12 @@ namespace ServoCommander.uc
                     int newId = GetIdValue(txtNewId.Text.Trim());
                     if ((newId <= 0) || (newId > CONST.MAX_SERVO))
                     {
-                        UpdateInfo("Invalid New ID", UTIL.InfoType.error);
+                        UpdateInfo(LocUtil.FindResource("ubt.msgInvalidNewId"), UTIL.InfoType.error);
                         return;
                     }
                     if (id == newId)
                     {
-                        UpdateInfo("New Id cannot be the same as existing Id", UTIL.InfoType.error);
+                        UpdateInfo(LocUtil.FindResource("ubt.msgNewIdSame"), UTIL.InfoType.error);
                         return;
                     }
                     ChangeId(id, newId);
@@ -171,7 +171,7 @@ namespace ServoCommander.uc
             int id = GetIdValue(txtId.Text.Trim());
             if ((id < 0) || (id > CONST.MAX_SERVO) || ((id == 0) && !allowZero))
             {
-                UpdateInfo("Invalid ID", UTIL.InfoType.error);
+                UpdateInfo(LocUtil.FindResource("ubt.msgInvalidId"), UTIL.InfoType.error);
                 return -1;
             }
             return id;
@@ -242,7 +242,8 @@ namespace ServoCommander.uc
             if ((id > 0) && (robot.Available == 10))
             {
                 byte[] buffer = robot.ReadAll();
-                string result = String.Format("版本號為: {0:X2} {1:X2} {2:X2} {3:X2}\n",
+                string format = LocUtil.FindResource("ubt.msgShowVersion");
+                string result = String.Format(format,
                                               buffer[4], buffer[5], buffer[6], buffer[7]);
                 AppendLog(result);
                 return true;
@@ -253,7 +254,8 @@ namespace ServoCommander.uc
         // FA AF {id} CD 00 {newId} 00 00 {sum} ED
         private void ChangeId(int id, int newId)
         {
-            string msg = String.Format("把 {0} 修改成 舵機編號 {1} \n", (id == 0 ? "所有舵機" : "舵機編號 " + id.ToString()), newId);
+            string msg = String.Format(LocUtil.FindResource("ubt.msgConfirmChangeId"), 
+                                      (id == 0 ? LocUtil.FindResource("ubt.msgAllServo") : LocUtil.FindResource("ubt.msgServoId") + id.ToString()), newId);
             if (!MessageConfirm(msg)) return;
 
             byte[] cmd = { 0xFA, 0xAF, (byte)id, 0xCD, 0, (byte)newId, 0, 0, 0, 0xED };
@@ -263,7 +265,7 @@ namespace ServoCommander.uc
                 byte[] buffer = robot.ReadAll();
                 if (buffer[3] == 0xAA)
                 {
-                    string result = String.Format("舵機編號 {0} 已成功修改為 舵機編號 {1} \n", id, newId);
+                    string result = String.Format(LocUtil.FindResource("ubt.msgChangeIdSuccess"), id, newId);
                     AppendLog(result);
                     txtId.Text = newId.ToString();
                     UpdateInfo(result, UTIL.InfoType.alert);
@@ -278,7 +280,7 @@ namespace ServoCommander.uc
             if (!UBTGetAngle(id, out angle, out buffer)) return;
             int iAngle = (buffer[4] << 8) | buffer[5];
             int iActual = (buffer[6] << 8) | buffer[7];
-            string result = String.Format("舵機角度:  目前為: {0:X2} {1:X2} ({2}度), 實際為: {3:X2} {4:X2} ({5}度)\n",
+            string result = String.Format(LocUtil.FindResource("ubt.msgShowAngle"),
                                           buffer[4], buffer[5], iAngle, buffer[6], buffer[7], iActual);
             // string hexAngle = String.Format("{0:X2}", buffer[7]);
             //txtAdjPreview.Text = buffer[7].ToString();
@@ -293,7 +295,7 @@ namespace ServoCommander.uc
             if (((txtMoveAngle.Text == null) || (txtMoveAngle.Text.Trim() == "")) ||
                 ((txtMoveTime.Text == null) || (txtMoveTime.Text.Trim() == "")))
             {
-                AppendLog("\n請先設定要移動的目標角度及移動時間");
+                AppendLog(LocUtil.FindResource("ubt.msgGoMoveParameter"));
                 return;
             }
             try
@@ -312,11 +314,11 @@ namespace ServoCommander.uc
                         //txtAdjPreview.Text = angle.ToString();
                         //txtAutoAdjAngle.Text = angle.ToString();
                         SetCurrAngle(angle);
-                        AppendLog(String.Format("舵機 {0} 成功移動到 {1} 度位置", id, angle));
+                        AppendLog(String.Format(LocUtil.FindResource("ubt.msgGoMoveSuccess"), id, angle));
                     }
                     else
                     {
-                        AppendLog(String.Format("舵機 {0} 移動失敗", id));
+                        AppendLog(String.Format(LocUtil.FindResource("ubt.msgGoMoveFail"), id));
                     }
                 }
             }
@@ -332,7 +334,7 @@ namespace ServoCommander.uc
             byte[] cmd = { 0xFA, 0xAF, (byte)id, 1, 0, 0, 0, 0, 0, 0xED };
             if (string.IsNullOrWhiteSpace(txtRotateSpeed.Text))
             {
-                AppendLog("\n請先設定要轉動的速度\n請輸入速度 0 停止轉動");
+                AppendLog(LocUtil.FindResource("ubt.msgGoRotateParameter"));
                 return;
             }
             try
@@ -341,7 +343,7 @@ namespace ServoCommander.uc
                 int iSpeed = UTIL.GetInputInteger(txtRotateSpeed.Text);
                 if (iSpeed > 2000)
                 {
-                    AppendLog("\n請轉入 0 - 2000 的速度");
+                    AppendLog(LocUtil.FindResource("ubt.msgGoRotateSpeed"));
                     return;
                 }
                 cmd[4] = (byte)(iDirection == 0 ? 0xFD : 0xFE);
@@ -351,13 +353,14 @@ namespace ServoCommander.uc
                 if ((id > 0) && (robot.Available == 1))
                 {
                     byte[] buffer = robot.ReadAll();
+                    string action = (iSpeed == 0 ? LocUtil.FindResource("msgStop") : LocUtil.FindResource("ubt.msgStart"));
                     if (buffer[0] == (0xAA + id))
                     {
-                        AppendLog(String.Format("舵機 {0} 成功{1}轉動", id, (iSpeed == 0 ? "停止" : "開始")));
+                        AppendLog(String.Format(LocUtil.FindResource("ubt.msgGoRotateSuccess"), id, action));
                     }
                     else
                     {
-                        AppendLog(String.Format("舵機 {0} 轉動失敗", id));
+                        AppendLog(String.Format(LocUtil.FindResource("ubt.msgGoRotateFail"), id, action));
                     }
                 }
             }
@@ -378,24 +381,24 @@ namespace ServoCommander.uc
             string adjMsg = "";
             if (adjValue == 0)
             {
-                adjMsg = "沒有偏移";
+                adjMsg = LocUtil.FindResource("ubt.msgNoAdjust");
                 sliderAdjValue.Value = 0;
             }
             else if ((adjValue >= 0x0000) && (adjValue <= 0x0130))
             {
-                adjMsg = "正向 " + adjValue.ToString();
+                adjMsg = string.Format(LocUtil.FindResource("ubt.msgPosAdjust"), adjValue);
                 sliderAdjValue.Value = adjValue;
             }
             else if ((adjValue >= 0xFED0) && (adjValue <= 0xFFFF))
             {
-                adjMsg = "反向 " + (65536 - adjValue).ToString();
+                adjMsg = string.Format(LocUtil.FindResource("ubt.msgNegAdjust"), (65536 - adjValue));
                 sliderAdjValue.Value = (adjValue - 65536);
             }
             else
             {
-                adjMsg = "偏移量異常";
+                adjMsg = LocUtil.FindResource("ubt.msgInvalidAdjust");
             }
-            string result = String.Format("偏移校正:  {2:X2} {3:X2} 即 {4} \n",
+            string result = String.Format(LocUtil.FindResource("ubt.msgShowAdjust"),
                                           buffer[4], buffer[5], buffer[6], buffer[7], adjMsg);
             AppendLog(result);
         }
@@ -407,10 +410,10 @@ namespace ServoCommander.uc
             {
                 if (robot.Available != 1) return;
                 if (id == 0) return;
-                AppendLog("偏移量設置失敗");
+                AppendLog(LocUtil.FindResource("ubt.msgSetAdjustFail"));
                 return;
             }
-            AppendLog("偏移量設置成功");
+            AppendLog(LocUtil.FindResource("ubt.msgSetAdjustSuccess"));
 
             if ((txtAdjPreview.Text == null) || (txtAdjPreview.Text.Trim() == "")) return;
 
@@ -424,17 +427,17 @@ namespace ServoCommander.uc
         {
             if (id == 0)
             {
-                AppendLog("\n自動設定偏移量只能針對個別舵機, 不支援廣播, 請先選擇舵機");
+                AppendLog(LocUtil.FindResource("ubt.msgAutoAdjustNoBroadcast"));
                 return;
             }
             if (!robot.isConnected)
             {
-                AppendLog("\n自動設定偏移量必須要連上舵機才可以進行");
+                AppendLog(LocUtil.FindResource("ubt.msgAutoAdjustMustConnect"));
                 return;
             }
             if ((txtAutoAdjAngle.Text == null) || (txtAutoAdjAngle.Text.Trim() == ""))
             {
-                AppendLog("\n請先輸入要設定的角度");
+                AppendLog(LocUtil.FindResource("ubt.msgAutoAdjustRequireAngle"));
                 return;
             }
             try
@@ -442,7 +445,7 @@ namespace ServoCommander.uc
                 int iFixAngle = (byte)UTIL.GetInputInteger(txtAutoAdjAngle.Text);
                 if (iFixAngle > CONST.UBT.MAX_ANGLE)
                 {
-                    AppendLog(String.Format("輸入角度 {0} 過大了, 可設定角度為 0 - {1} 度", iFixAngle, CONST.UBT.MAX_ANGLE));
+                    AppendLog(String.Format(LocUtil.FindResource("ubt.msgAutoInvalidAngle"), iFixAngle, CONST.UBT.MAX_ANGLE));
                     return;
                 }
 
@@ -451,7 +454,7 @@ namespace ServoCommander.uc
                 UInt16 adj;
                 if (!UBTGetAdjAngle(id, out adj, out buffer))
                 {
-                    AppendLog("讀取當前偏移量失敗");
+                    AppendLog(LocUtil.FindResource("ubt.msgGetAdjustFail"));
                     return;
                 }
 
@@ -466,14 +469,14 @@ namespace ServoCommander.uc
                 }
                 else
                 {
-                    AppendLog(string.Format("Invalid adjustment {0:X4}", adj));
+                    AppendLog(string.Format(LocUtil.FindResource("ubt.msgCurrentAdjustInvalid"), adj));
                     return;
                 }
 
                 byte currAngle;
                 if (!UBTGetAngle(id, out currAngle, out buffer))
                 {
-                    AppendLog("讀取當前角度失敗");
+                    AppendLog(LocUtil.FindResource("ubt.msgGetAngleFail"));
                     return;
                 }
 
@@ -486,10 +489,10 @@ namespace ServoCommander.uc
                 int newAdjValue = actualValue - newValue;
                 if (!UBTSetAdjAngle(id, newAdjValue))
                 {
-                    AppendLog("設置偏移量失敗");
+                    AppendLog(LocUtil.FindResource("ubt.msgSetAdjustFail"));
                     return;
                 }
-                AppendLog(string.Format("舵機 {0} 當前機械角度為: {1}度[{2}], 現設定為: {3}度[{4}]", id, actualAngle, actualDelta, iFixAngle, delta));
+                AppendLog(string.Format(LocUtil.FindResource("ubt.msgAutoAdjustComplete"), id, actualAngle, actualDelta, iFixAngle, delta));
                 System.Threading.Thread.Sleep(100);
                 GetAdjAngle(id);
             }
@@ -533,7 +536,6 @@ namespace ServoCommander.uc
             if (!int.TryParse(sId, out id)) return;
             if ((id < 0) || (id > CONST.MAX_SERVO)) return;
             sliderMoveId = (byte) id;
-            UpdateInfo(string.Format("Slider got mouse capture for id {0}", sliderMoveId));
             captureMode = 2;
             sliderMoveTimer.Start();
         }

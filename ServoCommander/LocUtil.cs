@@ -13,6 +13,16 @@ namespace ServoCommander
 {
     public static class LocUtil
     {
+        public static string FindResource(string resourceKey)
+        {
+            string value = (string) Application.Current.TryFindResource(resourceKey);
+            if (value == null)
+            {
+                value = resourceKey;
+            }
+            return value.Replace("\\n","\n");
+        }
+
         /// <summary>  
         /// Get application name from an element  
         /// </summary>  

@@ -266,9 +266,9 @@ namespace ServoCommander
         private void SetButtonLabel()
         {
             bool connected = robot.isConnected;
-            btnConnect.Content = (string)FindResource(connected ? "btnConnectOff" : "btnConnect");
-            btnNetConnect.Content = (string)FindResource(connected ? "btnNetConnectOff" : "btnNetConnect");
-            btnExecute.Content = (string) FindResource(connected ? "btnExecute" : "btnShowCommand");
+            btnConnect.Content = LocUtil.FindResource(connected ? "btnConnectOff" : "btnConnect");
+            btnNetConnect.Content = LocUtil.FindResource(connected ? "btnNetConnectOff" : "btnNetConnect");
+            btnExecute.Content = LocUtil.FindResource(connected ? "btnExecute" : "btnShowCommand");
         }
 
     }

@@ -6,7 +6,7 @@
     <!-- 
         Syntax to use in xaml:  Content="{DynamicResource ResourceKey=<id>}"
    
-        Syntax to use in program: variable = (string)FindResource("<id>");
+        Syntax to use in program: variable = LocUtil.FindResource("<id>");
     
     -->
 
@@ -31,10 +31,23 @@
     <sys:String x:Key="btnClearLog">清除記錄 (_C)</sys:String>
 
 
+    <!-- Generic message -->
     <sys:String x:Key="msgSuccess">成功</sys:String>
     <sys:String x:Key="msgFail">失敗</sys:String>
-    
-    
+    <sys:String x:Key="msgConfirm">請確定</sys:String>
+    <sys:String x:Key="msgStart">開始</sys:String>
+    <sys:String x:Key="msgStop">停止</sys:String>
+
+    <!-- ucCommand_base-->
+    <sys:String x:Key="base.msgInvalidInput">輸入錯誤</sys:String>
+    <sys:String x:Key="base.msgInvalidInteger">{0} 的數值 '{3}' 不正確\n\n請輸入 {1} 至 {2} 之間的數值.</sys:String>
+    <sys:String x:Key="base.msgInvalidString">{0} 的長度為 '{3}' 不正確\n\n請輸入長度在 {1} 至 {2} 之間的字串.</sys:String>
+
+    <sys:String x:Key="base.msgWaitServoDetection">偵測舵機進行中, 請稍候 .......</sys:String>
+    <sys:String x:Key="base.msgServoDetected">發現了 舵機編號 {0}</sys:String>
+    <sys:String x:Key="base.msgServoDetectedCount">發現了 {0} 個舵機</sys:String>
+
+
     <!-- UcCommand_ControlBoard -->
     <sys:String x:Key="lblVersionHead">固件版本號:</sys:String>
     <sys:String x:Key="lblVersion">固件版本號:</sys:String>
@@ -71,7 +84,7 @@
     <sys:String x:Key="ubt.cbxSupportBroadcast">支援廣播指令</sys:String>
     <sys:String x:Key="ubt.rbChangeId">更改舵機編號為</sys:String>
     <sys:String x:Key="ubt.rbGetAngle">讀取舵機角度</sys:String>
-    
+
     <sys:String x:Key="ubt.rbMove">移動舵機:</sys:String>
     <sys:String x:Key="ubt.lblMoveAngle">目標角度:</sys:String>
     <sys:String x:Key="ubt.lblMoveTime">移動時間:</sys:String>
@@ -86,11 +99,49 @@
     <sys:String x:Key="ubt.rbSetAdjAngle">設定舵機角度偏移量:</sys:String>
     <sys:String x:Key="ubt.lblSuccessMove">成功設定後, 把舵機移動到</sys:String>
     <sys:String x:Key="ubt.lblSuccessMoveEnd">度進行對位.</sys:String>
-    
+
     <sys:String x:Key="ubt.rbAutoAdjAngle">設定當前位置為</sys:String>
     <sys:String x:Key="ubt.lblAutoAdjDelta">度, 微調量:</sys:String>
 
     <sys:String x:Key="ubt.rbFreeInput">執行以下指令 (不用輸入首尾碼 FA AF 及 ED)</sys:String>
+
+    <sys:String x:Key="ubt.msgNoAdjust">沒有偏移</sys:String>
+    <sys:String x:Key="ubt.msgPosAdjust">正向偏移 {0}</sys:String>
+    <sys:String x:Key="ubt.msgNegAdjust">反向偏移 {0}</sys:String>
+    <sys:String x:Key="ubt.msgInvalidAdjust">偏移量異常 {0}</sys:String>
+    <sys:String x:Key="ubt.msgShowAdjust">偏移校正:  {2:X2} {3:X2} 即 {4} \n</sys:String>
+
+    <sys:String x:Key="ubt.msgInvalidNewId">新的舵機編號不正常</sys:String>
+    <sys:String x:Key="ubt.msgNewIdSame">新的舵機編號不能跟原來的一樣</sys:String>
+    <sys:String x:Key="ubt.msgInvalidId">舵機編號不正常</sys:String>
+    <sys:String x:Key="ubt.msgShowVersion">版本號為: {0:X2} {1:X2} {2:X2} {3:X2}\n</sys:String>
+    <sys:String x:Key="ubt.msgConfirmChangeId">把 {0} 修改成 舵機編號 {1} \n</sys:String>
+    <sys:String x:Key="ubt.msgAllServo">所有舵機</sys:String>
+    <sys:String x:Key="ubt.msgServoId">舵機編號</sys:String>
+    <sys:String x:Key="ubt.msgChangeIdSuccess">舵機編號 {0} 已成功修改為 舵機編號 {1} \n</sys:String>
+    <sys:String x:Key="ubt.msgShowAngle">舵機角度:  目前為: {0:X2} {1:X2} ({2}度), 實際為: {3:X2} {4:X2} ({5}度)\n</sys:String>
+    <sys:String x:Key="ubt.msgGoMoveParameter">\n請先設定要移動的目標角度及移動時間</sys:String>
+    <sys:String x:Key="ubt.msgGoMoveSuccess">舵機 {0} 成功移動到 {1} 度位置</sys:String>
+    <sys:String x:Key="ubt.msgGoMoveFail">舵機 {0} 成功移動到 {1} 度位置</sys:String>
+    <sys:String x:Key="ubt.msgGoRotateParameter">\n請先設定要轉動的速度\n請輸入速度 0 停止轉動</sys:String>
+    <sys:String x:Key="ubt.msgGoRotateSpeed">\n請轉入 0 - 2000 的速度</sys:String>
+    <sys:String x:Key="ubt.msgGoRotateSuccess">舵機 {0} 成功{1}轉動</sys:String>
+    <sys:String x:Key="ubt.msgGoRotateFail">舵機 {0} {1}轉動失敗</sys:String>
+
+    <sys:String x:Key="ubt.msgSetAdjustFail">偏移量設置失敗</sys:String>
+    <sys:String x:Key="ubt.msgSetAdjustSuccess">偏移量設置成功</sys:String>
+
+
+    <sys:String x:Key="ubt.msgAutoAdjustNoBroadcast">\n自動設定偏移量只能針對個別舵機, 不支援廣播, 請先選擇舵機</sys:String>
+    <sys:String x:Key="ubt.msgAutoAdjustMustConnect">\n自動設定偏移量必須要連上舵機才可以進行</sys:String>
+    <sys:String x:Key="ubt.msgAutoAdjustRequireAngle">\n請先輸入要設定的角度</sys:String>
+    <sys:String x:Key="ubt.msgAutoInvalidAngle">輸入角度 {0} 過大了, 可設定角度為 0 - {1} 度</sys:String>
+
+    <sys:String x:Key="ubt.msgGetAdjustFail">讀取當前偏移量失敗</sys:String>
+    <sys:String x:Key="ubt.msgCurrentAdjustInvalid">當前偏移量不正常: {0:X4}</sys:String>
+    <sys:String x:Key="ubt.msgGetAngleFail">讀取當前角度失敗</sys:String>
+
+    <sys:String x:Key="ubt.msgAutoAdjustComplete">舵機 {0} 當前機械角度為: {1}度[{2}], 現設定為: {3}度[{4}]</sys:String>
 
     <!-- HaiLzd -->
     <sys:String x:Key="hailzd.lblServoId">舵機編號:</sys:String>
@@ -114,7 +165,5 @@
     <sys:String x:Key="hailzd.lblMoveAnglgeTime">移動時間:</sys:String>
     <sys:String x:Key="hailzd.rbSetAngle">設定當前角度為</sys:String>
     <sys:String x:Key="hailzd.rbFreeInput">指令</sys:String>
-
-
 
 </ResourceDictionary>
