@@ -282,9 +282,6 @@ namespace ServoCommander.uc
             int iActual = (buffer[6] << 8) | buffer[7];
             string result = String.Format(LocUtil.FindResource("ubt.msgShowAngle"),
                                           buffer[4], buffer[5], iAngle, buffer[6], buffer[7], iActual);
-            // string hexAngle = String.Format("{0:X2}", buffer[7]);
-            //txtAdjPreview.Text = buffer[7].ToString();
-            //txtAutoAdjAngle.Text = buffer[7].ToString();
             SetCurrAngle(buffer[7]);
             AppendLog(result);
         }
@@ -301,11 +298,14 @@ namespace ServoCommander.uc
             try
             {
                 byte angle = (byte)UTIL.GetInputInteger(txtMoveAngle.Text);
-                int iTime = UTIL.GetInputInteger(txtMoveTime.Text);
-                byte time = (byte)(iTime / 20);
+                int timeMs = UTIL.GetInputInteger(txtMoveTime.Text);
+                /*
+                byte time = (byte)(timeMs / 20);
                 cmd[4] = angle;
                 cmd[5] = cmd[7] = time;
+
                 SendCommand(cmd, 1);
+
                 if ((id != 0) && (robot.Available == 1))
                 {
                     byte[] buffer = robot.ReadAll();
@@ -320,6 +320,19 @@ namespace ServoCommander.uc
                     {
                         AppendLog(String.Format(LocUtil.FindResource("ubt.msgGoMoveFail"), id));
                     }
+                }
+                */
+                int result = UBTGoMove(id, angle, timeMs);
+                switch (result)
+                {
+                    case 0:
+                        SetCurrAngle(angle);
+                        AppendLog(String.Format(LocUtil.FindResource("ubt.msgGoMoveSuccess"), id, angle));
+                        break;
+                    case 1:
+                        AppendLog(String.Format(LocUtil.FindResource("ubt.msgGoMoveFail"), id));
+                        break;
+
                 }
             }
             catch (Exception ex)
@@ -481,7 +494,6 @@ namespace ServoCommander.uc
                 }
 
                 int delta = cboAutoAdjDelta.SelectedIndex;
-                // adjValue = 3 * angle
                 int actualValue = currAngle * 3 + adjValue;
                 int actualAngle = actualValue / 3;
                 int actualDelta = actualValue % 3;

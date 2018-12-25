@@ -74,7 +74,7 @@ namespace ServoCommander.uc
             if ((id > 0) && (robot.Available == 10))
             {
                 buffer = robot.ReadAll();
-                angle = buffer[5];
+                angle = buffer[7];
                 return true;
             }
             return false;
@@ -96,6 +96,31 @@ namespace ServoCommander.uc
                 if (buffer[3] == 0xAA) return true;
             }
             return false;
+        }
+
+        // -1 : cannot detect
+        //  0 : success
+        //  1 : failed
+        private int UBTGoMove(int id, byte angle, int timeMs)
+        {
+            byte[] cmd = { 0xFA, 0xAF, (byte)id, 1, 0, 0, 0, 0, 0, 0xED };
+            byte time = (byte)(timeMs / 20);
+            cmd[4] = angle;
+            cmd[5] = cmd[7] = time;
+            SendCommand(cmd, 1);
+            if ((id != 0) && (robot.Available == 1))
+            {
+                byte[] buffer = robot.ReadAll();
+                if (buffer[0] == (0xAA + id))
+                {
+                    return 0;
+                }
+                else
+                {
+                    return 1;
+                }
+            }
+            return -1;
         }
 
 
