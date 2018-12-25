@@ -70,13 +70,17 @@
 
 
     <!-- UBT -->
+    <sys:String x:Key="ubt.cbxSupportBroadcast">支援广播指令 (舵机编号为 0)</sys:String>
     <sys:String x:Key="ubt.lblServoId">舵机编号:</sys:String>
     <sys:String x:Key="ubt.lblMaxId">最大编号:</sys:String>
     <sys:String x:Key="ubt.btnCheckId">检查 (_Z)</sys:String>
 
     <sys:String x:Key="ubt.rbCheckVersion">检查舵机版本</sys:String>
-    <sys:String x:Key="ubt.cbxSupportBroadcast">支援广播指令</sys:String>
     <sys:String x:Key="ubt.rbChangeId">更改舵机编号为</sys:String>
+
+    <sys:String x:Key="ubt.rbLedOn">点亮舵机灯号</sys:String>
+    <sys:String x:Key="ubt.rbLedOff">熄掉舵机灯号</sys:String>
+
     <sys:String x:Key="ubt.rbGetAngle">读取舵机角度</sys:String>
 
     <sys:String x:Key="ubt.rbMove">移动舵机:</sys:String>
@@ -99,6 +103,11 @@
 
     <sys:String x:Key="ubt.rbFreeInput">执行以下指令 (不用输入首尾码 FA AF 及 ED)</sys:String>
 
+    <sys:String x:Key="ubt.msgLedOn">点亮</sys:String>
+    <sys:String x:Key="ubt.msgLedOff">熄掉</sys:String>
+    <sys:String x:Key="ubt.msgSetLedSuccess">成功{1}舵机{0}的灯号</sys:String>
+    <sys:String x:Key="ubt.msgSetLedFail">指令失败, 未能{1}舵机{0}的灯号</sys:String>
+
     <sys:String x:Key="ubt.msgNoAdjust">没有偏移</sys:String>
     <sys:String x:Key="ubt.msgPosAdjust">正向偏移 {0}</sys:String>
     <sys:String x:Key="ubt.msgNegAdjust">反向偏移 {0}</sys:String>
@@ -109,7 +118,7 @@
     <sys:String x:Key="ubt.msgNewIdSame">新的舵机编号不能跟原来的一样</sys:String>
     <sys:String x:Key="ubt.msgInvalidId">舵机编号不正常</sys:String>
     <sys:String x:Key="ubt.msgShowVersion">版本号为: {0:X2} {1:X2} {2:X2} {3:X2}\n</sys:String>
-    <sys:String x:Key="ubt.msgConfirmChangeId">把 {0} 修改成 舵机编号 {1}</sys:String>
+    <sys:String x:Key="ubt.msgConfirmChangeId">把 {0} 修改成 舵机编号 {1} \n</sys:String>
     <sys:String x:Key="ubt.msgAllServo">所有舵机</sys:String>
     <sys:String x:Key="ubt.msgServoId">舵机编号</sys:String>
     <sys:String x:Key="ubt.msgChangeIdSuccess">舵机编号 {0} 已成功修改为 舵机编号 {1} \n</sys:String>

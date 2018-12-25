@@ -8,8 +8,10 @@
              d:DesignHeight="500" d:DesignWidth="300">
     <Grid>
         <StackPanel>
-            <Grid Height="10" />
-            <Grid Height="30">
+            <Grid Height="15">
+                <CheckBox x:Name="cbxSupportBroadcast" Content="{DynamicResource ResourceKey=ubt.cbxSupportBroadcast}" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Top" Foreground="Red" FontWeight="Bold"/>
+            </Grid> 
+            <Grid Height="35">
                 <Label Content="{DynamicResource ResourceKey=ubt.lblServoId}" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
                 <TextBox Name ="txtId" HorizontalAlignment="Left" Height="23" Margin="70,2,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="35" PreviewTextInput="tb_PreviewInteger" PreviewKeyDown="tb_PreviewKeyDown_nospace" MaxLength="2" />
                 <Label Content="{DynamicResource ResourceKey=ubt.lblMaxId}" HorizontalAlignment="Left" Margin="120,0,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
@@ -18,12 +20,12 @@
             </Grid>
             <Grid Height="25">
                 <RadioButton GroupName="servoCommand" Name="rbCheckVersion" Content="{DynamicResource ResourceKey=ubt.rbCheckVersion}" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" IsChecked="True"/>
-                <CheckBox x:Name="cbxSupportBroadcast" Content="{DynamicResource ResourceKey=ubt.cbxSupportBroadcast}" HorizontalAlignment="Left" Margin="198,0,0,0" VerticalAlignment="Top" Foreground="Red" FontWeight="Bold"/>
-
+                <RadioButton GroupName="servoCommand" Name="rbChangeId" Content="{DynamicResource ResourceKey=ubt.rbChangeId}" HorizontalAlignment="Left" Margin="145,0,0,0" VerticalAlignment="Top" />
+                <TextBox Name ="txtNewId" HorizontalAlignment="Left" Height="23" Margin="255,-5,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="35" PreviewTextInput="tb_PreviewInteger" PreviewKeyDown="tb_PreviewKeyDown_nospace" MaxLength="2"/>
             </Grid>
             <Grid Height="25">
-                <RadioButton GroupName="servoCommand" Name="rbChangeId" Content="{DynamicResource ResourceKey=ubt.rbChangeId}" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" />
-                <TextBox Name ="txtNewId" HorizontalAlignment="Left" Height="23" Margin="120,-5,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="35" PreviewTextInput="tb_PreviewInteger" PreviewKeyDown="tb_PreviewKeyDown_nospace" MaxLength="2"/>
+                <RadioButton GroupName="servoCommand" Name="rbLedOn" Content="{DynamicResource ResourceKey=ubt.rbLedOn}" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top"/>
+                <RadioButton GroupName="servoCommand" Name="rbLedOff" Content="{DynamicResource ResourceKey=ubt.rbLedOff}" HorizontalAlignment="Left" Margin="145,0,0,0" VerticalAlignment="Top"/>
             </Grid>
             <Grid Height="25">
                 <RadioButton GroupName="servoCommand" Name="rbGetAngle" Content="{DynamicResource ResourceKey=ubt.rbGetAngle}" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top"/>

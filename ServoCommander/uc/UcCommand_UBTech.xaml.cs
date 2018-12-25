@@ -138,6 +138,14 @@ namespace ServoCommander.uc
                     }
                     ChangeId(id, newId);
                 }
+                else if (rbLedOn.IsChecked == true)
+                {
+                    SetLed(id, true);
+                }
+                else if (rbLedOff.IsChecked == true)
+                {
+                    SetLed(id, false);
+                }
                 else if (rbGetAngle.IsChecked == true)
                 {
                     GetAngle(id);
@@ -271,6 +279,26 @@ namespace ServoCommander.uc
                     UpdateInfo(result, UTIL.InfoType.alert);
                 }
             }
+        }
+
+        private void SetLed(int id, bool mode)
+        {
+            byte[] cmd = { 0xFA, 0xAF, (byte)id, 0x04, (byte) (mode ? 0x00 : 0x01), 0, 0, 0, 0, 0xED };
+            SendCommand(cmd, 10);
+            if ((id != 0) && (robot.Available == 1))
+            {
+                byte[] buffer = robot.ReadAll();
+                string action = LocUtil.FindResource(mode ? "ubt.msgLedOn" : "ubt.msgLedOff");
+                if (buffer[0] == (0xAA + id))
+                {
+                    AppendLog(String.Format(LocUtil.FindResource("ubt.msgSetLedSuccess"), id, action));
+                }
+                else
+                {
+                    AppendLog(String.Format(LocUtil.FindResource("ubt.msgSetLedFail"), id, action));
+                }
+            }
+
         }
 
         private void GetAngle(int id)
