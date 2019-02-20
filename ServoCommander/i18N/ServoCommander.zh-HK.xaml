@@ -10,7 +10,7 @@
     
     -->
 
-    <sys:String x:Key="WindowTitle">舵機調試工具</sys:String>
+    <sys:String x:Key="WindowTitle">總線設備調試器</sys:String>
     <sys:String x:Key="miSettings">設定</sys:String>
     <sys:String x:Key="miLanguage">語言</sys:String>
 
@@ -18,6 +18,8 @@
     <sys:String x:Key="miControlBoard">控制板協定</sys:String>
     <sys:String x:Key="miUBTech">優必選/總線電機協定</sys:String>
     <sys:String x:Key="miHaiLzd">海靈協定</sys:String>
+
+    <sys:String x:Key="miPsxButton">PS2按鍵設置</sys:String>
 
     <sys:String x:Key="lblPort">連接埠:</sys:String>
 
@@ -174,5 +176,11 @@
     <sys:String x:Key="hailzd.lblMoveAnglgeTime">移動時間:</sys:String>
     <sys:String x:Key="hailzd.rbSetAngle">設定當前角度為</sys:String>
     <sys:String x:Key="hailzd.rbFreeInput">指令</sys:String>
+
+    <sys:String x:Key="psx.lblPort">串口:</sys:String>
+    <sys:String x:Key="psx.btnConnect">連線</sys:String>
+    <sys:String x:Key="psx.btnReset">重置</sys:String>
+    <sys:String x:Key="psx.btnSave">儲存</sys:String>
+    <sys:String x:Key="psx.btnCancel">取消</sys:String>
 
 </ResourceDictionary>

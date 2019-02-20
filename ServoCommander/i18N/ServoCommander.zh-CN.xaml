@@ -4,7 +4,7 @@
     <sys:String x:Key="ResourceDictoinaryName">Loc-zh-CN</sys:String>
 
 
-    <sys:String x:Key="WindowTitle">舵机调试工具</sys:String>
+    <sys:String x:Key="WindowTitle">总线设备调试器</sys:String>
     <sys:String x:Key="miSettings">设定</sys:String>
     <sys:String x:Key="miLanguage">语言</sys:String>
 
@@ -12,6 +12,9 @@
     <sys:String x:Key="miControlBoard">控制板协定</sys:String>
     <sys:String x:Key="miUBTech">优必选/总线电机协定</sys:String>
     <sys:String x:Key="miHaiLzd">海灵协定</sys:String>
+
+    <sys:String x:Key="miPsxButton">PS2按键设置</sys:String>
+
 
     <sys:String x:Key="lblPort">连接埠:</sys:String>
 
@@ -168,5 +171,11 @@
     <sys:String x:Key="hailzd.lblMoveAnglgeTime">移动时间:</sys:String>
     <sys:String x:Key="hailzd.rbSetAngle">设定当前角度为</sys:String>
     <sys:String x:Key="hailzd.rbFreeInput">指令</sys:String>
+
+    <sys:String x:Key="psx.lblPort">串口:</sys:String>
+    <sys:String x:Key="psx.btnConnect">连线</sys:String>
+    <sys:String x:Key="psx.btnReset">重置</sys:String>
+    <sys:String x:Key="psx.btnSave">储存</sys:String>
+    <sys:String x:Key="psx.btnCancel">取消</sys:String>
 
 </ResourceDictionary>

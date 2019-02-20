@@ -14,6 +14,8 @@
                 <MenuItem Name="miHaiLzd" Header="{DynamicResource ResourceKey=miHaiLzd}" Click="miFunctionMenu_Click"/>
             </MenuItem>
 
+            <MenuItem Name="miPsxButton" Header="{DynamicResource ResourceKey=miPsxButton}" Click="miPsxButton_Click"/>
+
             <MenuItem Name="miSettings" Header="{DynamicResource ResourceKey=miSettings}">
                 <MenuItem Name="miLanguages" Header="{DynamicResource ResourceKey=miLanguage}">
                     <MenuItem Header="繁體中文" Tag="zh-HK"  Click="miLanguages_Click"/>

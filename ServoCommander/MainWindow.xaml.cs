@@ -263,6 +263,14 @@ namespace ServoCommander
 
         }
 
+        private void miPsxButton_Click(object sender, RoutedEventArgs e)
+        {
+            WinPsxButtonSetting win = new WinPsxButtonSetting();
+            win.Owner = this;
+            win.ShowDialog();
+            win = null;
+        }
+
         private void SetButtonLabel()
         {
             bool connected = robot.isConnected;

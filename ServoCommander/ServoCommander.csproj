@@ -73,6 +73,9 @@
       <DependentUpon>UcCommand_UBTech.xaml</DependentUpon>
     </Compile>
     <Compile Include="uc\UcCommand__base.cs" />
+    <Compile Include="win\psx\WinPsxButtonSetting.xaml.cs">
+      <DependentUpon>WinPsxButtonSetting.xaml</DependentUpon>
+    </Compile>
     <Content Include="i18N\ServoCommander.zh-CN.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -105,6 +108,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="uc\UcCommand_UBTech.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="win\psx\WinPsxButtonSetting.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -148,5 +155,6 @@
       <Name>MyUtil</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
