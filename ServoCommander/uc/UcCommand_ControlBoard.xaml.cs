@@ -1,4 +1,5 @@
 ﻿using MyUtil;
+using MyUtil;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -73,7 +74,12 @@ namespace ServoCommander.uc
             } else if (rbEnterUSBTTL.IsChecked == true)
             {
                 EnterUSBTTL();
-            } else if (rbExitUSBTTL.IsChecked == true)
+            }
+            else if (rbEnterUSBTTLSSB.IsChecked == true)
+            {
+                EnterUSBTTLSSB();
+            }
+            else if (rbExitUSBTTL.IsChecked == true)
             {
                 ExitUSBTTL();
             }
@@ -213,6 +219,38 @@ namespace ServoCommander.uc
                 }
             }
         }
+
+        private void EnterUSBTTLSSB()
+        {
+            if (robot.currMode == RobotConnection.connMode.Network)
+            {
+                if (!MessageConfirm(LocUtil.FindResource("cb.msgConfirmEnterUSBTTL"))) return;
+            }
+
+            byte[] cmd = { 0xA9, 0x9A, 0x04, 0x07, 0x00, 0x01, 0x0C, 0xED };
+            SendCBCommand(cmd, 7);
+            if (robot.isConnected)
+            {
+                string action = LocUtil.FindResource("cb.msgEnterUSBTTLSSB");
+                if (robot.Available == 7)
+                {
+                    byte[] result = robot.ReadAll();
+                    if (result[4] == 0)
+                    {
+                        AppendLog(LocUtil.FindResource("msgSuccess") + action);
+                    }
+                    else
+                    {
+                        AppendLog(action + LocUtil.FindResource("msgFail"));
+                    }
+                }
+                else
+                {
+                    AppendLog(string.Format(LocUtil.FindResource("cb.msgUSBTTLNoReply"), action));
+                }
+            }
+        }
+
 
         private void ExitUSBTTL()
         {

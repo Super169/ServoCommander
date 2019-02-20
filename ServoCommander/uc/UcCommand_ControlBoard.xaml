@@ -21,7 +21,10 @@
             </Grid>
             <Grid x:Name="gridUSBTTL" Height="25">
                 <RadioButton GroupName="CBCommand" x:Name="rbEnterUSBTTL" Content="{DynamicResource ResourceKey=rbEnterUSBTTL}" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                <RadioButton GroupName="CBCommand" x:Name="rbExitUSBTTL" Content="{DynamicResource ResourceKey=rbExitUSBTTL}" HorizontalAlignment="Left" Margin="160,0,0,0" VerticalAlignment="Center"/>
+                <RadioButton GroupName="CBCommand" x:Name="rbEnterUSBTTLSSB" Content="{DynamicResource ResourceKey=rbEnterUSBTTLSSB}" HorizontalAlignment="Left" Margin="140,0,0,0" VerticalAlignment="Center"/>
+            </Grid>
+            <Grid x:Name="gridUSBTTL2" Height="25">
+                <RadioButton GroupName="CBCommand" x:Name="rbExitUSBTTL" Content="{DynamicResource ResourceKey=rbExitUSBTTL}" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center"/>
             </Grid>
         </StackPanel>
     </Grid>

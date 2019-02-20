@@ -143,6 +143,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="images\PSX.png" />
     <Resource Include="images\refresh.png" />
   </ItemGroup>
   <ItemGroup>

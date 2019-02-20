@@ -52,6 +52,7 @@
     <sys:String x:Key="rbServoMode">检查舵机模式</sys:String>
     <sys:String x:Key="rbCommandMode">检查支援指令类别</sys:String>
     <sys:String x:Key="rbEnterUSBTTL">进入USB-TTL 模式</sys:String>
+    <sys:String x:Key="rbEnterUSBTTLSSB">进入USB-TTL 模式 (副板)</sys:String>
     <sys:String x:Key="rbExitUSBTTL">离开 USB-TTL 模式</sys:String>
 
     <sys:String x:Key="cb.msgControllerNotFound">控制板没连接或版本太旧</sys:String>
@@ -66,6 +67,7 @@
 
     <sys:String x:Key="cb.msgConfirmEnterUSBTTL">请注意:\n启动 USB-TTL 模式後\n网络连线将无法发出指令, 必须用串口连线去解除.\n请确定是否进入 USB-TTL 模式?</sys:String>
     <sys:String x:Key="cb.msgEnterUSBTTL">进入 USB-TTL 模式</sys:String>
+    <sys:String x:Key="cb.msgEnterUSBTTLSSB">进入 USB-TTL 模式 (副板)</sys:String>
     <sys:String x:Key="cb.msgUSBTTLNoReply">已发出 {0} 指令, 但回传不正常, 可能已在 USB-TTL 模式, 又或控制板有问题.</sys:String>
 
     <sys:String x:Key="cb.msgConfirmQuitUSBTTL">请注意:\n离开 USB-TTL 模式指令, 只在串口连线才有效.\n请确定是否发出离开 USB-TTL 模式指令?</sys:String>

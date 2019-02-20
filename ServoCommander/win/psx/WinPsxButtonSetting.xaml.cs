@@ -1,6 +1,7 @@
 ﻿using MyUtil;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -25,7 +26,6 @@ namespace ServoCommander
         private TextBox[] txtPsx = new TextBox[16];
         private byte devType = 0x01;
         private byte devId = 0x00;
-        private byte cmdPing = 0x01;
         private byte cmdRead = 0x02;
         private byte cmdWrite = 0x03;
         private byte cmdStartPos = 0x46;
@@ -72,9 +72,15 @@ namespace ServoCommander
         {
             bool connected = robot.isConnected;
             SetButtonLabel();
+            gridConnection.Background = new SolidColorBrush(connected ? Colors.LightBlue : Colors.LightGray);
+            gridPSX.IsEnabled = connected;
             btnConnect.IsEnabled = (cboPorts.Items.Count > 0);
             cboPorts.IsEnabled = !connected;
             btnRefresh.IsEnabled = !connected;
+            btnRefresh.Visibility = (connected ? Visibility.Hidden : Visibility.Visible);
+            btnClear.IsEnabled = connected;
+            btnReset.IsEnabled = connected;
+            btnSave.IsEnabled = connected;
         }
 
         private void SetButtonLabel()
@@ -87,6 +93,12 @@ namespace ServoCommander
         {
             InitializeComponent();
             InitObjects();
+            this.Closing += WinPsxButtonSetting_OnClosing;
+        }
+
+        private void WinPsxButtonSetting_OnClosing(object sender, CancelEventArgs e)
+        {
+            if (robot.isConnected) robot.Disconnect();
         }
 
         private void InitObjects()
@@ -118,6 +130,7 @@ namespace ServoCommander
 
         private void btnRefresh_Click(object sender, RoutedEventArgs e)
         {
+            UpdateInfo();
             robot.SetSerialPorts(cboPorts, (string)cboPorts.SelectedValue);
         }
 
@@ -132,16 +145,22 @@ namespace ServoCommander
             {
                 robot.Connect((string)cboPorts.SelectedValue);
             }
+            if (robot.isConnected)
+            {
+                ReadSettings();
+            }
             SetStatus();
         }
 
         private void btnReset_Click(object sender, RoutedEventArgs e)
         {
+            UpdateInfo();
             ReadSettings();
         }
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
+            UpdateInfo();
             if (!SaveSettings()) return;
             if (robot.isConnected) robot.Disconnect();
             this.Close();
@@ -149,12 +168,14 @@ namespace ServoCommander
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
+            UpdateInfo();
             if (robot.isConnected) robot.Disconnect();
             this.Close();
         }
 
         private void btnClear_Click(object sender, RoutedEventArgs e)
         {
+            UpdateInfo();
             for (int i = 0; i < 16; i++)
             {
                 txtPsx[i].Text = "";
@@ -172,9 +193,11 @@ namespace ServoCommander
             cmd[5] = cmdRead;
             cmd[6] = cmdStartPos;
             cmd[7] = cmdDataLen;
-            cmd[8] = 0x00;
+            cmd[8] = UTIL.CalCBCheckSum(cmd);
             cmd[9] = 0xED;
-            if (!robot.SendCommand(cmd, 170, 9, 1000))
+
+
+            if (!robot.SendCommand(cmd, 10, 170, 1000))
             {
                 return false;
             }
@@ -183,40 +206,73 @@ namespace ServoCommander
             {
                 return false;
             }
-            for (int i = 0; i < 15; i++)
+            for (int i = 0; i < 16; i++)
             {
-                txtPsx[i].Text = Encoding.ASCII.GetString(result, 8 + i * 10, 10);
+                // txtPsx[i].Text = Encoding.ASCII.GetString(result, 8 + i * 10, 10);
+                int basePos = 8 + i * 10;
+                int len = 0;
+                while (len < 10)
+                {
+                    if (result[basePos + len] == 0x00) break;
+                    len++;
+                }
+                if (len > 0)
+                {
+                    txtPsx[i].Text = Encoding.ASCII.GetString(result, 8 + i * 10, len);
+                } else
+                {
+                    txtPsx[i].Text = "";
+                }
             }
             return true;
         }
 
         private bool SaveSettings()
         {
-            byte[] cmd = new byte[170];
+            for (int part = 0; part < 2; part++)
+            {
+                byte[] cmdData = new byte[80];
+                for (int i = 0; i < 8; i++)
+                {
+                    byte[] data = Encoding.ASCII.GetBytes(txtPsx[8 * part + i].Text);
+                    int BasePos = 10 * i;
+                    for (int j = 0; j < 10; j++)
+                    {
+                        cmdData[BasePos + j] = (byte)(j < data.Length ? data[j] : 0);
+                    }
+                }
+                byte startPos = (byte) (70 + 80 * part);
+                if (!SaveRecord(startPos, cmdData))
+                {
+                    UpdateInfo("Fail to save setting", UTIL.InfoType.error);
+                    return false;
+                }
+            }
+            UpdateInfo("PSX Setting saved");
+            return true;
+        }
+
+
+        private bool SaveRecord(byte startPos, byte[] data)
+        {
+            byte[] cmd = new byte[data.Length + 10];
             cmd[0] = 0xA8;
             cmd[1] = 0x8A;
-            cmd[2] = 0x06;
+            cmd[2] = (byte) (data.Length + 6);   // len, devType, devId, cmdWrite, cmdStartPos, cmdDataLen - 6 bytes
             cmd[3] = devType;
             cmd[4] = devId;
             cmd[5] = cmdWrite;
-            cmd[6] = cmdStartPos;
-            cmd[7] = cmdDataLen;
-            for (int i = 0; i < 16; i++)
-            {
-                byte[] data = Encoding.ASCII.GetBytes(txtPsx[i].Text);
-                int BasePos = 8 + 10 * i;
-                for (int j = 0; i < 10; j++)
-                {
-                    cmd[BasePos + j] = (byte) (j < data.Length ? data[j] : 0);
-                }
-            }
-            cmd[168] = 0x00;
-            cmd[169] = 0xED;
-            if (!robot.SendCommand(cmd, 170, 9, 1000))
-            {
-                UpdateInfo("Fail to save setting", UTIL.InfoType.error);
-                return false;
-            }
+            cmd[6] = startPos;
+            cmd[7] = (byte) data.Length;
+
+            for (int i = 0; i < data.Length; i++) cmd[8 + i] = data[i];
+            cmd[data.Length + 8] = UTIL.CalCBCheckSum(cmd);
+            cmd[data.Length + 9] = 0xED;
+
+            if (!robot.SendCommand(cmd, data.Length + 10, 9, 1000)) return false;
+            byte[] result = robot.ReadAll();
+            if (result.Length != 9) return false;
+            if (result[6] != 0) return false;
             return true;
         }
 
