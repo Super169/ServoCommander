@@ -28,7 +28,26 @@
                 </Button>
                 <Button x:Name="btnConnect" Content="{DynamicResource ResourceKey=psx.btnConnect}" Margin="180,6,0,5" VerticalAlignment="Center" Click="btnConnect_Click" HorizontalAlignment="Left" Width="70"/>
             </Grid>
+            <Grid Grid.Row="1">
+                <TextBox x:Name="txtPsx_00" HorizontalAlignment="Left" Height="23" Margin="100,50,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" MaxLength="10" />
+                <TextBox x:Name="txtPsx_01" HorizontalAlignment="Left" Height="23" Margin="100,100,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" MaxLength="10" />
+                <TextBox x:Name="txtPsx_02" HorizontalAlignment="Left" Height="23" Margin="100,150,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" MaxLength="10" />
+                <TextBox x:Name="txtPsx_03" HorizontalAlignment="Left" Height="23" Margin="100,200,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" MaxLength="10" />
+                <TextBox x:Name="txtPsx_04" HorizontalAlignment="Left" Height="23" Margin="250,50,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" MaxLength="10" />
+                <TextBox x:Name="txtPsx_05" HorizontalAlignment="Left" Height="23" Margin="250,100,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" MaxLength="10" />
+                <TextBox x:Name="txtPsx_06" HorizontalAlignment="Left" Height="23" Margin="250,150,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" MaxLength="10" />
+                <TextBox x:Name="txtPsx_07" HorizontalAlignment="Left" Height="23" Margin="250,200,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" MaxLength="10" />
+                <TextBox x:Name="txtPsx_08" HorizontalAlignment="Left" Height="23" Margin="400,50,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" MaxLength="10" />
+                <TextBox x:Name="txtPsx_09" HorizontalAlignment="Left" Height="23" Margin="400,100,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" MaxLength="10" />
+                <TextBox x:Name="txtPsx_10" HorizontalAlignment="Left" Height="23" Margin="400,150,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" MaxLength="10" />
+                <TextBox x:Name="txtPsx_11" HorizontalAlignment="Left" Height="23" Margin="400,200,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" MaxLength="10" />
+                <TextBox x:Name="txtPsx_12" HorizontalAlignment="Left" Height="23" Margin="550,50,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" MaxLength="10" />
+                <TextBox x:Name="txtPsx_13" HorizontalAlignment="Left" Height="23" Margin="550,100,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" MaxLength="10" />
+                <TextBox x:Name="txtPsx_14" HorizontalAlignment="Left" Height="23" Margin="550,150,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" MaxLength="10" />
+                <TextBox x:Name="txtPsx_15" HorizontalAlignment="Left" Height="23" Margin="550,200,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" MaxLength="10" />
+            </Grid>
             <Grid Grid.Row="2">
+                <Button x:Name="btnClear" Content="{DynamicResource ResourceKey=psx.btnClear}" Margin="0,6,310,5" VerticalAlignment="Center" Click="btnClear_Click" HorizontalAlignment="Right" Width="70"/>
                 <Button x:Name="btnReset" Content="{DynamicResource ResourceKey=psx.btnReset}" Margin="0,6,210,5" VerticalAlignment="Center" Click="btnReset_Click" HorizontalAlignment="Right" Width="70"/>
                 <Button x:Name="btnSave" Content="{DynamicResource ResourceKey=psx.btnSave}" Margin="0,6,110,5" VerticalAlignment="Center" Click="btnSave_Click" HorizontalAlignment="Right" Width="70"/>
                 <Button x:Name="btnCancel" Content="{DynamicResource ResourceKey=psx.btnCancel}" Margin="0,6,10,5" VerticalAlignment="Center" Click="btnCancel_Click" HorizontalAlignment="Right" Width="70"/>

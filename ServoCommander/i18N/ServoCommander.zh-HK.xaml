@@ -179,6 +179,7 @@
 
     <sys:String x:Key="psx.lblPort">串口:</sys:String>
     <sys:String x:Key="psx.btnConnect">連線</sys:String>
+    <sys:String x:Key="psx.btnClear">清除</sys:String>
     <sys:String x:Key="psx.btnReset">重置</sys:String>
     <sys:String x:Key="psx.btnSave">儲存</sys:String>
     <sys:String x:Key="psx.btnCancel">取消</sys:String>
