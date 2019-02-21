@@ -181,5 +181,9 @@
     <sys:String x:Key="psx.btnReset">重置</sys:String>
     <sys:String x:Key="psx.btnSave">储存</sys:String>
     <sys:String x:Key="psx.btnCancel">取消</sys:String>
-
+    <sys:String x:Key="psx.msgInvalidSpeed">输入的速度不正常, 请输入 9600 - 921600 之间的速度</sys:String>
+    <sys:String x:Key="psx.fmtInvalidSettings">输入的设置不正常: {0}</sys:String>    <sys:String x:Key="psx.msgReadFail">读取PS2按键设置失败, 请确认已连接到PS2控制板</sys:String>
+    <sys:String x:Key="psx.msgSaveSuccess">PS2按键设置已成功储存</sys:String>
+    <sys:String x:Key="psx.msgSaveFail">储存PS2按键设置失败</sys:String>
+    
 </ResourceDictionary>

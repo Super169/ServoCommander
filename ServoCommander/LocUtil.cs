@@ -113,31 +113,9 @@ namespace ServoCommander
                 var languageDictionary = new ResourceDictionary();
                 languageDictionary.Source = new Uri(inFile);
                 // Remove any previous Localization dictionaries loaded  
-                int langDictId = -1;
-                for (int i = 0; i < element.Resources.MergedDictionaries.Count; i++)
-                {
-                    var md = element.Resources.MergedDictionaries[i];
-                    // Make sure your Localization ResourceDictionarys have the ResourceDictionaryName  
-                    // key and that it is set to a value starting with "Loc-".  
-                    if (md.Contains("ResourceDictionaryName"))
-                    {
-                        if (md["ResourceDictionaryName"].ToString().StartsWith("Loc-"))
-                        {
-                            langDictId = i;
-                            break;
-                        }
-                    }
-                }
-                if (langDictId == -1)
-                {
-                    // Add in newly loaded Resource Dictionary  
-                    element.Resources.MergedDictionaries.Add(languageDictionary);
-                }
-                else
-                {
-                    // Replace the current langage dictionary with the new one  
-                    element.Resources.MergedDictionaries[langDictId] = languageDictionary;
-                }
+                // Always use Application.Current.Resources instead of element.Resource
+                Application.Current.Resources.MergedDictionaries.Clear();
+                Application.Current.Resources.MergedDictionaries.Add(languageDictionary);
             }
             else
             {

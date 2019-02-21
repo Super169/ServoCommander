@@ -33,26 +33,26 @@
                     <ComboBoxItem Content="460800"/>
                     <ComboBoxItem Content="921600"/>
                 </ComboBox>
-                <Button x:Name="btnConnect" Content="{DynamicResource ResourceKey=psx.btnConnect}" Margin="300,6,0,5" VerticalAlignment="Center" Click="btnConnect_Click" HorizontalAlignment="Left" Width="70"/>
+                <Button x:Name="btnConnect" Content="{DynamicResource ResourceKey=psx.btnConnect}" Margin="300,6,0,5" VerticalAlignment="Center" Click="btnConnect_Click" HorizontalAlignment="Left" Width="70" />
             </Grid>
             <Grid x:Name="gridPSX" Grid.Row="1">
                 <Image HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Center"  Source="/ServoCommander;component/images/PSX.png" />
-                <TextBox x:Name="txtPsx_00" HorizontalAlignment="Left" Height="23" Margin="420,109,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" MaxLength="10" Background="#FFF9FBD2" />
-                <TextBox x:Name="txtPsx_01" HorizontalAlignment="Left" Height="23" Margin="571,208,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" MaxLength="10" Background="#FFF9FBD2" />
-                <TextBox x:Name="txtPsx_02" HorizontalAlignment="Left" Height="23" Margin="654,142,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" MaxLength="10" Background="#FFF9FBD2" />
-                <TextBox x:Name="txtPsx_03" HorizontalAlignment="Left" Height="23" Margin="560,79,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" MaxLength="10" Background="#FFF9FBD2" />
-                <TextBox x:Name="txtPsx_04" HorizontalAlignment="Left" Height="24" Margin="648,6,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" MaxLength="10" Background="#FFF9FBD2" />
-                <TextBox x:Name="txtPsx_05" HorizontalAlignment="Left" Height="24" Margin="38,6,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" MaxLength="10" Background="#FFF9FBD2" />
-                <TextBox x:Name="txtPsx_06" HorizontalAlignment="Left" Height="24" Margin="648,34,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" MaxLength="10" Background="#FFF9FBD2" />
-                <TextBox x:Name="txtPsx_07" HorizontalAlignment="Left" Height="24" Margin="38,34,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" MaxLength="10" Background="#FFF9FBD2" />
-                <TextBox x:Name="txtPsx_08" HorizontalAlignment="Left" Height="23" Margin="37,142,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" MaxLength="10" Background="#FFF9FBD2" />
-                <TextBox x:Name="txtPsx_09" HorizontalAlignment="Left" Height="23" Margin="106,208,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" MaxLength="10" Background="#FFF9FBD2" />
-                <TextBox x:Name="txtPsx_10" HorizontalAlignment="Left" Height="23" Margin="250,110,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" MaxLength="10" Background="#FFF9FBD2" RenderTransformOrigin="0.538,1.381" />
-                <TextBox x:Name="txtPsx_11" HorizontalAlignment="Left" Height="23" Margin="107,79,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" MaxLength="10" Background="#FFF9FBD2" />
-                <TextBox x:Name="txtPsx_12" HorizontalAlignment="Left" Height="23" Margin="410,180,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" MaxLength="10" Background="#FFF9FBD2" />
-                <TextBox x:Name="txtPsx_13" HorizontalAlignment="Left" Height="23" Margin="420,267,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" MaxLength="10" Background="#FFF9FBD2" />
-                <TextBox x:Name="txtPsx_14" HorizontalAlignment="Left" Height="23" Margin="250,269,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" MaxLength="10" Background="#FFF9FBD2" />
-                <TextBox x:Name="txtPsx_15" HorizontalAlignment="Left" Height="23" Margin="260,180,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" MaxLength="10" Background="#FFF9FBD2" />
+                <TextBox x:Name="txtPsx_00" HorizontalAlignment="Left" Height="23" Margin="420,109,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" MaxLength="12" Background="#FFF9FBD2" />
+                <TextBox x:Name="txtPsx_01" HorizontalAlignment="Left" Height="23" Margin="571,208,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" MaxLength="12" Background="#FFF9FBD2" />
+                <TextBox x:Name="txtPsx_02" HorizontalAlignment="Left" Height="23" Margin="654,142,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" MaxLength="12" Background="#FFF9FBD2" />
+                <TextBox x:Name="txtPsx_03" HorizontalAlignment="Left" Height="23" Margin="560,79,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" MaxLength="12" Background="#FFF9FBD2" />
+                <TextBox x:Name="txtPsx_04" HorizontalAlignment="Left" Height="24" Margin="648,6,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" MaxLength="12" Background="#FFF9FBD2" />
+                <TextBox x:Name="txtPsx_05" HorizontalAlignment="Left" Height="24" Margin="38,6,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" MaxLength="12" Background="#FFF9FBD2" />
+                <TextBox x:Name="txtPsx_06" HorizontalAlignment="Left" Height="24" Margin="648,34,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" MaxLength="12" Background="#FFF9FBD2" />
+                <TextBox x:Name="txtPsx_07" HorizontalAlignment="Left" Height="24" Margin="38,34,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" MaxLength="12" Background="#FFF9FBD2" />
+                <TextBox x:Name="txtPsx_08" HorizontalAlignment="Left" Height="23" Margin="37,142,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" MaxLength="12" Background="#FFF9FBD2" />
+                <TextBox x:Name="txtPsx_09" HorizontalAlignment="Left" Height="23" Margin="106,208,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" MaxLength="12" Background="#FFF9FBD2" />
+                <TextBox x:Name="txtPsx_10" HorizontalAlignment="Left" Height="23" Margin="250,110,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" MaxLength="12" Background="#FFF9FBD2" RenderTransformOrigin="0.538,1.381" />
+                <TextBox x:Name="txtPsx_11" HorizontalAlignment="Left" Height="23" Margin="107,79,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" MaxLength="12" Background="#FFF9FBD2" />
+                <TextBox x:Name="txtPsx_12" HorizontalAlignment="Left" Height="23" Margin="410,180,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" MaxLength="12" Background="#FFF9FBD2" />
+                <TextBox x:Name="txtPsx_13" HorizontalAlignment="Left" Height="23" Margin="420,267,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" MaxLength="12" Background="#FFF9FBD2" />
+                <TextBox x:Name="txtPsx_14" HorizontalAlignment="Left" Height="23" Margin="250,269,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" MaxLength="12" Background="#FFF9FBD2" />
+                <TextBox x:Name="txtPsx_15" HorizontalAlignment="Left" Height="23" Margin="260,180,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" MaxLength="12" Background="#FFF9FBD2" />
                 <Label Content="R1" HorizontalAlignment="Left" Margin="620,5,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
                 <Label Content="R2" HorizontalAlignment="Left" Margin="620,33,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
                 <Label Content="L1" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" FontWeight="Bold"/>

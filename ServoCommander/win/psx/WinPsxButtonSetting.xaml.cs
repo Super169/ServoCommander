@@ -88,7 +88,7 @@ namespace ServoCommander
         private void SetButtonLabel()
         {
             bool connected = robot.isConnected;
-            btnConnect.Content = LocUtil.FindResource(connected ? "btnConnectOff" : "btnConnect");
+            // btnConnect.Content = LocUtil.FindResource(connected ? "btnConnectOff" : "btnConnect");
         }
 
         public WinPsxButtonSetting()
@@ -149,14 +149,14 @@ namespace ServoCommander
                 string sSpeed = cboSpeed.Text;
                 if (!int.TryParse(sSpeed, out speed) || (speed < 9600) || (speed > 921600))
                 {
-                    MessageBox.Show("输入的速度不正常, 请输入 9600 - 921600 之间的速度");
+                    MessageBox.Show(LocUtil.FindResource("psx.msgInvalidSpeed"), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
                 robot.Connect((string)cboPorts.SelectedValue, speed, Parity.None, 8, StopBits.One);
             }
             if (robot.isConnected)
             {
-                ReadSettings();
+                GoReadSettings();
             }
             SetStatus();
         }
@@ -164,15 +164,19 @@ namespace ServoCommander
         private void btnReset_Click(object sender, RoutedEventArgs e)
         {
             UpdateInfo();
-            ReadSettings();
+            GoReadSettings();
         }
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
             UpdateInfo();
-            if (!SaveSettings()) return;
-            if (robot.isConnected) robot.Disconnect();
-            this.Close();
+            if (SaveSettings())
+            {
+                MessageBox.Show(LocUtil.FindResource("psx.msgSaveSuccess"));
+            } else
+            {
+                MessageBox.Show(LocUtil.FindResource("psx.msgSaveFail"), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
@@ -189,6 +193,16 @@ namespace ServoCommander
             {
                 txtPsx[i].Text = "";
             }
+        }
+
+        private bool GoReadSettings()
+        {
+            bool result = ReadSettings();
+            if (!result)
+            {
+                MessageBox.Show(LocUtil.FindResource("psx.msgReadFail"), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            return result;
         }
 
         private bool ReadSettings()
@@ -235,7 +249,7 @@ namespace ServoCommander
                     byte[] data = UTIL.Str2B7Array(sData);
                     if (data == null)
                     {
-                        UpdateInfo(string.Format("Invalid value: {0}", sData), UTIL.InfoType.error);
+                        UpdateInfo(string.Format(LocUtil.FindResource("psx.fmtInvalidSettings"), sData), UTIL.InfoType.error);
                         return false;
                     }
                     int BasePos = 10 * i;
@@ -245,13 +259,22 @@ namespace ServoCommander
                     }
                 }
                 byte startPos = (byte) (70 + 80 * part);
-                if (!SaveRecord(startPos, cmdData))
+                int tryCount = 0;
+                bool success = false;
+                while ((tryCount < 3) && !success)
                 {
-                    UpdateInfo("Fail to save setting", UTIL.InfoType.error);
+                    tryCount++;
+                    success = SaveRecord(startPos, cmdData);
+                    if (!success)
+                    {
+                        Thread.Sleep(100);
+                    }
+                }
+                if (!success)
+                {
                     return false;
                 }
             }
-            UpdateInfo("PSX Setting saved");
             return true;
         }
 
