@@ -175,6 +175,7 @@
     <sys:String x:Key="hailzd.rbFreeInput">指令</sys:String>
 
     <sys:String x:Key="psx.lblPort">串口:</sys:String>
+    <sys:String x:Key="psx.lblSpeed">速度:</sys:String>
     <sys:String x:Key="psx.btnConnect">连线</sys:String>
     <sys:String x:Key="psx.btnClear">清除</sys:String>
     <sys:String x:Key="psx.btnReset">重置</sys:String>

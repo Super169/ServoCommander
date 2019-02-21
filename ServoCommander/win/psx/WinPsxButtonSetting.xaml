@@ -27,7 +27,13 @@
                         <ImageBrush ImageSource="/images/refresh.png" />
                     </Button.Background>
                 </Button>
-                <Button x:Name="btnConnect" Content="{DynamicResource ResourceKey=psx.btnConnect}" Margin="180,6,0,5" VerticalAlignment="Center" Click="btnConnect_Click" HorizontalAlignment="Left" Width="70"/>
+                <Label Content="{DynamicResource ResourceKey=psx.lblSpeed}" HorizontalAlignment="Left" Margin="170,0,0,0" VerticalAlignment="Center"/>
+                <ComboBox x:Name="cboSpeed" Width="80" Height="25" IsEditable="True"  HorizontalAlignment="Left" Margin="210,3,0,2" PreviewTextInput="tb_PreviewInteger" PreviewKeyDown="tb_PreviewKeyDown_nospace">
+                    <ComboBoxItem IsSelected="True" Content="115200"/>
+                    <ComboBoxItem Content="460800"/>
+                    <ComboBoxItem Content="921600"/>
+                </ComboBox>
+                <Button x:Name="btnConnect" Content="{DynamicResource ResourceKey=psx.btnConnect}" Margin="300,6,0,5" VerticalAlignment="Center" Click="btnConnect_Click" HorizontalAlignment="Left" Width="70"/>
             </Grid>
             <Grid x:Name="gridPSX" Grid.Row="1">
                 <Image HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Center"  Source="/ServoCommander;component/images/PSX.png" />

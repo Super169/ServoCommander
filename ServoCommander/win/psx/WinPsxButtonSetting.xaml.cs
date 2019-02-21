@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO.Ports;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -78,6 +79,7 @@ namespace ServoCommander
             cboPorts.IsEnabled = !connected;
             btnRefresh.IsEnabled = !connected;
             btnRefresh.Visibility = (connected ? Visibility.Hidden : Visibility.Visible);
+            cboSpeed.IsEnabled = !connected;
             btnClear.IsEnabled = connected;
             btnReset.IsEnabled = connected;
             btnSave.IsEnabled = connected;
@@ -143,7 +145,14 @@ namespace ServoCommander
             }
             else
             {
-                robot.Connect((string)cboPorts.SelectedValue);
+                int speed = 0;
+                string sSpeed = cboSpeed.Text;
+                if (!int.TryParse(sSpeed, out speed) || (speed < 9600) || (speed > 921600))
+                {
+                    MessageBox.Show("输入的速度不正常, 请输入 9600 - 921600 之间的速度");
+                    return;
+                }
+                robot.Connect((string)cboPorts.SelectedValue, speed, Parity.None, 8, StopBits.One);
             }
             if (robot.isConnected)
             {
@@ -208,21 +217,9 @@ namespace ServoCommander
             }
             for (int i = 0; i < 16; i++)
             {
-                // txtPsx[i].Text = Encoding.ASCII.GetString(result, 8 + i * 10, 10);
-                int basePos = 8 + i * 10;
-                int len = 0;
-                while (len < 10)
-                {
-                    if (result[basePos + len] == 0x00) break;
-                    len++;
-                }
-                if (len > 0)
-                {
-                    txtPsx[i].Text = Encoding.ASCII.GetString(result, 8 + i * 10, len);
-                } else
-                {
-                    txtPsx[i].Text = "";
-                }
+                string s = UTIL.B7Array2Str(result, 8 + i * 10, 10);
+                if (s == null) s = "";
+                txtPsx[i].Text = s;
             }
             return true;
         }
@@ -234,7 +231,13 @@ namespace ServoCommander
                 byte[] cmdData = new byte[80];
                 for (int i = 0; i < 8; i++)
                 {
-                    byte[] data = Encoding.ASCII.GetBytes(txtPsx[8 * part + i].Text);
+                    string sData = txtPsx[8 * part + i].Text;
+                    byte[] data = UTIL.Str2B7Array(sData);
+                    if (data == null)
+                    {
+                        UpdateInfo(string.Format("Invalid value: {0}", sData), UTIL.InfoType.error);
+                        return false;
+                    }
                     int BasePos = 10 * i;
                     for (int j = 0; j < 10; j++)
                     {
@@ -274,6 +277,16 @@ namespace ServoCommander
             if (result.Length != 9) return false;
             if (result[6] != 0) return false;
             return true;
+        }
+
+        private void tb_PreviewInteger(object sender, TextCompositionEventArgs e)
+        {
+            UTIL.INPUT.PreviewInteger(ref e);
+        }
+
+        private void tb_PreviewKeyDown_nospace(object sender, KeyEventArgs e)
+        {
+            UTIL.INPUT.PreviewKeyDown_nospace(ref e);
         }
 
     }
