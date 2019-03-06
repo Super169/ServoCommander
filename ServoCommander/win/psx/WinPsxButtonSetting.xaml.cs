@@ -88,7 +88,7 @@ namespace ServoCommander
         private void SetButtonLabel()
         {
             bool connected = robot.isConnected;
-            // btnConnect.Content = LocUtil.FindResource(connected ? "btnConnectOff" : "btnConnect");
+            btnConnect.Content = LocUtil.FindResource(connected ? "btnConnectOff" : "btnConnect");
         }
 
         public WinPsxButtonSetting()
