@@ -8,7 +8,7 @@ namespace ServoCommander
 {
     public static class CONST
     {
-        public static int MAX_SERVO = 16;
+        public static int MAX_SERVO = 32;
         
         public static class UBT
         {
