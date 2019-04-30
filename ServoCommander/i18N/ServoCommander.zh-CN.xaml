@@ -40,6 +40,8 @@
     <sys:String x:Key="base.msgInvalidInteger">{0} 的数值 '{3}' 不正确\n\n请输入 {1} 至 {2} 之间的数值.</sys:String>
     <sys:String x:Key="base.msgInvalidString">{0} 的长度为 '{3}' 不正确\n\n请输入长度在 {1} 至 {2} 之间的字串.</sys:String>
 
+    <sys:String x:Key="base.msgInavidBaudRate">串口速度: {0}  不正常, 请输入 9600 或以上的数值.......</sys:String>
+    <sys:String x:Key="base.msgInavidMaxServo">最大舵机编号不正常, 请输入 1 - 255 的数值.......</sys:String>
     <sys:String x:Key="base.msgWaitServoDetection">侦测舵机进行中, 请稍候 .......</sys:String>
     <sys:String x:Key="base.msgServoDetected">发现了 舵机编号 {0}</sys:String>
     <sys:String x:Key="base.msgServoDetectedCount">发现了 {0} 个舵机</sys:String>

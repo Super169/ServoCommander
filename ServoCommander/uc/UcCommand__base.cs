@@ -131,12 +131,21 @@ namespace ServoCommander.uc
             checkTimer.Stop();
         }
 
-        protected void StartCheckServo(string sMaxId)
+        protected bool SetMaxId(string sMaxId)
         {
-            if (int.TryParse(sMaxId.Trim(), out int maxId))
+            int maxId;
+            if (!int.TryParse(sMaxId.Trim(), out maxId) || (maxId < 0) || (maxId > 255))
             {
-                CONST.MAX_SERVO = maxId;
+                UpdateInfo((string)Application.Current.FindResource("base.msgInavidMaxServo"), UTIL.InfoType.alert);
+                return false;
             }
+            UpdateInfo();
+            CONST.MAX_SERVO = maxId;
+            return true;
+        }
+
+        protected void StartCheckServo()
+        {
             checkId = 1;
             minId = 0;
             servoCnt = 0;
@@ -145,6 +154,12 @@ namespace ServoCommander.uc
             inProgress = true;
             checkTimer.Enabled = true;
             checkTimer.Start();
+        }
+
+        protected void StartCheckServo(string sMaxId)
+        {
+            if (!SetMaxId(sMaxId)) return;
+            StartCheckServo();
         }
 
         protected virtual void OnCheckServoStart()

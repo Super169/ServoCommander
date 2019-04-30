@@ -13,7 +13,7 @@
                 <Label Content="{DynamicResource ResourceKey=hailzd.lblServoId}" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
                 <TextBox Name ="txtId" HorizontalAlignment="Left" Height="23" Margin="70,2,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="35" PreviewTextInput="tb_PreviewInteger" PreviewKeyDown="tb_PreviewKeyDown_nospace" MaxLength="2"/>
                 <Label Content="{DynamicResource ResourceKey=hailzd.lblMaxId}" HorizontalAlignment="Left" Margin="120,0,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
-                <TextBox Name ="txtMaxId" HorizontalAlignment="Left" Height="23" Margin="180,2,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="35" PreviewTextInput="tb_PreviewInteger" PreviewKeyDown="tb_PreviewKeyDown_nospace" MaxLength="2"/>
+                <TextBox Name ="txtMaxId" HorizontalAlignment="Left" Height="23" Margin="180,2,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="35" PreviewTextInput="tb_PreviewInteger" PreviewKeyDown="tb_PreviewKeyDown_nospace" MaxLength="3" TextChanged="txtMaxId_TextChanged" />
                 <Button Name="btnCheckID" Content="{DynamicResource ResourceKey=hailzd.btnCheckId}" HorizontalAlignment="Left" Margin="222,0,0,0" VerticalAlignment="Top" Width="68" Click="btnCheckID_Click" Height="26" FontWeight="Bold"/>
             </Grid>
             <Grid Height="25">

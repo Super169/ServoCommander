@@ -48,6 +48,11 @@ namespace ServoCommander.uc
 
         #region Check Servo
 
+        private void txtMaxId_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            SetMaxId(txtMaxId.Text);
+        }
+
         private void btnCheckID_Click(object sender, RoutedEventArgs e)
         {
             StartCheckServo(txtMaxId.Text);
@@ -601,6 +606,7 @@ namespace ServoCommander.uc
         {
             captureMode = 1;
         }
+
     }
 }
 

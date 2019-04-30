@@ -59,13 +59,26 @@ namespace ServoCommander
         private void btnConnect_Click(object sender, RoutedEventArgs e)
         {
             UpdateInfo();
+            int baudRate;
+            bool baudOK = false;
+            string sBaud = cboBaud.Text.Trim();
+            if (int.TryParse(sBaud, out baudRate))
+            {
+                baudOK = (baudRate >= 9600);
+            }
+            if (!baudOK)
+            {
+                UpdateInfo(String.Format((string) LocUtil.FindResource("base.msgInavidBaudRate"), sBaud));
+                return;
+            }
+
             if (robot.isConnected)
             {
                 robot.Disconnect();
             }
             else
             {
-                robot.Connect((string)portsComboBox.SelectedValue);
+                robot.Connect((string)portsComboBox.SelectedValue, baudRate, System.IO.Ports.Parity.None, 8, System.IO.Ports.StopBits.One);
             }
             SetStatus();
         }
@@ -97,6 +110,7 @@ namespace ServoCommander
             bool connected = robot.isConnected;
             portsComboBox.IsEnabled = !connected;
             findPortButton.IsEnabled = !connected;
+            cboBaud.IsEnabled = !connected;
             findPortButton.Visibility = (connected ? Visibility.Hidden : Visibility.Visible);
             txtIP.IsEnabled = !connected;
             txtPort.IsEnabled = !connected;
