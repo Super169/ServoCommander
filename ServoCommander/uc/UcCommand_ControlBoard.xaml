@@ -1,0 +1,31 @@
+﻿<local:UcCommand__base x:Class="ServoCommander.uc.UcCommand_ControlBoard"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ServoCommander.uc"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <StackPanel>
+            <Grid Height="10" />
+            <Grid Height="30">
+                <Label Content="{DynamicResource ResourceKey=lblVersionHead}" HorizontalAlignment="Left" Margin="10,2,0,0" VerticalAlignment="Top"/>
+                <Label x:Name="lblVersion" Content="{DynamicResource ResourceKey=lblVersion}" HorizontalAlignment="Left" Margin="90,0,0,0" VerticalAlignment="Top" FontSize="14" FontWeight="Bold" Height="28" Foreground="LightGray"/>
+            </Grid>
+            <Grid Height="25">
+                <RadioButton GroupName="CBCommand"  x:Name="rbServoMode" Content="{DynamicResource ResourceKey=rbServoMode}" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center"/>
+            </Grid>
+            <Grid Height="25">
+                <RadioButton GroupName="CBCommand" x:Name="rbCommandMode" Content="{DynamicResource ResourceKey=rbCommandMode}" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center"/>
+            </Grid>
+            <Grid x:Name="gridUSBTTL" Height="25">
+                <RadioButton GroupName="CBCommand" x:Name="rbEnterUSBTTL" Content="{DynamicResource ResourceKey=rbEnterUSBTTL}" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                <RadioButton GroupName="CBCommand" x:Name="rbEnterUSBTTLSSB" Content="{DynamicResource ResourceKey=rbEnterUSBTTLSSB}" HorizontalAlignment="Left" Margin="140,0,0,0" VerticalAlignment="Center"/>
+            </Grid>
+            <Grid x:Name="gridUSBTTL2" Height="25">
+                <RadioButton GroupName="CBCommand" x:Name="rbExitUSBTTL" Content="{DynamicResource ResourceKey=rbExitUSBTTL}" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center"/>
+            </Grid>
+        </StackPanel>
+    </Grid>
+</local:UcCommand__base>

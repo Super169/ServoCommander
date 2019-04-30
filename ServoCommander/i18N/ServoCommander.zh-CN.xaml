@@ -1,0 +1,191 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <sys:String x:Key="ResourceDictoinaryName">Loc-zh-CN</sys:String>
+
+
+    <sys:String x:Key="WindowTitle">总线设备调试器</sys:String>
+    <sys:String x:Key="miSettings">设定</sys:String>
+    <sys:String x:Key="miLanguage">语言</sys:String>
+
+    <sys:String x:Key="miFunctionMenu">转换版面</sys:String>
+    <sys:String x:Key="miControlBoard">控制板协定</sys:String>
+    <sys:String x:Key="miUBTech">优必选/总线电机协定</sys:String>
+    <sys:String x:Key="miHaiLzd">海灵协定</sys:String>
+
+    <sys:String x:Key="miPsxButton">PS2按键设置</sys:String>
+
+
+    <sys:String x:Key="lblPort">连接埠:</sys:String>
+
+    <sys:String x:Key="btnConnect">串口连线</sys:String>
+    <sys:String x:Key="btnNetConnect">网路连线</sys:String>
+    <sys:String x:Key="btnConnectOff">断开串口</sys:String>
+    <sys:String x:Key="btnNetConnectOff">断开网路</sys:String>
+
+    <sys:String x:Key="btnExecute">发送执行 (_S)</sys:String>
+    <sys:String x:Key="btnShowCommand">生成指令 (_S)</sys:String>
+    <sys:String x:Key="btnClearLog">清除记录 (_C)</sys:String>
+
+
+    <!-- Generic message -->
+    <sys:String x:Key="msgSuccess">成功</sys:String>
+    <sys:String x:Key="msgFail">失败</sys:String>
+    <sys:String x:Key="msgConfirm">请确定</sys:String>
+    <sys:String x:Key="msgStart">开始</sys:String>
+    <sys:String x:Key="msgStop">停止</sys:String>
+
+    <!-- ucCommand_base-->
+    <sys:String x:Key="base.msgInvalidInput">输入错误</sys:String>
+    <sys:String x:Key="base.msgInvalidInteger">{0} 的数值 '{3}' 不正确\n\n请输入 {1} 至 {2} 之间的数值.</sys:String>
+    <sys:String x:Key="base.msgInvalidString">{0} 的长度为 '{3}' 不正确\n\n请输入长度在 {1} 至 {2} 之间的字串.</sys:String>
+
+    <sys:String x:Key="base.msgInavidBaudRate">串口速度: {0}  不正常, 请输入 9600 或以上的数值.......</sys:String>
+    <sys:String x:Key="base.msgInavidMaxServo">最大舵机编号不正常, 请输入 1 - 255 的数值.......</sys:String>
+    <sys:String x:Key="base.msgWaitServoDetection">侦测舵机进行中, 请稍候 .......</sys:String>
+    <sys:String x:Key="base.msgServoDetected">发现了 舵机编号 {0}</sys:String>
+    <sys:String x:Key="base.msgServoDetectedCount">发现了 {0} 个舵机</sys:String>
+
+
+    <!-- UcCommand_ControlBoard -->
+    <sys:String x:Key="lblVersionHead">固件版本号:</sys:String>
+    <sys:String x:Key="lblVersion">固件版本号:</sys:String>
+
+    <sys:String x:Key="rbServoMode">检查舵机模式</sys:String>
+    <sys:String x:Key="rbCommandMode">检查支援指令类别</sys:String>
+    <sys:String x:Key="rbEnterUSBTTL">进入USB-TTL 模式</sys:String>
+    <sys:String x:Key="rbEnterUSBTTLSSB">进入USB-TTL 模式 (副板)</sys:String>
+    <sys:String x:Key="rbExitUSBTTL">离开 USB-TTL 模式</sys:String>
+
+    <sys:String x:Key="cb.msgControllerNotFound">控制板没连接或版本太旧</sys:String>
+    <sys:String x:Key="cb.msgPleaseConnectController">请先连接控制卡</sys:String>
+    <sys:String x:Key="cb.msgServoUBTech">优必选</sys:String>
+    <sys:String x:Key="cb.msgServoHaiLzd">海灵</sys:String>
+    <sys:String x:Key="cb.msgServoFeeTech">飞特</sys:String>
+    <sys:String x:Key="cb.msgServoError">(错误设定)</sys:String>
+    <sys:String x:Key="cb.msgServoProtocol">- 控制板舵机通讯设定为{0}模式.</sys:String>
+    <sys:String x:Key="cb.msgNoCommandSupported">控制板并不支援任何指令</sys:String>
+    <sys:String x:Key="cb.msgSupportedCommand">控制板支援指令:</sys:String>
+
+    <sys:String x:Key="cb.msgConfirmEnterUSBTTL">请注意:\n启动 USB-TTL 模式後\n网络连线将无法发出指令, 必须用串口连线去解除.\n请确定是否进入 USB-TTL 模式?</sys:String>
+    <sys:String x:Key="cb.msgEnterUSBTTL">进入 USB-TTL 模式</sys:String>
+    <sys:String x:Key="cb.msgEnterUSBTTLSSB">进入 USB-TTL 模式 (副板)</sys:String>
+    <sys:String x:Key="cb.msgUSBTTLNoReply">已发出 {0} 指令, 但回传不正常, 可能已在 USB-TTL 模式, 又或控制板有问题.</sys:String>
+
+    <sys:String x:Key="cb.msgConfirmQuitUSBTTL">请注意:\n离开 USB-TTL 模式指令, 只在串口连线才有效.\n请确定是否发出离开 USB-TTL 模式指令?</sys:String>
+    <sys:String x:Key="cb.msgQuitUSBTTLSent">已发出离开 USB-TTL 模式的指令</sys:String>
+
+
+    <!-- UBT -->
+    <sys:String x:Key="ubt.cbxSupportBroadcast">支援广播指令 (舵机编号为 0)</sys:String>
+    <sys:String x:Key="ubt.lblServoId">舵机编号:</sys:String>
+    <sys:String x:Key="ubt.lblMaxId">最大编号:</sys:String>
+    <sys:String x:Key="ubt.btnCheckId">检查 (_Z)</sys:String>
+
+    <sys:String x:Key="ubt.rbCheckVersion">检查舵机版本</sys:String>
+    <sys:String x:Key="ubt.rbChangeId">更改舵机编号为</sys:String>
+
+    <sys:String x:Key="ubt.rbLedOn">点亮舵机灯号</sys:String>
+    <sys:String x:Key="ubt.rbLedOff">熄掉舵机灯号</sys:String>
+
+    <sys:String x:Key="ubt.rbGetAngle">读取舵机角度</sys:String>
+
+    <sys:String x:Key="ubt.rbMove">移动舵机:</sys:String>
+    <sys:String x:Key="ubt.lblMoveAngle">目标角度:</sys:String>
+    <sys:String x:Key="ubt.lblMoveTime">移动时间:</sys:String>
+
+    <sys:String x:Key="ubt.rbRotate">连续转动:</sys:String>
+    <sys:String x:Key="ubt.lblMoveDirection">方向:</sys:String>
+    <sys:String x:Key="ubt.cboItemClockwise">顺时针</sys:String>
+    <sys:String x:Key="ubt.cboItemCounterclockwise">逆时针</sys:String>
+    <sys:String x:Key="ubt.lblRotateSpeed">转动速度:</sys:String>
+
+    <sys:String x:Key="ubt.rbGetAdjAngle">读取舵机角度偏移校正</sys:String>
+    <sys:String x:Key="ubt.rbSetAdjAngle">设定舵机角度偏移量:</sys:String>
+    <sys:String x:Key="ubt.lblSuccessMove">成功设定後, 把舵机移动到</sys:String>
+    <sys:String x:Key="ubt.lblSuccessMoveEnd">度进行对位.</sys:String>
+
+    <sys:String x:Key="ubt.rbAutoAdjAngle">设定当前位置为</sys:String>
+    <sys:String x:Key="ubt.lblAutoAdjDelta">度, 微调量:</sys:String>
+
+    <sys:String x:Key="ubt.rbFreeInput">执行以下指令 (不用输入首尾码 FA AF 及 ED)</sys:String>
+
+    <sys:String x:Key="ubt.msgLedOn">点亮</sys:String>
+    <sys:String x:Key="ubt.msgLedOff">熄掉</sys:String>
+    <sys:String x:Key="ubt.msgSetLedSuccess">成功{1}舵机{0}的灯号</sys:String>
+    <sys:String x:Key="ubt.msgSetLedFail">指令失败, 未能{1}舵机{0}的灯号</sys:String>
+
+    <sys:String x:Key="ubt.msgNoAdjust">没有偏移</sys:String>
+    <sys:String x:Key="ubt.msgPosAdjust">正向偏移 {0}</sys:String>
+    <sys:String x:Key="ubt.msgNegAdjust">反向偏移 {0}</sys:String>
+    <sys:String x:Key="ubt.msgInvalidAdjust">偏移量异常 {0}</sys:String>
+    <sys:String x:Key="ubt.msgShowAdjust">偏移校正:  {2:X2} {3:X2} 即 {4} \n</sys:String>
+
+    <sys:String x:Key="ubt.msgInvalidNewId">新的舵机编号不正常</sys:String>
+    <sys:String x:Key="ubt.msgNewIdSame">新的舵机编号不能跟原来的一样</sys:String>
+    <sys:String x:Key="ubt.msgInvalidId">舵机编号不正常</sys:String>
+    <sys:String x:Key="ubt.msgShowVersion">版本号为: {0:X2} {1:X2} {2:X2} {3:X2}\n</sys:String>
+    <sys:String x:Key="ubt.msgConfirmChangeId">把 {0} 修改成 舵机编号 {1} \n</sys:String>
+    <sys:String x:Key="ubt.msgAllServo">所有舵机</sys:String>
+    <sys:String x:Key="ubt.msgServoId">舵机编号</sys:String>
+    <sys:String x:Key="ubt.msgChangeIdSuccess">舵机编号 {0} 已成功修改为 舵机编号 {1} \n</sys:String>
+    <sys:String x:Key="ubt.msgShowAngle">舵机角度:  目前为: {0:X2} {1:X2} ({2}度), 实际为: {3:X2} {4:X2} ({5}度)\n</sys:String>
+    <sys:String x:Key="ubt.msgGoMoveParameter">\n请先设定要移动的目标角度及移动时间</sys:String>
+    <sys:String x:Key="ubt.msgGoMoveSuccess">舵机 {0} 成功移动到 {1} 度位置</sys:String>
+    <sys:String x:Key="ubt.msgGoMoveFail">舵机 {0} 成功移动到 {1} 度位置</sys:String>
+    <sys:String x:Key="ubt.msgGoRotateParameter">\n请先设定要转动的速度\n请输入速度 0 停止转动</sys:String>
+    <sys:String x:Key="ubt.msgGoRotateSpeed">\n请转入 0 - 2000 的速度</sys:String>
+    <sys:String x:Key="ubt.msgGoRotateSuccess">舵机 {0} 成功{1}转动</sys:String>
+    <sys:String x:Key="ubt.msgGoRotateFail">舵机 {0} {1}转动失败</sys:String>
+
+    <sys:String x:Key="ubt.msgSetAdjustFail">偏移量设置失败</sys:String>
+    <sys:String x:Key="ubt.msgSetAdjustSuccess">偏移量设置成功</sys:String>
+
+
+    <sys:String x:Key="ubt.msgAutoAdjustNoBroadcast">\n自动设定偏移量只能针对个别舵机, 不支援广播, 请先选择舵机</sys:String>
+    <sys:String x:Key="ubt.msgAutoAdjustMustConnect">\n自动设定偏移量必须要连上舵机才可以进行</sys:String>
+    <sys:String x:Key="ubt.msgAutoAdjustRequireAngle">\n请先输入要设定的角度</sys:String>
+    <sys:String x:Key="ubt.msgAutoInvalidAngle">输入角度 {0} 过大了, 可设定角度为 0 - {1} 度</sys:String>
+
+    <sys:String x:Key="ubt.msgGetAdjustFail">读取当前偏移量失败</sys:String>
+    <sys:String x:Key="ubt.msgCurrentAdjustInvalid">当前偏移量不正常: {0:X4}</sys:String>
+    <sys:String x:Key="ubt.msgGetAngleFail">读取当前角度失败</sys:String>
+
+    <sys:String x:Key="ubt.msgAutoAdjustComplete">舵机 {0} 当前机械角度为: {1}度[{2}], 现设定为: {3}度[{4}]</sys:String>
+
+    <!-- HaiLzd -->
+    <sys:String x:Key="hailzd.lblServoId">舵机编号:</sys:String>
+    <sys:String x:Key="hailzd.lblMaxId">最大编号:</sys:String>
+    <sys:String x:Key="hailzd.btnCheckId">检查 (_Z)</sys:String>
+
+    <sys:String x:Key="hailzd.rbCheckVersion">检查舵机版本</sys:String>
+
+
+    <sys:String x:Key="hailzd.rbChangeId">更改舵机编号为</sys:String>
+    <sys:String x:Key="hailzd.rbUnlock">舵机解锁 (释放扭力)</sys:String>
+    <sys:String x:Key="hailzd.rbLock">锁紧舵机 (恢复扭力)</sys:String>
+    <sys:String x:Key="hailzd.rbGetAngle">读取舵机模式及位置</sys:String>
+    <sys:String x:Key="hailzd.rbSetAdj">直接设定舵机修正</sys:String>
+    <sys:String x:Key="hailzd.rbMovePWM">移动舵机:</sys:String>
+    <sys:String x:Key="hailzd.lblMovePosition">位置值:</sys:String>
+    <sys:String x:Key="hailzd.lblMoveTime">移动时间:</sys:String>
+    <sys:String x:Key="hailzd.rbSetPWM">设定当前位置值为</sys:String>
+    <sys:String x:Key="hailzd.rbMoveAngle">移动舵机:</sys:String>
+    <sys:String x:Key="hailzd.lblMoveAngleAngle">角度:</sys:String>
+    <sys:String x:Key="hailzd.lblMoveAnglgeTime">移动时间:</sys:String>
+    <sys:String x:Key="hailzd.rbSetAngle">设定当前角度为</sys:String>
+    <sys:String x:Key="hailzd.rbFreeInput">指令</sys:String>
+
+    <sys:String x:Key="psx.lblPort">串口:</sys:String>
+    <sys:String x:Key="psx.lblSpeed">速度:</sys:String>
+    <sys:String x:Key="psx.btnConnect">连线</sys:String>
+    <sys:String x:Key="psx.btnClear">清除</sys:String>
+    <sys:String x:Key="psx.btnReset">重置</sys:String>
+    <sys:String x:Key="psx.btnSave">储存</sys:String>
+    <sys:String x:Key="psx.btnCancel">取消</sys:String>
+    <sys:String x:Key="psx.msgInvalidSpeed">输入的速度不正常, 请输入 9600 - 921600 之间的速度</sys:String>
+    <sys:String x:Key="psx.fmtInvalidSettings">输入的设置不正常: {0}</sys:String>    <sys:String x:Key="psx.msgReadFail">读取PS2按键设置失败, 请确认已连接到PS2控制板</sys:String>
+    <sys:String x:Key="psx.msgSaveSuccess">PS2按键设置已成功储存</sys:String>
+    <sys:String x:Key="psx.msgSaveFail">储存PS2按键设置失败</sys:String>
+    
+</ResourceDictionary>

@@ -39,6 +39,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -59,8 +60,32 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="CONST.cs" />
-    <Compile Include="MainWindow.Action.cs" />
-    <Compile Include="UTIL.cs" />
+    <Compile Include="LocUtil.cs" />
+    <Compile Include="uc\UcCommand_ControlBoard.xaml.cs">
+      <DependentUpon>UcCommand_ControlBoard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="uc\UcCommand_HaiLzd.cmd.cs" />
+    <Compile Include="uc\UcCommand_HaiLzd.xaml.cs">
+      <DependentUpon>UcCommand_HaiLzd.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="uc\UcCommand_UBTech.Command.cs" />
+    <Compile Include="uc\UcCommand_UBTech.xaml.cs">
+      <DependentUpon>UcCommand_UBTech.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="uc\UcCommand__base.cs" />
+    <Compile Include="win\psx\WinPsxButtonSetting.xaml.cs">
+      <DependentUpon>WinPsxButtonSetting.xaml</DependentUpon>
+    </Compile>
+    <Content Include="i18N\ServoCommander.zh-CN.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="i18N\ServoCommander.zh-HK.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -74,6 +99,22 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="uc\UcCommand_ControlBoard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="uc\UcCommand_HaiLzd.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="uc\UcCommand_UBTech.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="win\psx\WinPsxButtonSetting.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -93,7 +134,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="MainWindow.Serial.cs" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -103,11 +143,19 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="images\PSX.png" />
     <Resource Include="images\refresh.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="images\servo.ico" />
     <Resource Include="images\servo_cyan.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\MyUtil\MyUtil\MyUtil.csproj">
+      <Project>{4c4a6dad-6613-4168-9c84-f5e918f2908e}</Project>
+      <Name>MyUtil</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
